@@ -18,8 +18,8 @@ class _ChatScreenState extends State<ChatScreen> {
   void _sendMessage(String message) async {
     if (message.isNotEmpty) {
       setState(() {
-        _messages.add(message); // Añadimos el mensaje del usuario
-        _isUserMessage.add(true); // Añadimos 'true' indicando que es un mensaje del usuario
+        _messages.add(message); // Añadi el mensaje del usuario
+        _isUserMessage.add(true); 
       });
 
       // Enviar el mensaje usando el servicio
@@ -28,8 +28,8 @@ class _ChatScreenState extends State<ChatScreen> {
       // Recibir un mensaje del "bot"
       String response = await _chatService.receiveMessage();
       setState(() {
-        _messages.add(response); // Añadimos la respuesta del bot
-        _isUserMessage.add(false); // Añadimos 'false' indicando que es un mensaje del bot
+        _messages.add(response); //  respuesta del bot
+        _isUserMessage.add(false); // 'false' indicando que es un mensaje del bot
       });
     }
   }
@@ -38,16 +38,9 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
         return Scaffold(
       appBar: AppBar(
-        title: const Text('Chat'),
-        backgroundColor: Colors.deepPurple, // Personaliza el color del AppBar
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.home), // Ícono del botón de regresar a Home
-            onPressed: () {
-              Navigator.pushNamed(context, '/home'); // Navega a la ruta /home
-            },
-          ),
-        ],
+        title: const Text('Freuddy'),
+        backgroundColor: Colors.deepPurple, 
+        
       ),
       body: Column(
         children: <Widget>[
