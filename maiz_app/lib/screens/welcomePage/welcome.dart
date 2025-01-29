@@ -10,7 +10,7 @@ class WelcomeScreen extends StatelessWidget {
           // Imagen de fondo
           Positioned.fill(
             child: Image.asset(
-              '../../../assets/fondoMorado.jpg', // Reemplaza con la ruta de tu imagen de fondo
+              'assets/fondoMorado.jpg', 
               fit: BoxFit.cover,
             ),
           ),
@@ -22,7 +22,7 @@ class WelcomeScreen extends StatelessWidget {
               children: [
                 // Título principal con mayor impacto visual
                 const Text(
-                  'mAIz AI Chat',
+                  'mAIz  Chat',
                   style: TextStyle(
                     fontSize: 36,
                     fontWeight: FontWeight.bold,
