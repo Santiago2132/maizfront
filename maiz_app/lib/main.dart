@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      onGenerateRoute: AppRouter.generateRoute, // Usa AppRouter para generar las rutas
+      onGenerateRoute: AppRouter.generateRoute, //  AppRouter para generar las rutas
     );
   }
 }
