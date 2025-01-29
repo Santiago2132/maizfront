@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:maiz_app/data/services/chat_service.dart';
+import 'package:maiz_app/screens/home/home_screen.dart';
 import 'package:maiz_app/widgets/message_input.dart';
 import 'package:maiz_app/widgets/message_list.dart';
 
@@ -35,10 +36,18 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+        return Scaffold(
       appBar: AppBar(
         title: const Text('Chat'),
         backgroundColor: Colors.deepPurple, // Personaliza el color del AppBar
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.home), // Ícono del botón de regresar a Home
+            onPressed: () {
+              Navigator.pushNamed(context, '/home'); // Navega a la ruta /home
+            },
+          ),
+        ],
       ),
       body: Column(
         children: <Widget>[
