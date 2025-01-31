@@ -26,7 +26,7 @@ class WelcomeScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 36,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 12, 12, 12),
+                    color: Colors.white,
                     letterSpacing: 2,
                     shadows: [
                       Shadow(
@@ -43,12 +43,12 @@ class WelcomeScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
-                    color: Colors.black87,
+                    color: Colors.white,
                     fontStyle: FontStyle.italic,
                     shadows: [
                       Shadow(
                         blurRadius: 10,
-                        color: Colors.black87,
+                        color: Colors.white,
                         offset: Offset(2, 2),
                       ),
                     ],
@@ -63,7 +63,7 @@ class WelcomeScreen extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    iconColor : Colors.deepPurpleAccent, // Color de fondo del botón
+                    iconColor : Colors.black45, // Color de fondo del botón
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
@@ -74,7 +74,7 @@ class WelcomeScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: Colors.deepPurple,
                     ),
                   ),
                 ),

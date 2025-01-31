@@ -31,6 +31,14 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^1.2.0  # Añade esta línea con la versión que desees
+  firebase_auth: ^3.1.6
+  google_sign_in: ^5.2.1
+  table_calendar: ^3.0.9
+
+
+dependency_overrides:
+  intl: ^0.18.0
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -67,6 +75,8 @@ flutter:
   assets:
     - assets/fondoMorado.jpg
     - assets/fondoAmarillo.jpg
+    - assets/avatar.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
