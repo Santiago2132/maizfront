@@ -38,6 +38,8 @@ dependencies:
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
+  flutter_staggered_grid_view: ^0.7.0
+  flutter_layout_grid: ^2.0.0
   flutter_test:
     sdk: flutter
 
@@ -54,7 +56,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/icon/mAIz_icon.png"
+  image_path: "/assets/icons/mAIz_icon.png"
 # The following section is specific to Flutter packages.
 flutter:
 
@@ -66,7 +68,10 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/fondoMorado.jpg
-    - assets/fondoAmarillo.jpg
+    - assets/fondoAmarillo.png
+    - assets/icons/
+    - assets/motivation_phrases.json
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

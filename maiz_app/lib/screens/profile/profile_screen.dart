@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:maiz_app/widgets/HexagonBadge.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -15,11 +14,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   List<String> badges = ["Insignia 1", "Insignia 2", "Insignia 3"];
 
   // Cambia el modo oscuro
-  void _toggleDarkMode(bool value) {
-    setState(() {
-      _isDarkMode = value;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

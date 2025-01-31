@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:maiz_app/data/services/chat_service.dart';
-import 'package:maiz_app/screens/home/home_screen.dart';
 import 'package:maiz_app/widgets/message_input.dart';
 import 'package:maiz_app/widgets/message_list.dart';
 
 class ChatScreen extends StatefulWidget {
+  const ChatScreen({super.key});
+
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
