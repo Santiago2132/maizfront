@@ -8,6 +8,8 @@ class CustomCard extends StatelessWidget {
   final double fontSize;
   final double width;
   final double height;
+  final EdgeInsets? padding; // Nuevo parámetro
+
 
   const CustomCard({
     super.key,
@@ -18,6 +20,7 @@ class CustomCard extends StatelessWidget {
     this.fontSize = 20,
     this.width = double.infinity,
     this.height = 140,
+    this.padding = const EdgeInsets.all(16),
   }) : assert(title != null || child != null, 
            'Debe proporcionar title o child');
 
@@ -30,7 +33,7 @@ class CustomCard extends StatelessWidget {
         color: backgroundColor,
         borderRadius: BorderRadius.circular(25),
       ),
-      padding: const EdgeInsets.all(16),
+      padding: padding,
       child: child ?? _buildTitle(),
     );
   }
