@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:maiz_app/widgets/google_signIn.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -10,52 +8,105 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-    void _signInWithEmailAndPassword() async {
+  void _signInWithEmailAndPassword() async {
     try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
       // Inicia sesión correctamente
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error al iniciar sesión: ${e}"))
       );
     }
-    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Inicio de Sesión"),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(labelText: "Correo Electrónico"),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              'assets/fondoMorado.jpg', 
+              fit: BoxFit.cover,
             ),
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(labelText: "Contraseña"),
-              obscureText: true,
+          ),
+          Center(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.purple.shade700,
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: EdgeInsets.all(16),
+                    margin: EdgeInsets.all(20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextField(
+                        
+                          controller: _emailController,
+                          decoration: InputDecoration(
+                            labelText: "Correo Electrónico",
+                            filled: true,
+                            fillColor: Colors.white.withOpacity(0.7),
+                            
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        TextField(
+                          controller: _passwordController,
+                          decoration: InputDecoration(
+                            labelText: "Contraseña",
+                            filled: true,
+                            fillColor: Colors.white.withOpacity(0.7),
+                          ),
+                          obscureText: true,
+                        ),
+                        SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: _signInWithEmailAndPassword,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.purple.shade900,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+                          ),
+                          child: Text(
+                            "INICIAR SESIÓN",
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        ElevatedButton.icon(
+                          onPressed: () {},
+                          icon: Image.asset('assets/logoGoogle.png', height: 24),
+                          label: Text("Ingresar con Google"),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _signInWithEmailAndPassword,
-              child: Text("Iniciar Sesión"),
-            ),
-            SizedBox(height: 20),
-            Text("O inicia sesión con Google"),
-            SizedBox(height: 20),
-            GoogleSignInButton(),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

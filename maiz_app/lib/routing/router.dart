@@ -14,7 +14,7 @@ class AppRouter {
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) =>  MainScreen());  // Configura MainScreen aquí
+        return MaterialPageRoute(builder: (_) =>  WelcomeScreen());  
       case '/home':
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case '/calendar':

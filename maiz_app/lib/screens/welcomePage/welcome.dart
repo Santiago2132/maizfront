@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maiz_app/screens/login/login_screen.dart';
 import 'package:maiz_app/screens/navegator/main_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -59,7 +60,7 @@ class WelcomeScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => const MainScreen()),
+                      MaterialPageRoute(builder: (context) =>  LoginScreen()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
