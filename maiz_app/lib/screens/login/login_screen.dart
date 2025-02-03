@@ -4,7 +4,7 @@ import 'package:maiz_app/screens/login/login_form.dart';
 import 'package:maiz_app/screens/login/newAccount.dart';
 import 'package:maiz_app/screens/navegator/main_screen.dart';
 import 'package:maiz_app/widgets/avatarWidget.dart';
-import 'package:maiz_app/widgets/terms_login.dart';
+import 'package:maiz_app/widgets/terms_conditions.dart';
 
 
 class LoginScreen extends StatefulWidget {

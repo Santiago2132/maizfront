@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:maiz_app/data/services/chat_service.dart';
 import 'package:maiz_app/screens/navegator/main_screen.dart';
-import 'package:maiz_app/widgets/message_input.dart';
-import 'package:maiz_app/widgets/message_list.dart';
+import 'package:maiz_app/screens/chat/widgets_chat/message_input.dart';
+import 'package:maiz_app/screens/chat/widgets_chat/message_list.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});

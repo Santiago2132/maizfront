@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:maiz_app/data/services/auth_service.dart';
 import 'package:maiz_app/screens/login/login_screen.dart';
 import 'package:maiz_app/widgets/avatarWidget.dart';
-import 'package:maiz_app/widgets/terms_login.dart'; // Importar la pantalla de login
+import 'package:maiz_app/widgets/terms_conditions.dart'; // Importar la pantalla de login
 
 class SignUpScreen extends StatefulWidget {
   @override

@@ -4,7 +4,7 @@ import 'package:maiz_app/screens/chat/chat_screen.dart';
 import 'package:maiz_app/screens/home/home_screen.dart';
 import 'package:maiz_app/screens/profile/profile_screen.dart';
 import 'package:maiz_app/screens/your_day/your_day_screen.dart';
-import 'package:maiz_app/widgets/navbar.dart';
+import 'package:maiz_app/screens/navegator/navbar.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
