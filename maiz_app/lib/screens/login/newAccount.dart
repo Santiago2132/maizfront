@@ -1,51 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:maiz_app/data/services/auth_service.dart';
-import 'package:maiz_app/screens/home/home_screen.dart';
-import 'package:maiz_app/screens/login/newAccount.dart';
-import 'package:maiz_app/screens/navegator/main_screen.dart';
-import 'package:maiz_app/widgets/terms_login.dart';
+import 'package:maiz_app/screens/login/login_screen.dart';
+import 'package:maiz_app/widgets/terms_login.dart'; // Importar la pantalla de login
 
-class LoginScreen extends StatefulWidget {
+class SignUpScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _termsAccepted = false; // Variable para el checkbox
+  bool _termsAccepted = false;
+
+  // Instancia del servicio
   AuthService _authService = AuthService();
 
-  void _signInWithEmailAndPassword() async {
+  void _signUp() async {
+    String name = _nameController.text;
     String email = _emailController.text;
     String password = _passwordController.text;
 
-    if (email.isEmpty || password.isEmpty) {
+    if (name.isEmpty || email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text("El correo y la contraseña no pueden estar vacíos")),
+        SnackBar(content: Text("Por favor complete todos los campos")),
       );
       return;
     }
 
-    bool result = await _authService.signIn(email, password);
-    print(result);
+    // Simulación de registro
+    bool result = await _authService.signUp(name, email, password);
     if (result) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Inicio de sesión exitoso")),
+        SnackBar(content: Text("Registro exitoso")),
       );
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const MainScreen()),
-      );
+      Navigator.pop(context); // Regresa a la pantalla de login
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text("Credenciales incorrectas o usuario no registrado")),
+        SnackBar(content: Text("Error al registrar la cuenta")),
       );
     }
   }
-
+  
   void _showTermsAndConditions() {
     showDialog(
       context: context,
@@ -55,21 +52,19 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _navigateToSignUp() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => SignUpScreen()),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Registro"),
+        backgroundColor: Colors.purple.shade700, // Fondo morado en la AppBar
+      ),
       body: Stack(
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/fondoMorado.jpg',
+              'assets/fondoMorado.jpg', // Fondo morado
               fit: BoxFit.cover,
             ),
           ),
@@ -81,8 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   CircleAvatar(
                     radius: 50,
-                    backgroundImage:
-                        AssetImage('assets/avatar.png'), // Añade tu avatar aquí
+                    backgroundImage: AssetImage('assets/avatar.png'), // Avatar
                     backgroundColor: Colors.purple.shade700,
                   ),
                   SizedBox(height: 20),
@@ -96,6 +90,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                        TextField(
+                          controller: _nameController,
+                          decoration: InputDecoration(
+                            labelText: "Nombre",
+                            filled: true,
+                            fillColor: Colors.white.withOpacity(0.7),
+                          ),
+                        ),
+                        SizedBox(height: 16),
                         TextField(
                           controller: _emailController,
                           decoration: InputDecoration(
@@ -114,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           obscureText: true,
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 16),
                         Row(
                           children: [
                             Checkbox(
@@ -127,20 +130,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             GestureDetector(
                               onTap: _showTermsAndConditions,
-                              child: Text(
-                                "Términos y Condiciones",
-                                style: TextStyle(
-                                    color: Colors.purple.shade700,
-                                    decoration: TextDecoration.underline),
-                              ),
+                              child: Text("Acepto los términos y condiciones"),
                             ),
                           ],
                         ),
                         SizedBox(height: 20),
                         ElevatedButton(
-                          onPressed: _termsAccepted
-                              ? _signInWithEmailAndPassword
-                              : null,
+                          onPressed: _termsAccepted ? _signUp : null,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.purple.shade900,
                             shape: RoundedRectangleBorder(
@@ -149,33 +145,23 @@ class _LoginScreenState extends State<LoginScreen> {
                             padding: EdgeInsets.symmetric(
                                 vertical: 14, horizontal: 24),
                           ),
-                          child: Text(
-                            "INICIAR SESIÓN",
-                            style: TextStyle(fontSize: 16, color: Colors.white),
-                          ),
+                          child: Text("Registrar",
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.white)),
                         ),
                         SizedBox(height: 20),
-                        ElevatedButton.icon(
-                          onPressed: () {},
-                          icon:
-                              Image.asset('assets/logoGoogle.png', height: 24),
-                          label: Text("Ingresar con Google"),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            foregroundColor: Colors.black,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        GestureDetector(
-                          onTap: _navigateToSignUp,
+                        TextButton(
+                          onPressed: () {
+                            // Navegar hacia la pantalla de login
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginScreen()),
+                            );
+                          },
                           child: Text(
-                            "¿No tienes una cuenta? Regístrate",
-                            style: TextStyle(
-                                color: Colors.purple.shade700,
-                                decoration: TextDecoration.underline),
+                            "¿Ya tienes una cuenta? Inicia sesión",
+                            style: TextStyle(color: Colors.purple.shade700),
                           ),
                         ),
                       ],
