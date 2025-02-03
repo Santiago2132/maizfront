@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:maiz_app/data/services/chat_service.dart';
+import 'package:maiz_app/screens/navegator/main_screen.dart';
 import 'package:maiz_app/widgets/message_input.dart';
 import 'package:maiz_app/widgets/message_list.dart';
 
@@ -38,9 +39,20 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
         return Scaffold(
-      appBar: AppBar(
-        title: const Text('Freuddy'),
-        backgroundColor: Colors.deepPurple, 
+        appBar: AppBar(
+          title: const Text('Freuddy'),
+          backgroundColor: Colors.deepPurple,
+          leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Reemplaza la pantalla actual con Home
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => MainScreen()), 
+              (route) => false, // Elimina todas las rutas anteriores
+            );
+          },
+        ),
         
       ),
       body: Column(

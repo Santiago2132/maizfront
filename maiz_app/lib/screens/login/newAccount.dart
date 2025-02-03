@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:maiz_app/data/services/auth_service.dart';
 import 'package:maiz_app/screens/login/login_screen.dart';
+import 'package:maiz_app/widgets/avatarWidget.dart';
 import 'package:maiz_app/widgets/terms_login.dart'; // Importar la pantalla de login
 
 class SignUpScreen extends StatefulWidget {
@@ -56,15 +57,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Registro"),
-        backgroundColor: Colors.purple.shade700, // Fondo morado en la AppBar
-      ),
+      
       body: Stack(
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/fondoMorado.jpg', // Fondo morado
+              'assets/resources/fondoMorado.jpg', // Fondo morado
               fit: BoxFit.cover,
             ),
           ),
@@ -74,12 +72,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundImage: AssetImage('assets/avatar.png'), // Avatar
-                    backgroundColor: Colors.purple.shade700,
-                  ),
-                  SizedBox(height: 20),
+                  AvatarWidget(),
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.2),
@@ -118,6 +111,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           obscureText: true,
                         ),
                         SizedBox(height: 16),
+                        TextField(
+                          controller: _passwordController,
+                          decoration: InputDecoration(
+                            labelText: "Confirmar contraseña",
+                            filled: true,
+                            fillColor: Colors.white.withOpacity(0.7),
+                          ),
+                          obscureText: true,
+                        ),
+                        SizedBox(height: 16),
                         Row(
                           children: [
                             Checkbox(
@@ -130,7 +133,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             GestureDetector(
                               onTap: _showTermsAndConditions,
-                              child: Text("Acepto los términos y condiciones"),
+                                child: Text("Acepto los términos y condiciones",
+                                    style: TextStyle(
+                                    color: Colors.white,
+                                    decoration: TextDecoration.underline, decorationColor: Colors.white
+                                  ),
+                              ),
                             ),
                           ],
                         ),
@@ -161,7 +169,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           },
                           child: Text(
                             "¿Ya tienes una cuenta? Inicia sesión",
-                            style: TextStyle(color: Colors.purple.shade700),
+                            style: TextStyle(
+                              color: Colors.white,
+                              decoration: TextDecoration.underline, decorationColor: Colors.white
+                            ),
                           ),
                         ),
                       ],

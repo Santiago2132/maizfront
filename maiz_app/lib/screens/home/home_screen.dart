@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/fondoAmarillo.png'), // Ruta de tu imagen
+                image: AssetImage('assets/resources/fondoAmarillo.png'), // Ruta de tu imagen
                 fit: BoxFit.cover, // Ajusta la imagen a toda la pantalla
               ),
             ),

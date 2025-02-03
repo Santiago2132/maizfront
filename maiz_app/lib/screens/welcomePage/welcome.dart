@@ -13,7 +13,7 @@ class WelcomeScreen extends StatelessWidget {
           // Imagen de fondo
           Positioned.fill(
             child: Image.asset(
-              'assets/fondoMorado.jpg', 
+              'assets/resources/fondoMorado.jpg', 
               fit: BoxFit.cover,
             ),
           ),

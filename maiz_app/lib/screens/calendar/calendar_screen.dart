@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maiz_app/screens/navegator/main_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -13,8 +14,22 @@ class _MonthlyCalendarState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Calendario Mensual")),
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Calendario emocional'),
+          backgroundColor: Colors.deepPurple,
+          leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Reemplaza la pantalla actual con Home
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => MainScreen()), 
+              (route) => false, // Elimina todas las rutas anteriores
+            );
+          },
+        ),
+      ),
       body: TableCalendar(
         firstDay: DateTime.utc(2020, 1, 1),
         lastDay: DateTime.utc(2030, 12, 31),
