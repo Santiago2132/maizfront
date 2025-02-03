@@ -3,6 +3,8 @@ import 'package:maiz_app/screens/login/login_screen.dart';
 import 'package:maiz_app/screens/navegator/main_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

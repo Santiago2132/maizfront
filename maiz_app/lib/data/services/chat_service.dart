@@ -31,7 +31,7 @@ class ChatService {
 
       if (response.statusCode == 200) {
         //  mensaje de respuesta del servidor
-        var responseData = json.decode(response.body);
+        json.decode(response.body);
         //return 'Respuesta: ${responseData[0]['title']}';  // cuando la respuesta sirva :)
         return 'Respuesta: ${'Te habla tu chat emocional'}';
       } else {
