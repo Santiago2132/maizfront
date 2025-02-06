@@ -3,6 +3,8 @@ import 'package:maiz_app/screens/navegator/main_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarScreen extends StatefulWidget {
+  const CalendarScreen({super.key});
+
   @override
   _MonthlyCalendarState createState() => _MonthlyCalendarState();
 }
@@ -10,21 +12,21 @@ class CalendarScreen extends StatefulWidget {
 class _MonthlyCalendarState extends State<CalendarScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  Map<DateTime, IconData> _dayIcons = {};
+  final Map<DateTime, IconData> _dayIcons = {};
 
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Calendario emocional'),
-          backgroundColor: Colors.deepPurple,
-          leading: IconButton(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Calendario emocional'),
+        backgroundColor: Colors.deepPurple,
+        leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             // Reemplaza la pantalla actual con Home
             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => MainScreen()), 
+              MaterialPageRoute(builder: (context) => MainScreen()),
               (route) => false, // Elimina todas las rutas anteriores
             );
           },

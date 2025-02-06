@@ -9,7 +9,8 @@ class LoginForm extends StatelessWidget {
   final VoidCallback onShowTerms;
   final VoidCallback onNavigateToSignUp;
 
-  LoginForm({
+  const LoginForm({
+    super.key,
     required this.emailController,
     required this.passwordController,
     required this.termsAccepted,
@@ -63,9 +64,9 @@ class LoginForm extends StatelessWidget {
                 child: Text(
                   "Términos y Condiciones",
                   style: TextStyle(
-                    color: Colors.white,
-                    decoration: TextDecoration.underline, decorationColor: Colors.white
-                  ),
+                      color: Colors.white,
+                      decoration: TextDecoration.underline,
+                      decorationColor: Colors.white),
                 ),
               ),
             ],
@@ -91,9 +92,9 @@ class LoginForm extends StatelessWidget {
             child: Text(
               "¿No tienes una cuenta? Regístrate",
               style: TextStyle(
-                color: Colors.white,
-                decoration: TextDecoration.underline, decorationColor: Colors.white
-              ),
+                  color: Colors.white,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.white),
             ),
           ),
         ],

@@ -5,6 +5,8 @@ import 'package:maiz_app/widgets/avatarWidget.dart';
 import 'package:maiz_app/widgets/terms_conditions.dart'; // Importar la pantalla de login
 
 class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
+
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -16,7 +18,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _termsAccepted = false;
 
   // Instancia del servicio
-  AuthService _authService = AuthService();
+  final AuthService _authService = AuthService();
 
   void _signUp() async {
     String name = _nameController.text;
@@ -43,7 +45,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       );
     }
   }
-  
+
   void _showTermsAndConditions() {
     showDialog(
       context: context,
@@ -53,11 +55,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: Stack(
         children: [
           Positioned.fill(
@@ -133,11 +133,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             GestureDetector(
                               onTap: _showTermsAndConditions,
-                                child: Text("Acepto los términos y condiciones",
-                                    style: TextStyle(
+                              child: Text(
+                                "Acepto los términos y condiciones",
+                                style: TextStyle(
                                     color: Colors.white,
-                                    decoration: TextDecoration.underline, decorationColor: Colors.white
-                                  ),
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: Colors.white),
                               ),
                             ),
                           ],
@@ -170,9 +171,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: Text(
                             "¿Ya tienes una cuenta? Inicia sesión",
                             style: TextStyle(
-                              color: Colors.white,
-                              decoration: TextDecoration.underline, decorationColor: Colors.white
-                            ),
+                                color: Colors.white,
+                                decoration: TextDecoration.underline,
+                                decorationColor: Colors.white),
                           ),
                         ),
                       ],

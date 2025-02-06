@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maiz_app/screens/your_day/widgets/breathing_exercise.dart';
 import 'package:maiz_app/screens/your_day/widgets/your_day_cards.dart';
 import 'package:maiz_app/screens/your_day/widgets/your_day_message.dart';
 
@@ -19,6 +20,8 @@ class YourDayScreen extends StatelessWidget {
                 children: [
                   const SizedBox(height: 15),
                   const YourDayMessage(),
+                  const SizedBox(height: 10),
+                  BreathingExercise(),
                   const SizedBox(height: 10),
                   const YourDayCards(),
                 ],

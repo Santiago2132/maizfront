@@ -19,18 +19,25 @@ class _YourDayCardsState extends State<YourDayCards> {
   final int _maxCards = 5; //CANTIDAD DE FRASES QUE SE VAN A MOSTRAR
 
   Future<void> _loadPhrases() async {
-    final String response = await rootBundle.loadString('assets/motivation_phrases.json');
+    final String response =
+        await rootBundle.loadString('assets/motivation_phrases.json');
     final List<dynamic> data = json.decode(response);
     data.shuffle(_random);
-    setState(() => _phrases = data.take(_maxCards).cast<Map<String, dynamic>>().toList());
+    setState(() =>
+        _phrases = data.take(_maxCards).cast<Map<String, dynamic>>().toList());
   }
 
   Future<void> _loadImages() async {
-    final manifest = await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
+    final manifest =
+        await DefaultAssetBundle.of(context).loadString('AssetManifest.json');
     final Map<String, dynamic> manifestMap = json.decode(manifest);
-    final imagePaths = manifestMap.keys.where((String key) => key.startsWith('assets/images/')).toList();
+    final imagePaths = manifestMap.keys
+        .where((String key) => key.startsWith('assets/images/'))
+        .toList();
     imagePaths.shuffle(_random);
-    setState(() => _images = imagePaths.take(3).toList()); //CANTIDAD DE IMAGENES QUE SE VAN A MOSTRAR
+    setState(() => _images = imagePaths
+        .take(3)
+        .toList()); //CANTIDAD DE IMAGENES QUE SE VAN A MOSTRAR
   }
 
   void _refreshCards() {
@@ -57,11 +64,12 @@ class _YourDayCardsState extends State<YourDayCards> {
       children: [
         ElevatedButton(
           onPressed: _refreshCards,
-          child: const Text('Mostrar nuevas frases'),
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xffffe699), //Colores de las tarjetas
-            foregroundColor: const Color(0xff673ab7), //Colores del texto de las tarjetas
+            foregroundColor:
+                const Color(0xff673ab7), //Colores del texto de las tarjetas
           ),
+          child: const Text('Mostrar nuevas frases'),
         ),
         const SizedBox(height: 10),
         LayoutBuilder(
@@ -69,7 +77,8 @@ class _YourDayCardsState extends State<YourDayCards> {
             return MasonryGridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+              gridDelegate:
+                  const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
               ),
               itemCount: combinedList.length,
@@ -78,25 +87,34 @@ class _YourDayCardsState extends State<YourDayCards> {
                 final isImage = item['type'] == 'image';
                 final data = item[isImage ? 'path' : 'data'];
 
-
                 //DISEÑO DE LAS TARJETAS E IMAGENES
                 return Padding(
                   padding: const EdgeInsets.all(5),
                   child: CustomCard(
-                    width: isImage 
+                    width: isImage
                         ? constraints.maxWidth * 0.45 // Longitud de la imagen
-                        : ((data != null ? (data as Map<String, dynamic>)['width']?.toDouble() : null) ?? constraints.maxWidth * 0.45),
-                    height: isImage 
+                        : ((data != null
+                                ? (data as Map<String, dynamic>)['width']
+                                    ?.toDouble()
+                                : null) ??
+                            constraints.maxWidth * 0.45),
+                    height: isImage
                         ? constraints.maxWidth * 0.55 // Altura de la imagen
-                        : ((data != null ? (data as Map<String, dynamic>)['height']?.toDouble() : null) ?? 200),
-                    backgroundColor: isImage ? Colors.transparent : const Color(0xfffff5cc),
-                    padding: isImage ? EdgeInsets.zero : const EdgeInsets.all(16), // Padding solo en texto
-                    child: isImage 
-                        ? _buildImageCard(data as String) 
+                        : ((data != null
+                                ? (data as Map<String, dynamic>)['height']
+                                    ?.toDouble()
+                                : null) ??
+                            200),
+                    backgroundColor:
+                        isImage ? Colors.transparent : const Color(0xfffff5cc),
+                    padding: isImage
+                        ? EdgeInsets.zero
+                        : const EdgeInsets.all(16), // Padding solo en texto
+                    child: isImage
+                        ? _buildImageCard(data as String)
                         : _buildTextCard(data as Map<String, dynamic>),
                   ),
-                  );
-
+                );
               },
             );
           },
@@ -123,14 +141,14 @@ class _YourDayCardsState extends State<YourDayCards> {
   }
 
   Widget _buildImageCard(String imagePath) {
-  return ClipRRect(
-    borderRadius: BorderRadius.circular(25), // Mismo radio que el CustomCard
-    child: Image.asset(
-      imagePath,
-      width: double.infinity, // Ocupar todo el ancho disponible
-      height: double.infinity, // Ocupar todo el alto disponible
-      fit: BoxFit.cover,
-    ),
-  );
-}
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(25), // Mismo radio que el CustomCard
+      child: Image.asset(
+        imagePath,
+        width: double.infinity, // Ocupar todo el ancho disponible
+        height: double.infinity, // Ocupar todo el alto disponible
+        fit: BoxFit.cover,
+      ),
+    );
+  }
 }

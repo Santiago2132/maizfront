@@ -6,8 +6,9 @@ import 'package:maiz_app/screens/navegator/main_screen.dart';
 import 'package:maiz_app/widgets/avatarWidget.dart';
 import 'package:maiz_app/widgets/terms_conditions.dart';
 
-
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -16,32 +17,40 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _termsAccepted = false;
-  AuthService _authService = AuthService();
+  final AuthService _authService = AuthService();
 
   void _signInWithEmailAndPassword() async {
     String email = _emailController.text;
     String password = _passwordController.text;
 
     if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("El correo y la contraseña no pueden estar vacíos")),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content:
+                  Text("El correo y la contraseña no pueden estar vacíos")),
+        );
+      }
       return;
     }
 
     bool result = await _authService.signIn(email, password);
-    if (result) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Inicio de sesión exitoso")),
-      );
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const MainScreen()),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Credenciales incorrectas o usuario no registrado")),
-      );
+    if (mounted) {
+      if (result) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Inicio de sesión exitoso")),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const MainScreen()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content:
+                  Text("Credenciales incorrectas o usuario no registrado")),
+        );
+      }
     }
   }
 
@@ -89,7 +98,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         _termsAccepted = value;
                       });
                     },
-                    onSignIn: _termsAccepted ? _signInWithEmailAndPassword : null,
+                    onSignIn:
+                        _termsAccepted ? _signInWithEmailAndPassword : null,
                     onShowTerms: _showTermsAndConditions,
                     onNavigateToSignUp: _navigateToSignUp,
                   ),

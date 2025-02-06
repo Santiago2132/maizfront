@@ -5,6 +5,7 @@ class HexagonBadge extends StatelessWidget {
   final bool isDarkMode;
 
   const HexagonBadge({
+    super.key,
     required this.text,
     required this.isDarkMode,
   });
