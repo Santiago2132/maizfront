@@ -1,4 +1,4 @@
-name: maiz_app
+name: mAIz
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -33,10 +33,13 @@ dependencies:
   http: ^1.2.0  # Añade esta línea con la versión que desees
 
   table_calendar: ^3.0.9
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  fluttertoast: ^8.2.2
+  font_awesome_flutter: ^10.6.0
+  google_sign_in: ^6.1.5
+  firebase_core: ^2.27.2
+  firebase_auth: ^4.17.4
+  cloud_firestore: ^4.15.4
+  firebase_storage: ^11.7.7
   cupertino_icons: ^1.0.8
   flutter_launcher_icons: ^0.14.3
 
@@ -45,6 +48,8 @@ dev_dependencies:
   flutter_layout_grid: ^2.0.0
   flutter_test:
     sdk: flutter
+  firebase_storage_web: ^3.6.22
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -61,7 +66,7 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/icon/mAIz_icon500.png"  # Ruta de tu icono
-  adaptive_icon_background: "#ffffff"  # Para Android (Opcional)
+  adaptive_icon_background: "#7254b9"  # Para Android (Opcional)
   adaptive_icon_foreground: "assets/icon/mAIz_icon500.png" 
 
 # The following section is specific to Flutter packages.

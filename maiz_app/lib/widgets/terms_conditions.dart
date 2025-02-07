@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 class TermsAndConditionsDialog extends StatelessWidget {
+  const TermsAndConditionsDialog({super.key});
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

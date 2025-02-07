@@ -7,7 +7,7 @@ class MessageInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _controller = TextEditingController();
+    final TextEditingController controller = TextEditingController();
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -15,7 +15,7 @@ class MessageInput extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: TextField(
-              controller: _controller,
+              controller: controller,
               decoration: InputDecoration(
                 hintText: 'Escribe un mensaje...',
                 filled: true,
@@ -30,11 +30,11 @@ class MessageInput extends StatelessWidget {
           const SizedBox(width: 8.0),
           FloatingActionButton(
             onPressed: () {
-              onSend(_controller.text); // Llama a la función onSend cuando se presiona el botón
-              _controller.clear(); // Limpia el campo de texto después de enviar
+              onSend(controller.text); // Llama a la función onSend cuando se presiona el botón
+              controller.clear(); // Limpia el campo de texto después de enviar
             },
-            child: const Icon(Icons.send),
             backgroundColor: Colors.deepPurple,
+            child: const Icon(Icons.send),
           ),
         ],
       ),

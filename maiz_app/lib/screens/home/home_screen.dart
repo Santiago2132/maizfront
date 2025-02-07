@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:maiz_app/screens/home/widgets/feeling_card.dart';
-import 'package:maiz_app/screens/home/widgets/progress_card.dart';
-import 'package:maiz_app/screens/home/widgets/stats_card.dart';
-import 'package:maiz_app/screens/home/widgets/welcome_message.dart';
+import 'package:mAIz/screens/home/widgets/feeling_card.dart';
+import 'package:mAIz/screens/home/widgets/progress_card.dart';
+import 'package:mAIz/screens/home/widgets/stats_card.dart';
+import 'package:mAIz/screens/home/widgets/welcome_message.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -12,6 +12,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
+          /*
           // Fondo de pantalla
           Container(
             decoration: const BoxDecoration(
@@ -21,6 +22,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
+          */
           // Contenido principal
           SingleChildScrollView(
             child: Padding(

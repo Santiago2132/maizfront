@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:maiz_app/screens/your_day/widgets/your_day_cards.dart';
-import 'package:maiz_app/screens/your_day/widgets/your_day_message.dart';
+import 'package:mAIz/screens/your_day/widgets/your_day_cards.dart';
+import 'package:mAIz/screens/your_day/widgets/your_day_message.dart';
 
 class YourDayScreen extends StatelessWidget {
   const YourDayScreen({super.key});

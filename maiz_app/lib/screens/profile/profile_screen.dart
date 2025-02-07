@@ -1,7 +1,8 @@
+import 'package:mAIz/data/services/insignia_service.dart';
+import 'package:mAIz/screens/navegator/main_screen.dart';
+import 'package:mAIz/screens/profile/HexagonBadge.dart';
 import 'package:flutter/material.dart';
-import 'package:maiz_app/screens/home/home_screen.dart';
-import 'package:maiz_app/screens/navegator/main_screen.dart';
-import 'package:maiz_app/widgets/avatarWidget.dart';
+import 'package:mAIz/widgets/avatarWidget.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -11,32 +12,33 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
   String name = "Maria Suarez";
 
+  // Instanciamos el servicio de insignias
+  final BadgeService badgeService = BadgeService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-      title: const Text('Perfil'),
-      leading: IconButton(
+        title: const Text('Perfil'),
+        leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const MainScreen()),
-            );          
+              context,
+              MaterialPageRoute(builder: (context) => const MainScreen()),
+            );
           },
         ),
       ),
-      body: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-             AvatarWidget(),
-              // Nombre de usuario
+              AvatarWidget(),
               Text(
                 'Hola, $name',
                 style: TextStyle(
@@ -44,11 +46,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              
+              SizedBox(height: 20),
+              Text(
+                'Tus Insignias',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
+              // Mostramos las insignias en una fila
+              Wrap(
+                spacing: 16,
+                children: badgeService.getBadges().map((badge) {
+                  return HexagonWidget(
+                    imagePath: badge.imagePath,
+                    badgeName: badge.name,
+                  );
+                }).toList(),
+              ),
             ],
           ),
-          ),
         ),
+      ),
     );
   }
 }

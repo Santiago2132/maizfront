@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "686512163452",
+    "project_id": "maiz-d686b",
+    "storage_bucket": "maiz-d686b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:686512163452:android:a902a1bed4c191644217f9",
+        "android_client_info": {
+          "package_name": "com.example.maiz_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "686512163452-en546nr7uqp417qemcamr7h4k5qtrq3u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.maiz_app",
+            "certificate_hash": "cdf57baf02ad1777a791cb712ffbbf2efae34378"
+          }
+        },
+        {
+          "client_id": "686512163452-3laslnem0a2csiheqkvk8n57cmp78egp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0YGIkJxr2laXNHOm_pSP8jYEGAuZA5hU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "686512163452-3laslnem0a2csiheqkvk8n57cmp78egp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

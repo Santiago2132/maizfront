@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:maiz_app/widgets/custom_card.dart';
+import 'package:mAIz/widgets/custom_card.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class YourDayCards extends StatefulWidget {
@@ -57,11 +57,11 @@ class _YourDayCardsState extends State<YourDayCards> {
       children: [
         ElevatedButton(
           onPressed: _refreshCards,
-          child: const Text('Mostrar nuevas frases'),
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xffffe699), //Colores de las tarjetas
             foregroundColor: const Color(0xff673ab7), //Colores del texto de las tarjetas
           ),
+          child: const Text('Mostrar nuevas frases'),
         ),
         const SizedBox(height: 10),
         LayoutBuilder(

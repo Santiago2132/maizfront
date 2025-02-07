@@ -1,58 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:maiz_app/screens/navegator/main_screen.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:mAIz/data/services/calendar_service.dart';
+import 'package:mAIz/screens/calendar/calendarBar.dart';
+import 'package:mAIz/screens/calendar/calendarContainer.dart';
 
 class CalendarScreen extends StatefulWidget {
+  const CalendarScreen({super.key});
+
   @override
-  _MonthlyCalendarState createState() => _MonthlyCalendarState();
+  _CalendarScreenState createState() => _CalendarScreenState();
 }
-//calendar
-class _MonthlyCalendarState extends State<CalendarScreen> {
+
+class _CalendarScreenState extends State<CalendarScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  Map<DateTime, IconData> _dayIcons = {};
+  Map<DateTime, int> _emotionalRecords = {};
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Fetch emotional records directly from CalendarService
+    CalendarService.getEmotionalRecords().then((records) {
+      setState(() {
+        _emotionalRecords = records;
+      });
+    });
+  }
+
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    setState(() {
+      _selectedDay = selectedDay;
+      _focusedDay = focusedDay;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Calendario emocional'),
-          backgroundColor: Colors.deepPurple,
-          leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            // Reemplaza la pantalla actual con Home
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => MainScreen()), 
-              (route) => false, // Elimina todas las rutas anteriores
-            );
-          },
-        ),
-      ),
-      body: TableCalendar(
-        firstDay: DateTime.utc(2020, 1, 1),
-        lastDay: DateTime.utc(2030, 12, 31),
+    return Scaffold(
+      appBar: CustomAppBar(), // El CustomAppBar ahora está en la propiedad 'appBar'
+      body: CalendarContainer(
         focusedDay: _focusedDay,
-        selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-        onDaySelected: (selectedDay, focusedDay) {
-          setState(() {
-            _selectedDay = selectedDay;
-            _focusedDay = focusedDay;
-            _dayIcons[selectedDay] = Icons.star; // Ejemplo de icono
-          });
-        },
-        calendarBuilders: CalendarBuilders(
-          markerBuilder: (context, date, events) {
-            if (_dayIcons.containsKey(date)) {
-              return Positioned(
-                bottom: 5,
-                child: Icon(_dayIcons[date], size: 20, color: Colors.blue),
-              );
-            }
-            return null;
-          },
-        ),
+        selectedDay: _selectedDay,
+        onDaySelected: _onDaySelected,
+        emotionalRecords: _emotionalRecords,
       ),
     );
   }

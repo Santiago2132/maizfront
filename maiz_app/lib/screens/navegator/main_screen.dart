@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:maiz_app/screens/calendar/calendar_screen.dart';
-import 'package:maiz_app/screens/chat/chat_screen.dart';
-import 'package:maiz_app/screens/home/home_screen.dart';
-import 'package:maiz_app/screens/profile/profile_screen.dart';
-import 'package:maiz_app/screens/your_day/your_day_screen.dart';
-import 'package:maiz_app/screens/navegator/navbar.dart';
+import 'package:mAIz/screens/calendar/calendar_screen.dart';
+import 'package:mAIz/screens/chat/chat_screen.dart';
+import 'package:mAIz/screens/home/home_screen.dart';
+import 'package:mAIz/screens/profile/profile_screen.dart';
+import 'package:mAIz/screens/your_day/your_day_screen.dart';
+import 'package:mAIz/screens/navegator/navbar.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});

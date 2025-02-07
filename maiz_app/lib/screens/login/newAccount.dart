@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:maiz_app/data/services/auth_service.dart';
-import 'package:maiz_app/screens/login/login_screen.dart';
-import 'package:maiz_app/widgets/avatarWidget.dart';
-import 'package:maiz_app/widgets/terms_conditions.dart'; // Importar la pantalla de login
+import 'package:mAIz/data/services/auth_service.dart';
+import 'package:mAIz/screens/login/login_screen.dart';
+import 'package:mAIz/widgets/avatarWidget.dart';
+import 'package:mAIz/widgets/terms_conditions.dart'; // Importar la pantalla de login
 
 class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
+
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -16,7 +18,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _termsAccepted = false;
 
   // Instancia del servicio
-  AuthService _authService = AuthService();
+  final AuthService _authService = AuthService();
 
   void _signUp() async {
     String name = _nameController.text;

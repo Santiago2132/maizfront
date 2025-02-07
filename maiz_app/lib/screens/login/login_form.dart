@@ -6,15 +6,17 @@ class LoginForm extends StatelessWidget {
   final bool termsAccepted;
   final ValueChanged<bool> onTermsChanged;
   final VoidCallback? onSignIn;
+  final VoidCallback? onSignGoogle;
   final VoidCallback onShowTerms;
   final VoidCallback onNavigateToSignUp;
 
-  LoginForm({
+  const LoginForm({super.key, 
     required this.emailController,
     required this.passwordController,
     required this.termsAccepted,
     required this.onTermsChanged,
     required this.onSignIn,
+    required this.onSignGoogle,
     required this.onShowTerms,
     required this.onNavigateToSignUp,
   });
@@ -83,6 +85,20 @@ class LoginForm extends StatelessWidget {
             child: Text(
               "INICIAR SESIÓN",
               style: TextStyle(fontSize: 16, color: Colors.white),
+            ),
+          ),
+          SizedBox(height: 20),
+          ElevatedButton.icon(
+            onPressed: onSignGoogle,
+            icon: Image.asset('assets/resources/logoGoogle.png',
+                height: 24),
+            label: Text("Ingresar con Google"),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
           ),
           SizedBox(height: 20),

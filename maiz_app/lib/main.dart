@@ -1,9 +1,26 @@
+
 import 'package:flutter/material.dart';
-import 'package:maiz_app/routing/router.dart';
+import 'package:mAIz/routing/router.dart';
 
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 
-  runApp(const MyApp());
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: FirebaseOptions(
+        apiKey: "AIzaSyB0YGIkJxr2laXNHOm_pSP8jYEGAuZA5hU",
+        appId: "1:686512163452:android:a902a1bed4c191644217f9",
+        messagingSenderId: "686512163452",
+        projectId: "maiz-d686b",
+        // Your web Firebase config options
+      ),
+    );
+  } else {
+    await Firebase.initializeApp();
+  }
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

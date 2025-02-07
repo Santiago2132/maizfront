@@ -1,59 +1,54 @@
 import 'package:flutter/material.dart';
 
-class HexagonBadge extends StatelessWidget {
-  final String text;
-  final bool isDarkMode;
+class HexagonWidget extends StatelessWidget {
+  final String imagePath;
+  final String badgeName;
 
-  const HexagonBadge({
-    required this.text,
-    required this.isDarkMode,
-  });
+  const HexagonWidget({super.key, required this.imagePath, required this.badgeName});
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: HexagonPainter(isDarkMode: isDarkMode),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        alignment: Alignment.center,
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: isDarkMode ? Colors.white : Colors.black,
+    return Column(
+      children: [
+        ClipPath(
+          clipper: HexagonClipper(),
+          child: Container(
+            width: 80,
+            height: 80,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(imagePath),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
         ),
-      ),
+        SizedBox(height: 8),
+        Text(
+          badgeName,
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+        ),
+      ],
     );
   }
 }
 
-class HexagonPainter extends CustomPainter {
-  final bool isDarkMode;
-
-  HexagonPainter({required this.isDarkMode});
-
+class HexagonClipper extends CustomClipper<Path> {
   @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = isDarkMode ? Colors.blueGrey : Colors.blue
-      ..style = PaintingStyle.fill;
-
-    final path = Path()
-      ..moveTo(size.width * 0.5, 0)
-      ..lineTo(size.width, size.height * 0.25)
-      ..lineTo(size.width, size.height * 0.75)
-      ..lineTo(size.width * 0.5, size.height)
-      ..lineTo(0, size.height * 0.75)
-      ..lineTo(0, size.height * 0.25)
-      ..close();
-
-    canvas.drawPath(path, paint);
+  Path getClip(Size size) {
+    Path path = Path();
+    path.moveTo(size.width * 0.5, 0);
+    path.lineTo(size.width, size.height * 0.25);
+    path.lineTo(size.width, size.height * 0.75);
+    path.lineTo(size.width * 0.5, size.height);
+    path.lineTo(0, size.height * 0.75);
+    path.lineTo(0, size.height * 0.25);
+    path.close();
+    return path;
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
     return false;
   }
 }

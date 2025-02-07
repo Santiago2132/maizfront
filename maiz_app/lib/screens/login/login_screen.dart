@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:maiz_app/data/services/auth_service.dart';
-import 'package:maiz_app/screens/login/login_form.dart';
-import 'package:maiz_app/screens/login/newAccount.dart';
-import 'package:maiz_app/screens/navegator/main_screen.dart';
-import 'package:maiz_app/widgets/avatarWidget.dart';
-import 'package:maiz_app/widgets/terms_conditions.dart';
+import 'package:mAIz/data/services/auth_service.dart';
+import 'package:mAIz/screens/login/Firebase/firebase_auth.dart';
+import 'package:mAIz/screens/login/login_form.dart';
+import 'package:mAIz/screens/login/newAccount.dart';
+import 'package:mAIz/screens/navegator/main_screen.dart';
+import 'package:mAIz/widgets/avatarWidget.dart';
+import 'package:mAIz/widgets/terms_conditions.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -16,7 +21,10 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _termsAccepted = false;
-  AuthService _authService = AuthService();
+  final AuthService _authService = AuthService();
+
+  final FirebaseAuthService _auth = FirebaseAuthService();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   void _signInWithEmailAndPassword() async {
     String email = _emailController.text;
@@ -24,7 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("El correo y la contraseña no pueden estar vacíos")),
+        SnackBar(
+            content: Text("El correo y la contraseña no pueden estar vacíos")),
       );
       return;
     }
@@ -40,7 +49,8 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Credenciales incorrectas o usuario no registrado")),
+        SnackBar(
+            content: Text("Credenciales incorrectas o usuario no registrado")),
       );
     }
   }
@@ -60,6 +70,33 @@ class _LoginScreenState extends State<LoginScreen> {
       MaterialPageRoute(builder: (context) => SignUpScreen()),
     );
   }
+  
+  void _signInWithGoogle() async {
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+    try {
+      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+
+      if (googleSignInAccount != null) {
+        final GoogleSignInAuthentication googleSignInAuthentication =
+            await googleSignInAccount.authentication;
+
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          idToken: googleSignInAuthentication.idToken,
+          accessToken: googleSignInAuthentication.accessToken,
+        );
+
+        await firebaseAuth.signInWithCredential(credential);
+        Navigator.pushNamed(context, "/home");
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Inicio de sesión fallido: $e")),
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       });
                     },
                     onSignIn: _termsAccepted ? _signInWithEmailAndPassword : null,
+                    onSignGoogle:  _signInWithGoogle ,
                     onShowTerms: _showTermsAndConditions,
                     onNavigateToSignUp: _navigateToSignUp,
                   ),

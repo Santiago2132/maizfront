@@ -24,7 +24,7 @@ class MessageList extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(12.0),
           decoration: BoxDecoration(
-            color: isUserMessage ? Colors.deepPurple[200] : Colors.grey[300], // Color diferente para el usuario y el bot
+            color: isUserMessage ? Colors.deepPurple[200] : Colors.yellow[200], // Color diferente para el usuario y el bot
             borderRadius: BorderRadius.circular(12.0),
           ),
           child: Text(

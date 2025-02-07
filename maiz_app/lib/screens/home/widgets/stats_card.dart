@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:maiz_app/widgets/custom_card.dart';
+import 'package:mAIz/widgets/custom_card.dart';
 
 class StatsCard extends StatelessWidget {
   const StatsCard({super.key});
