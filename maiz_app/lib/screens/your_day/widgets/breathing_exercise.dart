@@ -66,7 +66,7 @@ class _BreathingExerciseState extends State<BreathingExercise>
     final screenHeight = MediaQuery.of(context).size.height;
 
     return CustomCard(
-      height: screenHeight * 0.22,
+      height: screenHeight * 0.20,
       backgroundColor: _baseColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -93,7 +93,7 @@ class _BreathingExerciseState extends State<BreathingExercise>
                   ]).evaluate(_controller),
                   child: Container(
                     width: 60,
-                    height: 60,
+                    height: 90,
                     decoration: BoxDecoration(
                       color: ColorTween(
                         begin: _accentColor,

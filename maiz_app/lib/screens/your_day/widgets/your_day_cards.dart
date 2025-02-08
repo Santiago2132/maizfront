@@ -62,16 +62,6 @@ class _YourDayCardsState extends State<YourDayCards> {
 
     return Column(
       children: [
-        ElevatedButton(
-          onPressed: _refreshCards,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xffffe699), //Colores de las tarjetas
-            foregroundColor:
-                const Color(0xff673ab7), //Colores del texto de las tarjetas
-          ),
-          child: const Text('Mostrar nuevas frases'),
-        ),
-        const SizedBox(height: 10),
         LayoutBuilder(
           builder: (context, constraints) {
             return MasonryGridView.builder(
@@ -118,6 +108,15 @@ class _YourDayCardsState extends State<YourDayCards> {
               },
             );
           },
+        ),
+        ElevatedButton(
+          onPressed: _refreshCards,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xffffe699), //Colores de las tarjetas
+            foregroundColor:
+                const Color(0xff673ab7), //Colores del texto de las tarjetas
+          ),
+          child: const Text('Mostrar nuevas frases'),
         ),
       ],
     );
