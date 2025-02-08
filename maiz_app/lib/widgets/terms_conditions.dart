@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+
 class TermsAndConditionsDialog extends StatelessWidget {
   const TermsAndConditionsDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Center(child: Text("Términos y Condiciones")),  
+      title: Center(child: Text("Términos y Condiciones")),
       content: SingleChildScrollView(
-        child: Center( 
+        child: Center(
           child: Column(
             children: [
               Text("Estos son los términos y condiciones..."),
-              // Añade el contenido 
+              // Añade el contenido
             ],
           ),
         ),

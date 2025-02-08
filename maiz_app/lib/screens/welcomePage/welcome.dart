@@ -12,7 +12,7 @@ class WelcomeScreen extends StatelessWidget {
           // Imagen de fondo
           Positioned.fill(
             child: Image.asset(
-              'assets/resources/fondoMorado.jpg', 
+              'assets/resources/fondoMorado.jpg',
               fit: BoxFit.cover,
             ),
           ),
@@ -61,15 +61,16 @@ class WelcomeScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) =>  LoginScreen()),
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    iconColor : Colors.black45, // Color de fondo del botón
+                    iconColor: Colors.black45, // Color de fondo del botón
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 15),
                   ),
                   child: const Text(
                     'Continuar',

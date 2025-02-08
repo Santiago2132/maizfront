@@ -23,14 +23,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         title: const Text('Perfil'),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const MainScreen()),
-            );
-          },
-        ),
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const MainScreen()),
+              );
+              }),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -70,5 +69,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+    
   }
 }
