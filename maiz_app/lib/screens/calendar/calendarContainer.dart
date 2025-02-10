@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:mAIz/screens/calendar/calendarMarkets.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-
 class CalendarContainer extends StatelessWidget {
   final DateTime focusedDay;
   final DateTime? selectedDay;
   final Function(DateTime, DateTime) onDaySelected;
-  final Map<DateTime, int> emotionalRecords;
+  final Map<DateTime, String> emotionalRecords;
 
-  const CalendarContainer({super.key, 
+  const CalendarContainer({
+    super.key,
     required this.focusedDay,
     required this.selectedDay,
     required this.onDaySelected,
@@ -30,7 +30,8 @@ class CalendarContainer extends StatelessWidget {
         headerStyle: _buildHeaderStyle(),
         calendarBuilders: CalendarBuilders(
           markerBuilder: (context, date, events) {
-            return CalendarMarkers(emotionalRecords: emotionalRecords).buildMarker(context, date);
+            return CalendarMarkers(emotionalRecords: emotionalRecords)
+                .buildMarker(context, date);
           },
         ),
       ),
@@ -56,7 +57,7 @@ class CalendarContainer extends StatelessWidget {
     return HeaderStyle(
       formatButtonVisible: false,
       titleCentered: true,
-      titleTextStyle: TextStyle(
+      titleTextStyle: const TextStyle(
         color: Colors.black,
         fontSize: 20,
         fontWeight: FontWeight.bold,

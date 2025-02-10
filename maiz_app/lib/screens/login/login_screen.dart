@@ -88,7 +88,10 @@ class _LoginScreenState extends State<LoginScreen> {
         );
 
         await firebaseAuth.signInWithCredential(credential);
-        Navigator.pushNamed(context, "/home");
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const MainScreen()),
+        );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

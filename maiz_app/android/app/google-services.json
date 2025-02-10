@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "686512163452-vhb0f0s9mhopngdippmd38ssorl2qhjh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.maiz_app",
+            "certificate_hash": "2c4da3429061331ed3e055d3f01b76b23bbc7077"
+          }
+        },
+        {
           "client_id": "686512163452-3laslnem0a2csiheqkvk8n57cmp78egp.apps.googleusercontent.com",
           "client_type": 3
         }

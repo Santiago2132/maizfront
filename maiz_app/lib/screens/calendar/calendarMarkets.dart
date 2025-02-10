@@ -1,35 +1,41 @@
 import 'package:flutter/material.dart';
 
 class CalendarMarkers {
-  final Map<DateTime, int> emotionalRecords;
+  final Map<DateTime, String> emotionalRecords;
 
   CalendarMarkers({required this.emotionalRecords});
 
-  final Map<int, IconData> emotionIcons = {
-    1: Icons.sentiment_very_dissatisfied,
-    2: Icons.sentiment_dissatisfied,
-    3: Icons.sentiment_neutral,
-    4: Icons.sentiment_satisfied,
-    5: Icons.sentiment_very_satisfied,
+  final Map<String, String> feelings = {
+    'Deprimente': 'assets/icons/Depressed_icon.png',
+    'Triste': 'assets/icons/sad_icon.png',
+    'Regular': 'assets/icons/so_so_icon.png',
+    'Feliz': 'assets/icons/Happy_icon.png',
+    'Euforico': 'assets/icons/Euphoric_icon.png',
   };
 
-  final Map<int, Color?> emotionColors = {
-    1: Colors.purple[900],
-    2: Colors.purple[700],
-    3: Colors.purple[500],
-    4: Colors.purple[300],
-    5: Colors.purple[100],
+  final Map<String, Color?> emotionColors = {
+    'Deprimente': Colors.purple[900],
+    'Triste': Colors.purple[700],
+    'Regular': Colors.purple[500],
+    'Feliz': Colors.purple[300],
+    'Euforico': Colors.purple[100],
   };
+
+  DateTime normalizeDate(DateTime date) {
+    return DateTime(date.year, date.month, date.day);
+  }
 
   Widget? buildMarker(BuildContext context, DateTime date) {
-    if (emotionalRecords.containsKey(date)) {
-      int emotionLevel = emotionalRecords[date]!;
+    DateTime normalizedDate = normalizeDate(date);
+
+    if (emotionalRecords.containsKey(normalizedDate)) {
+      String emotion = emotionalRecords[normalizedDate]!;
       return Positioned(
         bottom: 5,
-        child: Icon(
-          emotionIcons[emotionLevel] ?? Icons.help_outline,
-          size: 20,
-          color: emotionColors[emotionLevel] ?? Colors.grey,
+        child: Image.asset(
+          feelings[emotion] ?? "assets/icons/default_icon.png",
+          width: 20,
+          height: 20,
         ),
       );
     }
