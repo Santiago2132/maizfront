@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mAIz/models/emotion_storage.dart';
 import 'package:mAIz/widgets/custom_card.dart';
 
 class FeelingCard extends StatefulWidget {
-  const FeelingCard({super.key});
+  final VoidCallback onEmotionSelected; // Añadir esta línea
+  const FeelingCard({super.key, required this.onEmotionSelected});
 
   @override
   State<FeelingCard> createState() => _FeelingCardState();
@@ -19,10 +21,16 @@ class _FeelingCardState extends State<FeelingCard> {
     'Euforico': 'assets/icons/Euphoric_icon.png',
   };
 
+  void _handleFeelingSelection(String feeling) async {
+    setState(() => selectedFeeling = feeling);
+    await EmotionStorage.saveEmotion(feeling);
+    widget.onEmotionSelected(); // Notificar al padre
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomCard(
-      height: 130, // Modifica esta línea para ajustar la altura
+      height: 130,
       child: Column(
         children: [
           const Text(
@@ -38,8 +46,7 @@ class _FeelingCardState extends State<FeelingCard> {
           LayoutBuilder(
             builder: (context, constraints) {
               final maxWidth = constraints.maxWidth;
-              final itemWidth = (maxWidth - 50) /
-                  feelings.length; // Ajuste del ancho de cada imagen
+              final itemWidth = (maxWidth - 50) / feelings.length;
 
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -47,14 +54,14 @@ class _FeelingCardState extends State<FeelingCard> {
                   final isSelected = selectedFeeling == entry.key;
 
                   return GestureDetector(
-                    onTap: () => setState(() => selectedFeeling = entry.key),
+                    onTap: () => _handleFeelingSelection(entry.key),
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: isSelected
                             ? const Color(0xFF673AB7).withOpacity(0.1)
                             : Colors.transparent,
-                        shape: BoxShape.circle, // Forma circular
+                        shape: BoxShape.circle,
                         border: Border.all(
                           color: isSelected
                               ? const Color(0xFF673AB7)
@@ -64,7 +71,7 @@ class _FeelingCardState extends State<FeelingCard> {
                       ),
                       child: Image.asset(
                         entry.value,
-                        width: itemWidth - 12, // Ajuste del tamaño de la imagen
+                        width: itemWidth - 12,
                         height: itemWidth - 12,
                       ),
                     ),

@@ -16,7 +16,7 @@ class _YourDayCardsState extends State<YourDayCards> {
   List<Map<String, dynamic>> _phrases = [];
   List<String> _images = [];
   final Random _random = Random();
-  final int _maxCards = 5; //CANTIDAD DE FRASES QUE SE VAN A MOSTRAR
+  final int _maxCards = 12; //CANTIDAD DE FRASES QUE SE VAN A MOSTRAR
 
   Future<void> _loadPhrases() async {
     final String response =
@@ -36,7 +36,7 @@ class _YourDayCardsState extends State<YourDayCards> {
         .toList();
     imagePaths.shuffle(_random);
     setState(() => _images = imagePaths
-        .take(3)
+        .take(7)
         .toList()); //CANTIDAD DE IMAGENES QUE SE VAN A MOSTRAR
   }
 

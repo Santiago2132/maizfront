@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:mAIz/screens/home/widgets/feeling_card.dart';
 import 'package:mAIz/screens/home/widgets/progress_card.dart';
-import 'package:mAIz/screens/home/widgets/stats_card.dart';
+import 'package:mAIz/screens/home/widgets/graphic_card.dart';
 import 'package:mAIz/screens/home/widgets/welcome_message.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,9 +38,12 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 15),
                   const WelcomeMessage(),
                   const SizedBox(height: 30),
-                  const FeelingCard(),
+                  FeelingCard(
+                    onEmotionSelected: () =>
+                        setState(() {}), // Actualizar estado
+                  ),
                   const SizedBox(height: 30),
-                  const StatsCard(),
+                  GraphicCard(),
                   const SizedBox(height: 30),
                   const ProgressCard(),
                 ],
