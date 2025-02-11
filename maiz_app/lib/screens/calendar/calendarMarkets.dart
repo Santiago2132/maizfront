@@ -33,10 +33,18 @@ class CalendarMarkers {
 
       return Align(
         alignment: Alignment.bottomCenter,
-        child: Image.asset(
-          feelings[emotion] ?? "assets/icons/default_icon.png",
-          width: 16,
-          height: 16,
+        child: Container(
+        width: 30, // Ajusta el tamaño del fondo
+        height: 30,
+        decoration: BoxDecoration(
+          color: Color(0xFFF9E7A7),
+          shape: BoxShape.circle, 
+        ),
+          child: Image.asset(
+            feelings[emotion] ?? "assets/icons/default_icon.png",
+            width: 15,
+            height: 15,
+          ),
         ),
       );
     }
