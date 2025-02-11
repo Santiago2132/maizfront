@@ -32,7 +32,7 @@ class CalendarMarkers {
       String emotion = emotionalRecords[normalizedDate]!;
 
       return Align(
-        alignment: Alignment.bottomCenter,
+        alignment: Alignment.topCenter,
         child: Container(
         width: 30, // Ajusta el tamaño del fondo
         height: 30,
