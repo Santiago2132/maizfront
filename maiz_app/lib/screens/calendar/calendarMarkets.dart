@@ -30,12 +30,13 @@ class CalendarMarkers {
 
     if (emotionalRecords.containsKey(normalizedDate)) {
       String emotion = emotionalRecords[normalizedDate]!;
-      return Positioned(
-        bottom: 5,
+
+      return Align(
+        alignment: Alignment.bottomCenter,
         child: Image.asset(
           feelings[emotion] ?? "assets/icons/default_icon.png",
-          width: 20,
-          height: 20,
+          width: 16,
+          height: 16,
         ),
       );
     }

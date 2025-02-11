@@ -10,11 +10,9 @@ class AuthService {
    Future<bool> signUp(String name, String email, String password) async {
     await Future.delayed(Duration(seconds: 2)); // Simula tiempo de respuesta
 
-    // Aquí podrías agregar la lógica para verificar que el email no esté registrado,
-    // y si lo está, retornar false, pero por ahora simulamos un registro exitoso.
     print("Registrando usuario: $name, Email: $email, Password: $password");
     
-    // Suponemos que el registro siempre es exitoso
+    // registro siempre es exitoso
     return true;
   }
 }

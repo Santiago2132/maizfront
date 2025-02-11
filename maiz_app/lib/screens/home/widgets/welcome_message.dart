@@ -1,42 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:mAIz/data/services/user_service.dart';
 
 class WelcomeMessage extends StatelessWidget {
   const WelcomeMessage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft, // Alineación a la derecha
-      child: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: 'HOLA ',
-              style: TextStyle(
-                fontSize: 32,
-                color: Colors.deepPurple,
-                fontWeight: FontWeight.bold,
-              ),
+   Widget build(BuildContext context) {
+    final UserService userService = UserService(); // Instancia del servicio
+
+    return FutureBuilder<String>(
+      future: userService.getUserName(), // Obtiene el nombre del usuario
+      builder: (context, snapshot) {
+        String userName = snapshot.data ?? "Usuario"; // Usa un valor por defecto si es null
+
+        return Align(
+          alignment: Alignment.centerLeft,
+          child: RichText(
+            text: TextSpan(
+              children: [
+                const TextSpan(
+                  text: 'HOLA ',
+                  style: TextStyle(
+                    fontSize: 32,
+                    color: Colors.deepPurple,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                TextSpan(
+                  text: '$userName,\n', // Muestra el nombre del usuario
+                  style: const TextStyle(
+                    fontSize: 32,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const TextSpan(
+                  text: 'Bienvenido a mAIz',
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.deepPurple,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
-            TextSpan(
-              text: 'USUARIO,\n', // Salto de línea
-              style: TextStyle(
-                fontSize: 32,
-                color: Colors.black, // Color negro
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            TextSpan(
-              text: 'Bienvenido a mAIz',
-              style: TextStyle(
-                fontSize: 24, // Tamaño reducido
-                color: Colors.deepPurple,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

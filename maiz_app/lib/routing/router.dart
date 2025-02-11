@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mAIz/screens/calendar/calendar_screen.dart';
 import 'package:mAIz/screens/chat/chat_screen.dart';
 import 'package:mAIz/screens/home/home_screen.dart';
+import 'package:mAIz/screens/login/Firebase/auth_check.dart';
 import 'package:mAIz/screens/login/login_screen.dart';
 import 'package:mAIz/screens/login/newAccount.dart';
 import 'package:mAIz/screens/profile/profile_screen.dart';
@@ -12,7 +13,7 @@ class AppRouter {
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => WelcomeScreen());
+        return MaterialPageRoute(builder: (_) => AuthCheck()); //verificar sesion activa
       case '/home':
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case '/calendar':

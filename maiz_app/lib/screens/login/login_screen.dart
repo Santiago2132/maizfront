@@ -76,6 +76,9 @@ class _LoginScreenState extends State<LoginScreen> {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
     try {
+      // Cerrar sesión antes de iniciar sesión para permitir elegir otra cuenta
+      await googleSignIn.signOut();
+
       final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
 
       if (googleSignInAccount != null) {
@@ -99,6 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     }
   }
+
 
 
   @override

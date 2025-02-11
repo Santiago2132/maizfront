@@ -7,6 +7,7 @@ class CalendarContainer extends StatelessWidget {
   final DateTime? selectedDay;
   final Function(DateTime, DateTime) onDaySelected;
   final Map<DateTime, String> emotionalRecords;
+  final CalendarMarkers calendarMarkers;
 
   const CalendarContainer({
     super.key,
@@ -14,56 +15,41 @@ class CalendarContainer extends StatelessWidget {
     required this.selectedDay,
     required this.onDaySelected,
     required this.emotionalRecords,
+    required this.calendarMarkers,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      child: TableCalendar(
-        firstDay: DateTime.utc(2020, 1, 1),
-        lastDay: DateTime.utc(2030, 12, 31),
-        focusedDay: focusedDay,
-        selectedDayPredicate: (day) => isSameDay(selectedDay, day),
-        onDaySelected: onDaySelected,
-        calendarStyle: _buildCalendarStyle(),
-        headerStyle: _buildHeaderStyle(),
-        calendarBuilders: CalendarBuilders(
-          markerBuilder: (context, date, events) {
-            return CalendarMarkers(emotionalRecords: emotionalRecords)
-                .buildMarker(context, date);
-          },
-        ),
+    return TableCalendar(
+      firstDay: DateTime.utc(2024, 1, 1),
+      lastDay: DateTime.utc(2025, 12, 31),
+      focusedDay: focusedDay,
+      selectedDayPredicate: (day) => isSameDay(selectedDay, day),
+      onDaySelected: onDaySelected,
+      calendarFormat: CalendarFormat.month,
+      availableGestures: AvailableGestures.all,
+      headerStyle: const HeaderStyle(formatButtonVisible: false),
+      calendarStyle: const CalendarStyle(
+        markersAlignment: Alignment.center, // No afecta aquí, lo corregimos abajo
+      ),
+      calendarBuilders: CalendarBuilders(
+        defaultBuilder: (context, date, focusedDay) {
+          return Stack(
+            alignment: Alignment.center, // Centra todo
+            children: [
+              Container(
+                alignment: Alignment.center,
+                child: Text(
+                  '${date.day}',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              calendarMarkers.buildMarker(context, date) ?? Container(), // Agrega el ícono en el centro
+            ],
+          );
+        },
       ),
     );
   }
 
-  CalendarStyle _buildCalendarStyle() {
-    return CalendarStyle(
-      todayDecoration: BoxDecoration(
-        color: Colors.deepPurple,
-        shape: BoxShape.circle,
-      ),
-      selectedDecoration: BoxDecoration(
-        color: Colors.purple[300],
-        shape: BoxShape.circle,
-      ),
-      defaultTextStyle: TextStyle(color: Colors.purple[900]),
-      weekendTextStyle: TextStyle(color: Colors.purple[900]),
-    );
-  }
-
-  HeaderStyle _buildHeaderStyle() {
-    return HeaderStyle(
-      formatButtonVisible: false,
-      titleCentered: true,
-      titleTextStyle: const TextStyle(
-        color: Colors.black,
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-      ),
-      leftChevronIcon: Icon(Icons.chevron_left, color: Colors.purple[300]),
-      rightChevronIcon: Icon(Icons.chevron_right, color: Colors.purple[300]),
-    );
-  }
 }

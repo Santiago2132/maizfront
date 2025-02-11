@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mAIz/data/services/calendar_service.dart';
 import 'package:mAIz/screens/calendar/calendarBar.dart';
 import 'package:mAIz/screens/calendar/calendarContainer.dart';
+import 'package:mAIz/screens/calendar/calendarMarkets.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -13,18 +14,20 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  Map<DateTime, String> _emotionalRecords = {}; // Cambiado a Map<DateTime, String>
+  Map<DateTime, String> _emotionalRecords = {}; 
 
   @override
   void initState() {
     super.initState();
 
-   CalendarService.getEmotionalRecords().then((records) {
+    CalendarService.getEmotionalRecords().then((records) {
       setState(() {
-        _emotionalRecords = records; // Ya está en el formato correcto
+        _emotionalRecords = records.map((key, value) => MapEntry(
+              DateTime(key.year, key.month, key.day), // Normaliza fecha
+              value,
+            ));
       });
     });
-
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
@@ -32,17 +35,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
       _selectedDay = selectedDay;
       _focusedDay = focusedDay;
     });
-  }
-
-  String _convertEmotion(int emotionLevel) {
-    final Map<int, String> emotionMapping = {
-      1: "Deprimente",
-      2: "Triste",
-      3: "Regular",
-      4: "Feliz",
-      5: "Euforico",
-    };
-    return emotionMapping[emotionLevel] ?? "Regular"; // Default to "Regular" if not found
   }
 
   @override
@@ -54,6 +46,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         selectedDay: _selectedDay,
         onDaySelected: _onDaySelected,
         emotionalRecords: _emotionalRecords,
+        calendarMarkers: CalendarMarkers(emotionalRecords: _emotionalRecords), // Pasa los marcadores
       ),
     );
   }

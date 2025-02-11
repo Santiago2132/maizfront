@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:mAIz/data/services/insignia_service.dart';
+import 'package:mAIz/data/services/user_service.dart';
 import 'package:mAIz/screens/navegator/main_screen.dart';
 import 'package:mAIz/screens/profile/HexagonBadge.dart';
-import 'package:flutter/material.dart';
 import 'package:mAIz/widgets/avatarWidget.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -12,10 +14,10 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String name = "Maria Suarez";
-
-  // Instanciamos el servicio de insignias
   final BadgeService badgeService = BadgeService();
+
+  final UserService userService = UserService(); 
+
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +25,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         title: const Text('Perfil'),
         leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const MainScreen()),
-              );
-              }),
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const MainScreen()),
+            );
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -37,24 +40,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              AvatarWidget(),
-              Text(
-                'Hola, $name',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+              const AvatarWidget(),
+              const SizedBox(height: 20),
+
+              //  FutureBuilder con el UserService
+              FutureBuilder<String>(
+                future: userService.getUserName(), //  servicio
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator(); // Cargando
+                  } else if (snapshot.hasError) {
+                    return const Text("Error al obtener el nombre");
+                  } else {
+                    return Text(
+                      'Hola, ${snapshot.data}', // nombre del usuario
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                  }
+                },
               ),
-              SizedBox(height: 20),
-              Text(
+
+              const SizedBox(height: 20),
+              const Text(
                 'Tus Insignias',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10),
-              // Mostramos las insignias en una fila
+              const SizedBox(height: 10),
+
+              //  insignias en una fila
               Wrap(
                 spacing: 16,
                 children: badgeService.getBadges().map((badge) {
@@ -69,6 +88,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
-    
   }
 }
