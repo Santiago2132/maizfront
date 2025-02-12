@@ -74,7 +74,7 @@ class _BreathingExerciseState extends State<BreathingExercise>
           if (!_isAnimating)
             ElevatedButton(
               onPressed: _startAnimation,
-              child: Text('Iniciar Ejercicio de Respiración'),
+              child: const Text('Iniciar Ejercicio de Respiración'),
             ),
           if (_isAnimating)
             AnimatedBuilder(
@@ -83,17 +83,17 @@ class _BreathingExerciseState extends State<BreathingExercise>
                 return Transform.scale(
                   scale: TweenSequence<double>([
                     TweenSequenceItem(
-                        tween: Tween(begin: 1.0, end: 1.5), weight: 4),
+                        tween: Tween(begin: 1.0, end: 1.23), weight: 4),
                     TweenSequenceItem(
-                        tween: Tween(begin: 1.5, end: 1.5), weight: 2),
+                        tween: Tween(begin: 1.23, end: 1.23), weight: 2),
                     TweenSequenceItem(
-                        tween: Tween(begin: 1.5, end: 0.5), weight: 4),
+                        tween: Tween(begin: 1.23, end: 0.5), weight: 4),
                     TweenSequenceItem(
-                        tween: Tween(begin: 0.5, end: 1.0), weight: 2),
+                        tween: Tween(begin: 0.5, end: 0.8), weight: 2),
                   ]).evaluate(_controller),
                   child: Container(
                     width: 60,
-                    height: 90,
+                    height: 60,
                     decoration: BoxDecoration(
                       color: ColorTween(
                         begin: _accentColor,
@@ -110,30 +110,36 @@ class _BreathingExerciseState extends State<BreathingExercise>
               },
             ),
           if (_isAnimating)
-            ValueListenableBuilder(
-              valueListenable: _phaseNotifier,
-              builder: (context, phase, child) {
-                return Column(
-                  children: [
-                    Text(
-                      phase,
-                      style: TextStyle(
-                        color: _accentColor,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Icon(
-                      phase == 'Inhala'
-                          ? Icons.arrow_upward
-                          : phase == 'Exhala'
-                              ? Icons.arrow_downward
-                              : Icons.pause,
-                      color: _accentColor,
-                    ),
-                  ],
-                );
-              },
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ValueListenableBuilder(
+                  valueListenable: _phaseNotifier,
+                  builder: (context, phase, child) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          phase,
+                          style: TextStyle(
+                            color: _accentColor,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Icon(
+                          phase == 'Inhala'
+                              ? Icons.arrow_upward
+                              : phase == 'Exhala'
+                                  ? Icons.arrow_downward
+                                  : Icons.pause,
+                          color: _accentColor,
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
             ),
         ],
       ),
