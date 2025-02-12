@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:mAIz/routing/router.dart';
-
+//HOLI
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 
@@ -26,16 +25,16 @@ Future main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false, // Elimina el banner de depuración
       theme: ThemeData(
         useMaterial3: true,
       ),
-    
-      onGenerateRoute: AppRouter.generateRoute, // Usa AppRouter para generar las rutas
+
+      onGenerateRoute:
+          AppRouter.generateRoute, // Usa AppRouter para generar las rutas
     );
   }
 }
-
