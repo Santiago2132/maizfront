@@ -1,9 +1,12 @@
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:mAIz/data/services/notification_service.dart';
 import 'package:mAIz/routing/router.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +20,16 @@ Future main() async {
         // Your web Firebase config options
       ),
     );
+
+    await FirebaseAppCheck.instance.activate(
+      androidProvider: AndroidProvider.debug,
+      appleProvider: AppleProvider.debug,
+    );
+
+
+    await FirebaseMessaging.instance.requestPermission(); // Solicitar permisos
+    NotificationService();
+
   } else {
     await Firebase.initializeApp();
   }
