@@ -1,23 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mAIz/data/services/insignia_service.dart';
-import 'package:mAIz/data/services/user_service.dart';
 import 'package:mAIz/screens/navegator/main_screen.dart';
-import 'package:mAIz/screens/profile/HexagonBadge.dart';
-import 'package:mAIz/widgets/avatarWidget.dart';
+import 'package:mAIz/screens/notifications/reminder_card.dart';
+import 'package:mAIz/screens/profile/widgets/badgeCard.dart';
+import 'package:mAIz/screens/profile/widgets/logout.dart';
+import 'package:mAIz/screens/profile/widgets/userInfo.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
-
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-  final BadgeService badgeService = BadgeService();
-
-  final UserService userService = UserService(); 
-
 
   @override
   Widget build(BuildContext context) {
@@ -36,55 +25,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const AvatarWidget(),
-              const SizedBox(height: 20),
-
-              //  FutureBuilder con el UserService
-              FutureBuilder<String>(
-                future: userService.getUserName(), //  servicio
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator(); // Cargando
-                  } else if (snapshot.hasError) {
-                    return const Text("Error al obtener el nombre");
-                  } else {
-                    return Text(
-                      'Hola, ${snapshot.data}', // nombre del usuario
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    );
-                  }
-                },
-              ),
-
-              const SizedBox(height: 20),
-              const Text(
-                'Tus Insignias',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 10),
-
-              //  insignias en una fila
-              Wrap(
-                spacing: 16,
-                children: badgeService.getBadges().map((badge) {
-                  return HexagonWidget(
-                    imagePath: badge.imagePath,
-                    badgeName: badge.name,
-                  );
-                }).toList(),
-              ),
-            ],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const UserInfoSection(),
+            const SizedBox(height: 20),
+            const BadgeCard(),
+            ReminderCard(),
+            const LogoutButton(),
+            const SizedBox(height: 20),
+          ],
         ),
       ),
     );

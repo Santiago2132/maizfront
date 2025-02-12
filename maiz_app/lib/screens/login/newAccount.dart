@@ -58,6 +58,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true, //ajusta la pantalla al abrir el teclado
       body: Stack(
         children: [
           Positioned.fill(
@@ -69,117 +70,119 @@ class _SignUpScreenState extends State<SignUpScreen> {
           Center(
             child: Padding(
               padding: EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AvatarWidget(),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    padding: EdgeInsets.all(16),
-                    margin: EdgeInsets.all(20),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TextField(
-                          controller: _nameController,
-                          decoration: InputDecoration(
-                            labelText: "Nombre",
-                            filled: true,
-                            fillColor: Colors.white.withOpacity(0.7),
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        TextField(
-                          controller: _emailController,
-                          decoration: InputDecoration(
-                            labelText: "Correo Electrónico",
-                            filled: true,
-                            fillColor: Colors.white.withOpacity(0.7),
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        TextField(
-                          controller: _passwordController,
-                          decoration: InputDecoration(
-                            labelText: "Contraseña",
-                            filled: true,
-                            fillColor: Colors.white.withOpacity(0.7),
-                          ),
-                          obscureText: true,
-                        ),
-                        SizedBox(height: 16),
-                        TextField(
-                          controller: _passwordController,
-                          decoration: InputDecoration(
-                            labelText: "Confirmar contraseña",
-                            filled: true,
-                            fillColor: Colors.white.withOpacity(0.7),
-                          ),
-                          obscureText: true,
-                        ),
-                        SizedBox(height: 16),
-                        Row(
-                          children: [
-                            Checkbox(
-                              value: _termsAccepted,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  _termsAccepted = value ?? false;
-                                });
-                              },
+              child: SingleChildScrollView( // ✅ Esto evita el overflow
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AvatarWidget(),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: EdgeInsets.all(16),
+                      margin: EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextField(
+                            controller: _nameController,
+                            decoration: InputDecoration(
+                              labelText: "Nombre",
+                              filled: true,
+                              fillColor: Colors.white.withOpacity(0.7),
                             ),
-                            GestureDetector(
-                              onTap: _showTermsAndConditions,
-                              child: Text(
-                                "Acepto los términos y condiciones",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: Colors.white),
+                          ),
+                          SizedBox(height: 16),
+                          TextField(
+                            controller: _emailController,
+                            decoration: InputDecoration(
+                              labelText: "Correo Electrónico",
+                              filled: true,
+                              fillColor: Colors.white.withOpacity(0.7),
+                            ),
+                          ),
+                          SizedBox(height: 16),
+                          TextField(
+                            controller: _passwordController,
+                            decoration: InputDecoration(
+                              labelText: "Contraseña",
+                              filled: true,
+                              fillColor: Colors.white.withOpacity(0.7),
+                            ),
+                            obscureText: true,
+                          ),
+                          SizedBox(height: 16),
+                          TextField(
+                            controller: _passwordController,
+                            decoration: InputDecoration(
+                              labelText: "Confirmar contraseña",
+                              filled: true,
+                              fillColor: Colors.white.withOpacity(0.7),
+                            ),
+                            obscureText: true,
+                          ),
+                          SizedBox(height: 16),
+                          Row(
+                            children: [
+                              Checkbox(
+                                value: _termsAccepted,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    _termsAccepted = value ?? false;
+                                  });
+                                },
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                        ElevatedButton(
-                          onPressed: _termsAccepted ? _signUp : null,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.purple.shade900,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            padding: EdgeInsets.symmetric(
-                                vertical: 14, horizontal: 24),
+                              GestureDetector(
+                                onTap: _showTermsAndConditions,
+                                child: Text(
+                                  "Acepto los términos y condiciones",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: Colors.white),
+                                ),
+                              ),
+                            ],
                           ),
-                          child: Text("Registrar",
-                              style:
-                                  TextStyle(fontSize: 16, color: Colors.white)),
-                        ),
-                        SizedBox(height: 20),
-                        TextButton(
-                          onPressed: () {
-                            // Navegar hacia la pantalla de login
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginScreen()),
-                            );
-                          },
-                          child: Text(
-                            "¿Ya tienes una cuenta? Inicia sesión",
-                            style: TextStyle(
-                                color: Colors.white,
-                                decoration: TextDecoration.underline,
-                                decorationColor: Colors.white),
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: _termsAccepted ? _signUp : null,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.purple.shade900,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 14, horizontal: 24),
+                            ),
+                            child: Text("Registrar",
+                                style:
+                                    TextStyle(fontSize: 16, color: Colors.white)),
                           ),
-                        ),
-                      ],
+                          SizedBox(height: 20),
+                          TextButton(
+                            onPressed: () {
+                              // Navegar hacia la pantalla de login
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()),
+                              );
+                            },
+                            child: Text(
+                              "¿Ya tienes una cuenta? Inicia sesión",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

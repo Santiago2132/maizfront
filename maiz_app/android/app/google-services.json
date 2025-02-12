@@ -14,14 +14,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "686512163452-en546nr7uqp417qemcamr7h4k5qtrq3u.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.maiz_app",
-            "certificate_hash": "cdf57baf02ad1777a791cb712ffbbf2efae34378"
-          }
-        },
-        {
           "client_id": "686512163452-vhb0f0s9mhopngdippmd38ssorl2qhjh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
