@@ -5,7 +5,6 @@ class BadgeService {
       Badge(name: 'Iniciado', imagePath: 'assets/badges/image.png'),
       Badge(name: 'Experto', imagePath: 'assets/badges/image.png'),
       Badge(name: 'Veterano', imagePath: 'assets/badges/image.png'),
-      Badge(name: 'Veterano', imagePath: 'assets/badges/image.png'),
 
     ];
   }
