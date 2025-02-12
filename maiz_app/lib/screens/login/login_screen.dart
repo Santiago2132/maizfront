@@ -75,10 +75,19 @@ class _LoginScreenState extends State<LoginScreen> {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-    try {
-      // Cerrar sesión antes de iniciar sesión para permitir elegir otra cuenta
-      await googleSignIn.signOut();
+    // Mostrar loading dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Evita que se cierre al tocar fuera
+      builder: (BuildContext context) {
+        return Center(
+          child: CircularProgressIndicator(), // Icono de carga
+        );
+      },
+    );
 
+    try {
+      await googleSignIn.signOut();
       final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
 
       if (googleSignInAccount != null) {
@@ -91,12 +100,22 @@ class _LoginScreenState extends State<LoginScreen> {
         );
 
         await firebaseAuth.signInWithCredential(credential);
+
+        // Cerrar loading antes de navegar
+        Navigator.pop(context);
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const MainScreen()),
         );
+      } else {
+        // Cerrar loading si el usuario cancela el inicio de sesión
+        Navigator.pop(context);
       }
     } catch (e) {
+      // Cerrar loading en caso de error
+      Navigator.pop(context);
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Inicio de sesión fallido: $e")),
       );
@@ -105,9 +124,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true, 
       body: Stack(
         children: [
           Positioned.fill(
@@ -119,26 +140,28 @@ class _LoginScreenState extends State<LoginScreen> {
           Center(
             child: Padding(
               padding: EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AvatarWidget(),
-                  SizedBox(height: 20),
-                  LoginForm(
-                    emailController: _emailController,
-                    passwordController: _passwordController,
-                    termsAccepted: _termsAccepted,
-                    onTermsChanged: (value) {
-                      setState(() {
-                        _termsAccepted = value;
-                      });
-                    },
-                    onSignIn: _termsAccepted ? _signInWithEmailAndPassword : null,
-                    onSignGoogle:  _signInWithGoogle ,
-                    onShowTerms: _showTermsAndConditions,
-                    onNavigateToSignUp: _navigateToSignUp,
-                  ),
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AvatarWidget(),
+                    SizedBox(height: 20),
+                    LoginForm(
+                      emailController: _emailController,
+                      passwordController: _passwordController,
+                      termsAccepted: _termsAccepted,
+                      onTermsChanged: (value) {
+                        setState(() {
+                          _termsAccepted = value;
+                        });
+                      },
+                      onSignIn: _termsAccepted ? _signInWithEmailAndPassword : null,
+                      onSignGoogle:  _signInWithGoogle ,
+                      onShowTerms: _showTermsAndConditions,
+                      onNavigateToSignUp: _navigateToSignUp,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

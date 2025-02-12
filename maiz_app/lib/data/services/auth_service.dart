@@ -7,6 +7,7 @@ class AuthService {
   }
 
 
+
    Future<bool> signUp(String name, String email, String password) async {
     await Future.delayed(Duration(seconds: 2)); // Simula tiempo de respuesta
 
