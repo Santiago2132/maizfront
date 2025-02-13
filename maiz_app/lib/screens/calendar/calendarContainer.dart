@@ -86,9 +86,9 @@ class _CalendarContainerState extends State<CalendarContainer> {
           return Stack(
             alignment: Alignment.center,
             children: [
-              // 📌 Día del mes (número en el calendario)
+              //  Día del mes 
               Container(
-                width: 36, // Ajusta el tamaño para evitar superposiciones
+                width: 36, 
                 height: 36,
                 alignment: Alignment.center,
                 child: Text(
@@ -101,20 +101,20 @@ class _CalendarContainerState extends State<CalendarContainer> {
                 ),
               ),
 
-              // 🎭 Ícono de emoción en la esquina inferior
+              // Ícono de emoción 
               if (hasEmotion)
                 Positioned(
                   bottom: -3,
                   right: -2,
                   child: SizedBox(
-                    width: 20, // Ajusta el tamaño del icono
+                    width: 20, 
                     height: 20,
                     child:   calendarMarkers.buildMarker(context, date) ?? const SizedBox.shrink()
 
                   ),
                 ),
 
-              // ➕ Botón para agregar emoción
+              //  Botón agregar emoción
               if (!hasEmotion)
                 Positioned(
                   top: 1,
