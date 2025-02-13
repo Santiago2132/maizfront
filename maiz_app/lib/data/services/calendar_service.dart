@@ -1,30 +1,33 @@
+import 'dart:math';
+
 class CalendarService {
+  static final Map<DateTime, String> _emotionalRecords = {}; 
+
+  static final Map<String, String> feelings = {
+    'Deprimente': 'assets/icons/Depressed_icon.png',
+    'Triste': 'assets/icons/sad_icon.png',
+    'Regular': 'assets/icons/so_so_icon.png',
+    'Feliz': 'assets/icons/Happy_icon.png',
+    'Euforico': 'assets/icons/Euphoric_icon.png',
+  };
+
+  static Future<void> generateFakeData() async {
+    final random = Random();
+    final List<String> emotions = feelings.keys.toList(); 
+
+    for (int i = 1; i <= 15; i++) {
+      DateTime randomDate = DateTime(2025, 2, random.nextInt(28) + 1);
+      _emotionalRecords[randomDate] = emotions[random.nextInt(emotions.length)];
+    }
+  }
+
   static Future<Map<DateTime, String>> getEmotionalRecords() async {
-    await Future.delayed(Duration(milliseconds: 500)); // Simula carga de datos
+    if (_emotionalRecords.isEmpty) await generateFakeData(); 
+    await Future.delayed(const Duration(milliseconds: 500)); 
+    return _emotionalRecords;
+  }
 
-    // Mapeo de emociones en formato String
-    final Map<int, String> emotionMapping = {
-      1: "Deprimente",
-      2: "Triste",
-      3: "Regular",
-      4: "Feliz",
-      5: "Euforico",
-    };
-
-    // Simula registros emocionales para fechas específicas
-    Map<DateTime, int> rawRecords = {
-      DateTime.utc(2025, 2, 2): 5, // Muy bien
-      DateTime.utc(2025, 2, 3): 4, // Bien
-      DateTime.utc(2025, 2, 5): 3, // Neutral
-      DateTime.utc(2025, 2, 7): 2, // Mal
-      DateTime.utc(2025, 2, 10): 1, // Muy mal
-    };
-
-    // Convertir valores de int a String
-    Map<DateTime, String> emotionalRecords = rawRecords.map(
-      (key, value) => MapEntry(key, emotionMapping[value] ?? "Regular"),
-    );
-
-    return emotionalRecords;
+  static Future<void> saveEmotion(DateTime date, String emotion) async {
+    _emotionalRecords[DateTime(date.year, date.month, date.day)] = emotion;
   }
 }

@@ -23,7 +23,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     CalendarService.getEmotionalRecords().then((records) {
       setState(() {
         _emotionalRecords = records.map((key, value) => MapEntry(
-              DateTime(key.year, key.month, key.day), // Normaliza fecha
+              DateTime(key.year, key.month, key.day), // Normaliza la fecha
               value,
             ));
       });
@@ -38,16 +38,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(),
-      body: CalendarContainer(
-        focusedDay: _focusedDay,
-        selectedDay: _selectedDay,
-        onDaySelected: _onDaySelected,
-        emotionalRecords: _emotionalRecords,
-        calendarMarkers: CalendarMarkers(emotionalRecords: _emotionalRecords), // Pasa los marcadores
-      ),
-    );
-  }
+ Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: CustomAppBar(),
+    body: CalendarContainer(
+      focusedDay: _focusedDay,
+      selectedDay: _selectedDay,
+      onDaySelected: _onDaySelected,
+    ),
+  );
+}
+
 }

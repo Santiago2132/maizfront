@@ -13,14 +13,6 @@ class CalendarMarkers {
     'Euforico': 'assets/icons/Euphoric_icon.png',
   };
 
-  final Map<String, Color?> emotionColors = {
-    'Deprimente': Colors.purple[900],
-    'Triste': Colors.purple[700],
-    'Regular': Colors.purple[500],
-    'Feliz': Colors.purple[300],
-    'Euforico': Colors.purple[100],
-  };
-
   DateTime normalizeDate(DateTime date) {
     return DateTime(date.year, date.month, date.day);
   }
@@ -29,21 +21,27 @@ class CalendarMarkers {
     DateTime normalizedDate = normalizeDate(date);
 
     if (emotionalRecords.containsKey(normalizedDate)) {
-      String emotion = emotionalRecords[normalizedDate]!;
+      String? emotion = emotionalRecords[normalizedDate];
+      String? iconPath = feelings[emotion];
 
-      return Align(
-        alignment: Alignment.bottomCenter,
+      if (iconPath == null) return null; // No renderiza si no hay imagen
+
+      return Positioned(
+        bottom: 2,  // Ajusta la posición para evitar desbordamiento
+        right: 2,
         child: Container(
-        width: 20, // Ajusta el tamaño del fondo
-        height: 20,
-        decoration: BoxDecoration(
-          color: Color(0xFFF9E7A7),
-          shape: BoxShape.circle, 
-        ),
+          width: 20,
+          height: 20,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.white, // Fondo blanco para mayor visibilidad
+          ),
+          padding: const EdgeInsets.all(1), // Espaciado interno
           child: Image.asset(
-            feelings[emotion] ?? "assets/icons/default_icon.png",
-            width: 15,
-            height: 15,
+            iconPath,
+            width: 14,
+            height: 14,
+            fit: BoxFit.contain,
           ),
         ),
       );
