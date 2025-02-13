@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mAIz/data/services/notification_service.dart';
+import 'package:mAIz/screens/profile/profile_screen.dart';
+import 'package:mAIz/widgets/purple_loading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 class ReminderScreen extends StatefulWidget {
   @override
@@ -36,9 +37,28 @@ class _ReminderScreenState extends State<ReminderScreen> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('reminder_hour', time.hour);
     await prefs.setInt('reminder_minute', time.minute);
+    
+    showDialog(
+        context: context,
+        barrierDismissible: false, // Evita que se cierre tocando fuera
+        builder: (context) => const PurpleLoadingIndicator(),
+    );
+
+    // Mostrar SnackBar de confirmación
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("Recordatorio programado a las ${time.format(context)}")),
     );
+
+    // Esperar 1 segundo y luego ir al perfil
+    await Future.delayed(Duration(seconds: 1));
+
+    if (mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ProfileScreen()),
+      );
+
+    }
   }
 
   Future<void> _loadSavedTime() async {

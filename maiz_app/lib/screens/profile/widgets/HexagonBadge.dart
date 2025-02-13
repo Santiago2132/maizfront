@@ -13,8 +13,8 @@ class HexagonWidget extends StatelessWidget {
         ClipPath(
           clipper: HexagonClipper(),
           child: Container(
-            width: 80,
-            height: 80,
+            width: 90,
+            height: 100,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(imagePath),

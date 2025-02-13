@@ -1,14 +1,22 @@
-// 🏆 Widget que muestra las insignias del usuario dentro de un Card
 import 'package:flutter/material.dart';
 import 'package:mAIz/data/services/badge_service.dart';
-import 'package:mAIz/screens/profile/HexagonBadge.dart';
+import 'package:mAIz/screens/profile/widgets/HexagonBadge.dart';
 
-class BadgeCard extends StatelessWidget {
+class BadgeCard extends StatefulWidget {
   const BadgeCard({super.key});
 
   @override
+  _BadgeCardState createState() => _BadgeCardState();
+}
+
+class _BadgeCardState extends State<BadgeCard> {
+  final BadgeService badgeService = BadgeService();
+  bool showAll = false; // Estado para mostrar todas las insignias
+
+  @override
   Widget build(BuildContext context) {
-    final BadgeService badgeService = BadgeService();
+    final badges = badgeService.getBadges();
+    final displayBadges = showAll ? badges : badges.take(3).toList(); // Muestra solo 3 o todas
 
     return Card(
       elevation: 4,
@@ -29,10 +37,10 @@ class BadgeCard extends StatelessWidget {
               ),
               const SizedBox(height: 10),
 
-              // Muestra insignias en una fila
+              // Muestra hasta 3 insignias o todas si showAll = true
               Wrap(
-                spacing: 16,
-                children: badgeService.getBadges().map((badge) {
+                spacing: 14,
+                children: displayBadges.map((badge) {
                   return HexagonWidget(
                     imagePath: badge.imagePath,
                     badgeName: badge.name,
@@ -42,16 +50,19 @@ class BadgeCard extends StatelessWidget {
 
               const SizedBox(height: 10),
 
-              // Botón para ver más insignias
-              TextButton(
-                onPressed: () {
-                  // TODO: Navegar a pantalla de insignias detalladas
-                },
-                child: const Text(
-                  "Ver más",
-                  style: TextStyle(color: Colors.deepPurple),
+              // Mostrar botón solo si hay más de 3 insignias
+              if (badges.length > 3)
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      showAll = !showAll; // Alternar entre mostrar 3 o todas
+                    });
+                  },
+                  child: Text(
+                    showAll ? "Ver menos" : "Ver más",
+                    style: const TextStyle(color: Colors.deepPurple),
+                  ),
                 ),
-              ),
             ],
           ),
         ),

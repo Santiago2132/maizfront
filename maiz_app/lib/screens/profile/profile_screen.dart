@@ -3,6 +3,7 @@ import 'package:mAIz/screens/navegator/main_screen.dart';
 import 'package:mAIz/screens/notifications/reminder_card.dart';
 import 'package:mAIz/screens/profile/widgets/badgeCard.dart';
 import 'package:mAIz/screens/profile/widgets/logout.dart';
+import 'package:mAIz/screens/profile/widgets/theme_switch.dart';
 import 'package:mAIz/screens/profile/widgets/userInfo.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -25,17 +26,21 @@ class ProfileScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const UserInfoSection(),
-            const SizedBox(height: 20),
-            const BadgeCard(),
-            ReminderCard(),
-            const LogoutButton(),
-            const SizedBox(height: 20),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const UserInfoSection(),
+              const SizedBox(height: 20),
+              const BadgeCard(),
+              ReminderCard(),
+              ThemeToggleCard(),
+              const SizedBox(height: 20),
+              const LogoutButton(),
+              const SizedBox(height: 20),
+             
+            ],
+          ),
         ),
       ),
     );

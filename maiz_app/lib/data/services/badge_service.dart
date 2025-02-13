@@ -2,9 +2,10 @@ class BadgeService {
   // Este método simula la obtención de insignias para un usuario.
   List<Badge> getBadges() {
     return [
-      Badge(name: 'Iniciado', imagePath: 'assets/badges/image.png'),
-      Badge(name: 'Experto', imagePath: 'assets/badges/image.png'),
-      Badge(name: 'Veterano', imagePath: 'assets/badges/image.png'),
+      Badge(name: '3 días feliz', imagePath: 'assets/badges/3 DIAS FELIZ.png'),
+      Badge(name: '100 registros', imagePath: 'assets/badges/100 REGISTROS.png'),
+      Badge(name: 'Bienvenido', imagePath: 'assets/badges/BIENVENIDO A LA APP.png'),
+      Badge(name: 'Semana Euforico', imagePath: 'assets/badges/UNA SEMANA EUFORICO.png'),
 
     ];
   }

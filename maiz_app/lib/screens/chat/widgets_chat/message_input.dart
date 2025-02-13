@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 
 class MessageInput extends StatelessWidget {
-  final Function(String) onSend; // Recibe la función para enviar el mensaje
+  final Function(String) onSend;
 
   const MessageInput({super.key, required this.onSend});
 
   @override
   Widget build(BuildContext context) {
     final TextEditingController controller = TextEditingController();
+
+    void sendMessage() {
+      if (controller.text.trim().isNotEmpty) {
+        onSend(controller.text.trim()); // Enviar mensaje
+        controller.clear(); // Limpiar campo de texto
+      }
+    }
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -25,14 +32,12 @@ class MessageInput extends StatelessWidget {
                   borderSide: BorderSide.none,
                 ),
               ),
+              onSubmitted: (value) => sendMessage(), // Enviar con Enter
             ),
           ),
           const SizedBox(width: 8.0),
           FloatingActionButton(
-            onPressed: () {
-              onSend(controller.text); // Llama a la función onSend cuando se presiona el botón
-              controller.clear(); // Limpia el campo de texto después de enviar
-            },
+            onPressed: sendMessage, // Enviar con el botón
             backgroundColor: Colors.deepPurple,
             child: const Icon(Icons.send),
           ),
