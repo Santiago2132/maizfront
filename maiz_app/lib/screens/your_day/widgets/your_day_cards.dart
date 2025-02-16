@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:math';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mAIz/widgets/custom_card.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class YourDayCards extends StatefulWidget {
   const YourDayCards({super.key});
@@ -16,15 +17,27 @@ class _YourDayCardsState extends State<YourDayCards> {
   List<Map<String, dynamic>> _phrases = [];
   List<String> _images = [];
   final Random _random = Random();
-  final int _maxCards = 12; //CANTIDAD DE FRASES QUE SE VAN A MOSTRAR
+  final int _maxCards = 12;
 
   Future<void> _loadPhrases() async {
     final String response =
         await rootBundle.loadString('assets/motivation_phrases.json');
     final List<dynamic> data = json.decode(response);
-    data.shuffle(_random);
-    setState(() =>
-        _phrases = data.take(_maxCards).cast<Map<String, dynamic>>().toList());
+
+    final uniquePhrases = data
+        .cast<Map<String, dynamic>>()
+        .fold<Map<String, Map<String, dynamic>>>({}, (map, phrase) {
+          String text = phrase['text'];
+          if (!map.containsKey(text)) {
+            map[text] = phrase;
+          }
+          return map;
+        })
+        .values
+        .toList();
+
+    uniquePhrases.shuffle(_random);
+    setState(() => _phrases = uniquePhrases.take(_maxCards).toList());
   }
 
   Future<void> _loadImages() async {
@@ -35,9 +48,7 @@ class _YourDayCardsState extends State<YourDayCards> {
         .where((String key) => key.startsWith('assets/images/'))
         .toList();
     imagePaths.shuffle(_random);
-    setState(() => _images = imagePaths
-        .take(7)
-        .toList()); //CANTIDAD DE IMAGENES QUE SE VAN A MOSTRAR
+    setState(() => _images = imagePaths.take(7).toList());
   }
 
   void _refreshCards() {
@@ -77,29 +88,45 @@ class _YourDayCardsState extends State<YourDayCards> {
                 final isImage = item['type'] == 'image';
                 final data = item[isImage ? 'path' : 'data'];
 
-                //DISEÑO DE LAS TARJETAS E IMAGENES
+                // Configuración de dimensiones
+                final cardWidth = constraints.maxWidth * 0.45;
+                double cardHeight;
+
+                if (isImage) {
+                  cardHeight = cardWidth * 1.2; // Proporción 4:5
+                } else {
+                  final phrase = data as Map<String, dynamic>;
+                  final text = phrase['text'];
+                  final fontSize = phrase['fontSize']?.toDouble() ?? 20;
+
+                  // Calcular altura requerida para el texto
+                  final textPainter = TextPainter(
+                    text: TextSpan(
+                      text: text,
+                      style: TextStyle(
+                        fontSize: fontSize,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    textDirection: TextDirection.ltr,
+                    maxLines: null,
+                  );
+
+                  textPainter.layout(
+                      maxWidth: cardWidth - 32); // Considerar padding
+                  cardHeight =
+                      textPainter.size.height + 64; // Padding vertical ampliado
+                }
+
                 return Padding(
                   padding: const EdgeInsets.all(5),
                   child: CustomCard(
-                    width: isImage
-                        ? constraints.maxWidth * 0.45 // Longitud de la imagen
-                        : ((data != null
-                                ? (data as Map<String, dynamic>)['width']
-                                    ?.toDouble()
-                                : null) ??
-                            constraints.maxWidth * 0.45),
-                    height: isImage
-                        ? constraints.maxWidth * 0.55 // Altura de la imagen
-                        : ((data != null
-                                ? (data as Map<String, dynamic>)['height']
-                                    ?.toDouble()
-                                : null) ??
-                            200),
+                    width: cardWidth,
+                    height: cardHeight,
                     backgroundColor:
                         isImage ? Colors.transparent : const Color(0xfffff5cc),
-                    padding: isImage
-                        ? EdgeInsets.zero
-                        : const EdgeInsets.all(16), // Padding solo en texto
+                    padding:
+                        isImage ? EdgeInsets.zero : const EdgeInsets.all(16),
                     child: isImage
                         ? _buildImageCard(data as String)
                         : _buildTextCard(data as Map<String, dynamic>),
@@ -112,9 +139,8 @@ class _YourDayCardsState extends State<YourDayCards> {
         ElevatedButton(
           onPressed: _refreshCards,
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xffffe699), //Colores de las tarjetas
-            foregroundColor:
-                const Color(0xff673ab7), //Colores del texto de las tarjetas
+            backgroundColor: const Color(0xffffe699),
+            foregroundColor: const Color(0xff673ab7),
           ),
           child: const Text('Mostrar nuevas frases'),
         ),
@@ -125,8 +151,8 @@ class _YourDayCardsState extends State<YourDayCards> {
   Widget _buildTextCard(Map<String, dynamic> phrase) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Text(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: AutoSizeText(
           phrase['text'],
           style: TextStyle(
             fontSize: phrase['fontSize']?.toDouble() ?? 20,
@@ -134,6 +160,7 @@ class _YourDayCardsState extends State<YourDayCards> {
             fontWeight: FontWeight.bold,
           ),
           textAlign: TextAlign.center,
+          maxLines: null,
         ),
       ),
     );
@@ -141,12 +168,12 @@ class _YourDayCardsState extends State<YourDayCards> {
 
   Widget _buildImageCard(String imagePath) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(25), // Mismo radio que el CustomCard
+      borderRadius: BorderRadius.circular(25),
       child: Image.asset(
         imagePath,
-        width: double.infinity, // Ocupar todo el ancho disponible
-        height: double.infinity, // Ocupar todo el alto disponible
         fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
       ),
     );
   }

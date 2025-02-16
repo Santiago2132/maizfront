@@ -26,17 +26,13 @@ class _BreathingExerciseState extends State<BreathingExercise>
 
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        setState(() {
-          _isAnimating = false;
-        });
+        setState(() => _isAnimating = false);
         _controller.reset();
       }
     });
 
     _controller.addListener(() {
-      final phaseValue = _controller.value;
-      final currentPhase = _getPhase(phaseValue);
-      _phaseNotifier.value = currentPhase;
+      _phaseNotifier.value = _getPhase(_controller.value);
     });
   }
 
@@ -55,88 +51,101 @@ class _BreathingExerciseState extends State<BreathingExercise>
   }
 
   void _startAnimation() {
-    setState(() {
-      _isAnimating = true;
-    });
+    setState(() => _isAnimating = true);
     _controller.forward(from: 0.0);
   }
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isSmallScreen = constraints.maxHeight < 600;
 
-    return CustomCard(
-      height: screenHeight * 0.20,
-      backgroundColor: _baseColor,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          if (!_isAnimating)
-            ElevatedButton(
-              onPressed: _startAnimation,
-              child: Text('Iniciar Ejercicio de Respiración'),
-            ),
-          if (_isAnimating)
-            AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) {
-                return Transform.scale(
-                  scale: TweenSequence<double>([
-                    TweenSequenceItem(
-                        tween: Tween(begin: 1.0, end: 1.5), weight: 4),
-                    TweenSequenceItem(
-                        tween: Tween(begin: 1.5, end: 1.5), weight: 2),
-                    TweenSequenceItem(
-                        tween: Tween(begin: 1.5, end: 0.5), weight: 4),
-                    TweenSequenceItem(
-                        tween: Tween(begin: 0.5, end: 1.0), weight: 2),
-                  ]).evaluate(_controller),
-                  child: Container(
-                    width: 60,
-                    height: 90,
-                    decoration: BoxDecoration(
-                      color: ColorTween(
-                        begin: _accentColor,
-                        end: _accentColor,
-                      ).evaluate(CurvedAnimation(
-                        parent: _controller,
-                        curve:
-                            const Interval(0.0, 0.333, curve: Curves.easeInOut),
-                      )),
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                );
-              },
-            ),
-          if (_isAnimating)
-            ValueListenableBuilder(
-              valueListenable: _phaseNotifier,
-              builder: (context, phase, child) {
-                return Column(
-                  children: [
-                    Text(
-                      phase,
-                      style: TextStyle(
-                        color: _accentColor,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Icon(
-                      phase == 'Inhala'
-                          ? Icons.arrow_upward
-                          : phase == 'Exhala'
-                              ? Icons.arrow_downward
-                              : Icons.pause,
-                      color: _accentColor,
-                    ),
-                  ],
-                );
-              },
-            ),
-        ],
+        return CustomCard(
+          height: isSmallScreen
+              ? 200
+              : 234, // Altura para pantallas pequeñas y grandes
+          backgroundColor: _baseColor,
+          child: _isAnimating
+              ? _buildAnimationContent(isSmallScreen)
+              : _buildStartButton(),
+        );
+      },
+    );
+  }
+
+  Widget _buildStartButton() {
+    return Center(
+      child: ElevatedButton(
+        onPressed: _startAnimation,
+        child: const Text('Iniciar Ejercicio de Respiración'),
       ),
+    );
+  }
+
+  Widget _buildAnimationContent(bool isSmallScreen) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        // Círculo animado con tamaño responsive
+        SizedBox(
+          height: isSmallScreen ? 80 : 120,
+          child: AnimatedBuilder(
+            animation: _controller,
+            builder: (context, child) {
+              return Transform.scale(
+                scale: TweenSequence<double>([
+                  TweenSequenceItem(
+                      tween: Tween(begin: 1.0, end: 1.23), weight: 4),
+                  TweenSequenceItem(
+                      tween: Tween(begin: 1.23, end: 1.23), weight: 2),
+                  TweenSequenceItem(
+                      tween: Tween(begin: 1.23, end: 0.5), weight: 4),
+                  TweenSequenceItem(
+                      tween: Tween(begin: 0.5, end: 0.8), weight: 2),
+                ]).evaluate(_controller),
+                child: Container(
+                  width: isSmallScreen ? 60 : 80,
+                  height: isSmallScreen ? 60 : 80,
+                  decoration: BoxDecoration(
+                    color: _accentColor,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        // Texto e icono
+        ValueListenableBuilder(
+          valueListenable: _phaseNotifier,
+          builder: (context, phase, child) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  phase,
+                  style: TextStyle(
+                    color: _accentColor,
+                    fontSize: isSmallScreen ? 22 : 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Icon(
+                  phase == 'Inhala'
+                      ? Icons.arrow_upward
+                      : phase == 'Exhala'
+                          ? Icons.arrow_downward
+                          : Icons.pause,
+                  color: _accentColor,
+                  size: isSmallScreen ? 28 : 34,
+                ),
+              ],
+            );
+          },
+        ),
+      ],
     );
   }
 }

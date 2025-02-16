@@ -11,6 +11,7 @@ class BadgeService {
   }
 }
 
+
 class Badge {
   final String name;
   final String imagePath;

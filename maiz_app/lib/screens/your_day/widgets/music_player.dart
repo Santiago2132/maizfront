@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:mAIz/widgets/custom_card.dart';
-
+import 'package:auto_size_text/auto_size_text.dart';
 
 class MusicPlayer extends StatefulWidget {
   const MusicPlayer({super.key});
@@ -68,84 +68,92 @@ class _MusicPlayerState extends State<MusicPlayer> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Column(
-                children: [
-                  Text(
-                    'Faithful Mission',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+              Flexible(
+                child: Column(
+                  children: [
+                    AutoSizeText(
+                      'Faithful Mission',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15, // Reducido el tamaño de fuente
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    'Artificial.Music',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 14,
+                    AutoSizeText(
+                      'Artificial.Music',
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 10, // Reducido el tamaño de fuente
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                ],
-              ),
-              SliderTheme(
-                data: SliderThemeData(
-                  trackHeight: 0.5,
-                  thumbShape:
-                      const RoundSliderThumbShape(enabledThumbRadius: 5),
-                ),
-                child: Slider(
-                  activeColor: const Color(0xfffff5cc),
-                  inactiveColor: Colors.white54,
-                  min: 0,
-                  max: _duration.inSeconds.toDouble(),
-                  value: _position.inSeconds.toDouble(),
-                  onChanged: (value) async {
-                    await _audioPlayer.seek(Duration(seconds: value.toInt()));
-                  },
+                  ],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    _formatTime(_position),
-                    style: const TextStyle(
-                      color: Colors.white70,
-                      fontSize: 12,
-                    ),
+              Flexible(
+                child: SliderTheme(
+                  data: SliderThemeData(
+                    trackHeight: 0.5,
+                    thumbShape:
+                        const RoundSliderThumbShape(enabledThumbRadius: 5),
                   ),
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          _isPlaying ? Icons.pause : Icons.play_arrow,
-                          size: 25,
-                          color: Colors.white,
-                        ),
-                        padding: EdgeInsets.zero,
-                        onPressed: () => _isPlaying ? _pause() : _play(),
+                  child: Slider(
+                    activeColor: const Color(0xfffff5cc),
+                    inactiveColor: Colors.white54,
+                    min: 0,
+                    max: _duration.inSeconds.toDouble(),
+                    value: _position.inSeconds.toDouble(),
+                    onChanged: (value) async {
+                      await _audioPlayer.seek(Duration(seconds: value.toInt()));
+                    },
+                  ),
+                ),
+              ),
+              Flexible(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      _formatTime(_position),
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 10, // Reducido el tamaño de fuente
                       ),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.stop,
-                          size: 25,
-                          color: Colors.white,
-                        ),
-                        padding: EdgeInsets.zero,
-                        onPressed: _stop,
-                      ),
-                    ],
-                  ),
-                  Text(
-                    _formatTime(_duration),
-                    style: const TextStyle(
-                      color: Colors.white70,
-                      fontSize: 12,
                     ),
-                  ),
-                ],
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            _isPlaying ? Icons.pause : Icons.play_arrow,
+                            size: 25,
+                            color: Colors.white,
+                          ),
+                          padding: EdgeInsets.zero,
+                          onPressed: () => _isPlaying ? _pause() : _play(),
+                        ),
+                        IconButton(
+                          icon: const Icon(
+                            Icons.stop,
+                            size: 25,
+                            color: Colors.white,
+                          ),
+                          padding: EdgeInsets.zero,
+                          onPressed: _stop,
+                        ),
+                      ],
+                    ),
+                    Text(
+                      _formatTime(_duration),
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 10, // Reducido el tamaño de fuente
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

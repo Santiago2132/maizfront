@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 30),
                   GraphicCard(),
                   const SizedBox(height: 30),
-                  const ProgressCard(),
+                  ProgressCard(),
                 ],
               ),
             ),

@@ -52,6 +52,7 @@ class GraphicCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomCard(
+      title: 'Tu semana emocional',
       height: 300,
       child: FutureBuilder<List<FlSpot>>(
         future: getWeeklyData(),
