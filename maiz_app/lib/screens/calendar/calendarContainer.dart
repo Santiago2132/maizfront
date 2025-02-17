@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mAIz/data/services/calendar_service.dart';
-import 'package:mAIz/screens/calendar/add_emotion.dart';
+import 'package:mAIz/screens/calendar/widgets/add_emotion.dart';
 import 'package:mAIz/screens/calendar/calendarMarkets.dart';
+import 'package:mAIz/screens/calendar/widgets/day_number.dart';
 import 'package:mAIz/screens/calendar/emotion_selector.dart';
+import 'package:mAIz/screens/calendar/widgets/show_emotion.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarContainer extends StatefulWidget {
@@ -39,7 +41,20 @@ class _CalendarContainerState extends State<CalendarContainer> {
     });
   }
 
-  Future<void> _showFeelingSelection(BuildContext context, DateTime date) async {
+  Future<void> _showFeelingSelection(
+      BuildContext context, DateTime date) async {
+    final today = DateTime.now();
+    final selectedDate = DateTime(date.year, date.month, date.day);
+
+    if (selectedDate.isAfter(today)) {
+      // Opcional: Mostrar un mensaje de error
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text("No puedes registrar emociones en días futuros.")),
+      );
+      return;
+    }
+
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -56,7 +71,8 @@ class _CalendarContainerState extends State<CalendarContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final calendarMarkers = CalendarMarkers(emotionalRecords: _emotionalRecords);
+    final calendarMarkers =
+        CalendarMarkers(emotionalRecords: _emotionalRecords);
 
     return TableCalendar(
       firstDay: DateTime.utc(2024, 1, 1),
@@ -80,63 +96,26 @@ class _CalendarContainerState extends State<CalendarContainer> {
       ),
       calendarBuilders: CalendarBuilders(
         defaultBuilder: (context, date, _) {
-          final emotion = _emotionalRecords[DateTime(date.year, date.month, date.day)];
+          final today = DateTime.now();
+          final selectedDate = DateTime(date.year, date.month, date.day);
+          final emotion = _emotionalRecords[selectedDate];
           final bool hasEmotion = emotion != null;
-          
+          final bool isFutureDate = selectedDate.isAfter(today);
+
           return Stack(
             alignment: Alignment.center,
             children: [
-              //  Día del mes 
-              Container(
-                width: 36, 
-                height: 36,
-                alignment: Alignment.center,
-                child: Text(
-                  '${date.day}',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
+              DayNumber(date: date), // Muestra el número del día
 
-              // Ícono de emoción 
-              if (hasEmotion)
-                Positioned(
-                  bottom: -3,
-                  right: -2,
-                  child: SizedBox(
-                    width: 20, 
-                    height: 20,
-                    child:   calendarMarkers.buildMarker(context, date) ?? const SizedBox.shrink()
+              if (hasEmotion) 
+                EmotionMarker(date: date, calendarMarkers: calendarMarkers), // Muestra el ícono de emoción
 
-                  ),
-                ),
-
-              //  Botón agregar emoción
-              if (!hasEmotion)
-                Positioned(
-                  top: 1,
-                  right: 3,
-                  child: GestureDetector(
-                    onTap: () => _showFeelingSelection(context, date),
-                    child: Container(
-                      width: 16, // Tamaño más pequeño para evitar solapamiento
-                      height: 16,
-                      decoration: const BoxDecoration(
-                        color: Colors.deepPurple,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.add, size: 12, color: Colors.white),
-                    ),
-                  ),
-                ),
+              if (!hasEmotion && !isFutureDate) 
+                AddEmotionButton(date: date, onTap: () => _showFeelingSelection(context, date)), // Muestra "+"
             ],
           );
         },
       ),
-
     );
   }
 }
