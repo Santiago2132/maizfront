@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mAIz/core/fontsize_provider.dart';
+import 'package:provider/provider.dart';
 
 class HexagonWidget extends StatelessWidget {
   final String imagePath;
@@ -26,7 +28,9 @@ class HexagonWidget extends StatelessWidget {
         SizedBox(height: 8),
         Text(
           badgeName,
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          style: TextStyle(                 
+            fontSize: Provider.of<FontSizeProvider>(context).fontSize,
+            fontWeight: FontWeight.bold),
         ),
       ],
     );

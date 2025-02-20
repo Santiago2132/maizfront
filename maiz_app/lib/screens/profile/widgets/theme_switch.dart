@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mAIz/core/fontsize_provider.dart';
 import 'package:mAIz/core/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,8 @@ class ThemeToggleCard extends StatelessWidget {
         leading: Icon(Icons.brightness_6, color: Colors.deepPurple),
         title: Text(
           'Modo de Tema',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: Provider.of<FontSizeProvider>(context).fontSize,
+                           fontWeight: FontWeight.bold),
         ),
         trailing: Switch(
           value: themeProvider.themeMode == ThemeMode.dark,

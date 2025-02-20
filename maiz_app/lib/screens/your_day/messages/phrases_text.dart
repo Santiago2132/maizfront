@@ -13,8 +13,8 @@ class PhrasesText extends StatelessWidget {
             TextSpan(
               text: 'FRASES DEL DÍA',
               style: TextStyle(
-                fontSize: 24, // Tamaño reducido
-                color: Colors.black,
+                fontSize: 20, // Tamaño reducido
+                color: Colors.deepPurple,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Montserrat',
               ),

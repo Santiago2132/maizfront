@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mAIz/core/fontsize_provider.dart';
 import 'package:mAIz/data/services/badge_service.dart';
 import 'package:mAIz/screens/profile/widgets/HexagonBadge.dart';
+import 'package:provider/provider.dart';
 
 class BadgeCard extends StatefulWidget {
   const BadgeCard({super.key});
@@ -28,10 +30,10 @@ class _BadgeCardState extends State<BadgeCard> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              const Text(
+              Text(
                 'Tus Insignias',
                 style: TextStyle(
-                  fontSize: 18,
+                 fontSize: Provider.of<FontSizeProvider>(context).fontSize,
                   fontWeight: FontWeight.bold,
                 ),
               ),

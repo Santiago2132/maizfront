@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mAIz/core/fontsize_provider.dart';
 import 'package:mAIz/data/services/user_service.dart';
 import 'package:mAIz/widgets/avatarWidget.dart';
+import 'package:provider/provider.dart';
 
 class UserInfoSection extends StatelessWidget {
   const UserInfoSection({super.key});
@@ -25,8 +27,8 @@ class UserInfoSection extends StatelessWidget {
             } else {
               return Text(
                 'Hola, ${snapshot.data}',
-                style: const TextStyle(
-                  fontSize: 24,
+                style:  TextStyle(
+                  fontSize: Provider.of<FontSizeProvider>(context).fontSize,
                   fontWeight: FontWeight.bold,
                 ),
               );

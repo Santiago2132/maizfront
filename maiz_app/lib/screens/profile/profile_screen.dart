@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:mAIz/core/fontsize_provider.dart';
 import 'package:mAIz/screens/navegator/main_screen.dart';
 import 'package:mAIz/screens/notifications/reminder_card.dart';
 import 'package:mAIz/screens/profile/widgets/badgeCard.dart';
+import 'package:mAIz/screens/profile/widgets/fontSize_card.dart';
 import 'package:mAIz/screens/profile/widgets/logout.dart';
 import 'package:mAIz/screens/profile/widgets/theme_switch.dart';
 import 'package:mAIz/screens/profile/widgets/userInfo.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -13,7 +16,12 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Perfil'),
+        title: Text(
+          'Perfil',
+          style: TextStyle(
+            fontSize: Provider.of<FontSizeProvider>(context).fontSize, 
+          ),
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -35,10 +43,11 @@ class ProfileScreen extends StatelessWidget {
               const BadgeCard(),
               ReminderCard(),
               ThemeToggleCard(),
-              const SizedBox(height: 20),
+              const FontSizeCard(),
               const LogoutButton(),
               const SizedBox(height: 20),
              
+
             ],
           ),
         ),

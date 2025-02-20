@@ -22,6 +22,7 @@ class WelcomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                
                 // Título principal con mayor impacto visual
                 const Text(
                   'mAIz  Chat',
@@ -39,24 +40,30 @@ class WelcomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 10),
-                const Text(
-                  'Tu compañero emocional, siempre aquí para ti',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                    fontStyle: FontStyle.italic,
-                    shadows: [
-                      Shadow(
-                        blurRadius: 10,
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: Text(
+                      'Tu compañero emocional, siempre aquí para ti',
+                        textAlign: TextAlign.center, // Asegura que el texto se alinee bien
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
                         color: Colors.white,
-                        offset: Offset(2, 2),
+                        fontStyle: FontStyle.italic,
+                        shadows: [
+                          Shadow(
+                            blurRadius: 10,
+                            color: Colors.white,
+                            offset: Offset(2, 2),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 40),
+
+
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pushReplacement(

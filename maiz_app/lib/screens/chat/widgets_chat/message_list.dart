@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:mAIz/core/fontsize_provider.dart';
+import 'package:provider/provider.dart';
 
 class MessageList extends StatelessWidget {
   final List<String> messages;
@@ -16,12 +17,14 @@ class MessageList extends StatelessWidget {
         if (index == messages.length && isTyping) {
           return _typingIndicator();
         }
-        return _buildMessageBubble(messages[index], isUserMessage[index]);
+        return _buildMessageBubble(context, messages[index], isUserMessage[index]);
       },
     );
   }
 
-  Widget _buildMessageBubble(String message, bool isUserMessage) {
+  Widget _buildMessageBubble(BuildContext context, String message, bool isUserMessage) {
+    double fontSize = Provider.of<FontSizeProvider>(context).fontSize; // Obtiene el tamaño de la fuente
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
       child: Align(
@@ -34,7 +37,7 @@ class MessageList extends StatelessWidget {
           ),
           child: Text(
             message,
-            style: const TextStyle(fontSize: 16.0),
+            style: TextStyle(fontSize: fontSize),
           ),
         ),
       ),

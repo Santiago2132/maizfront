@@ -124,7 +124,7 @@ class _YourDayCardsState extends State<YourDayCards> {
                     width: cardWidth,
                     height: cardHeight,
                     backgroundColor:
-                        isImage ? Colors.transparent : const Color(0xfffff5cc),
+                        isImage ? Colors.transparent : const Color.fromARGB(255, 242, 242, 247),
                     padding:
                         isImage ? EdgeInsets.zero : const EdgeInsets.all(16),
                     child: isImage

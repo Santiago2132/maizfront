@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mAIz/core/fontsize_provider.dart';
 import 'package:mAIz/data/services/notification_service.dart';
 import 'package:mAIz/screens/profile/profile_screen.dart';
 import 'package:mAIz/widgets/purple_loading.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ReminderScreen extends StatefulWidget {
@@ -84,7 +86,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
               _selectedTime == null
                   ? 'No hay recordatorio programado'
                   : 'Recordatorio: ${_selectedTime!.format(context)}',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: Provider.of<FontSizeProvider>(context).fontSize,),
             ),
             SizedBox(height: 20),
             ElevatedButton(
