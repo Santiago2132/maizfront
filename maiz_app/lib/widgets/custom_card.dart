@@ -15,7 +15,7 @@ class CustomCard extends StatelessWidget {
     super.key,
     this.title,
     this.child,
-    this.backgroundColor = const Color(0xfffff5cc),
+    this.backgroundColor = const Color.fromARGB(255, 242, 242, 247),
     this.textColor = const Color(0xff673ab7),
     this.fontSize = 20,
     this.width = double.infinity,

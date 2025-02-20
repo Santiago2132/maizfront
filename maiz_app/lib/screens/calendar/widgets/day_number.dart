@@ -11,7 +11,7 @@ class DayNumber extends StatelessWidget {
     return Container(
       width: 36, 
       height: 36,
-      alignment: Alignment.center,
+      alignment: Alignment.topCenter,
       child: Text(
         '${date.day}',
         style: const TextStyle(

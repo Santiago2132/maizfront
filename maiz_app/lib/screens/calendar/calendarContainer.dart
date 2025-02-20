@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mAIz/data/services/calendar_service.dart';
-import 'package:mAIz/screens/calendar/widgets/add_emotion.dart';
 import 'package:mAIz/screens/calendar/calendarMarkets.dart';
+import 'package:mAIz/screens/calendar/widgets/add_button.dart';
 import 'package:mAIz/screens/calendar/widgets/day_number.dart';
 import 'package:mAIz/screens/calendar/emotion_selector.dart';
 import 'package:mAIz/screens/calendar/widgets/show_emotion.dart';
@@ -89,10 +89,10 @@ class _CalendarContainerState extends State<CalendarContainer> {
           shape: BoxShape.circle,
         ),
         todayDecoration: BoxDecoration(
-          color: Colors.deepPurple.withOpacity(0.4),
+          color: Colors.deepPurple.withOpacity(0.5),
           shape: BoxShape.circle,
         ),
-        markersAlignment: Alignment.bottomCenter,
+        markersAlignment: Alignment.center,
       ),
       calendarBuilders: CalendarBuilders(
         defaultBuilder: (context, date, _) {
@@ -104,6 +104,7 @@ class _CalendarContainerState extends State<CalendarContainer> {
 
           return Stack(
             alignment: Alignment.center,
+            
             children: [
               DayNumber(date: date), // Muestra el número del día
 

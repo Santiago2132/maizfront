@@ -38,7 +38,7 @@ class _FeelingCardState extends State<FeelingCard> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF673AB7),
+              color: Color(0xff673ab7)
             ),
             textAlign: TextAlign.center,
           ),

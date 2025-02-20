@@ -10,12 +10,12 @@ class AddEmotionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 1,
-      right: 3,
+      top: 0,
+      right: 0,
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          width: 16, 
+          width: 14, 
           height: 16,
           decoration: const BoxDecoration(
             color: Colors.deepPurple,

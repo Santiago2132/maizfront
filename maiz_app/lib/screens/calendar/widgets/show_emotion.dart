@@ -10,8 +10,8 @@ class EmotionMarker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: -3,
-      right: -2,
+      bottom: -1,
+  
       child: SizedBox(
         width: 20, 
         height: 20,
