@@ -2,27 +2,22 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ChatService {
-  static const String baseUrl = 'https://jsonplaceholder.typicode.com/posts';
+  static const String baseUrl = 'http://0.0.0.0:5000/chat'; // Cambiar según entorno
 
   Future<String> sendAndReceiveMessage(String message) async {
     try {
-      // Enviar mensaje
       final response = await http.post(
         Uri.parse(baseUrl),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({'message': message}),
       );
 
-      if (response.statusCode == 201) {
-        print('Mensaje enviado: ${response.body}');
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        return responseData['response']; // Devuelve la respuesta del chatbot
       } else {
-        throw Exception('Error al enviar el mensaje');
+        throw Exception('Error al enviar el mensaje: ${response.statusCode}');
       }
-
-      // Simular respuesta del servidor
-      await Future.delayed(
-          const Duration(seconds: 2)); // Simula el tiempo de respuesta
-      return 'Respuesta: "Estoy aquí para escucharte"'; // Respuesta simulada
     } catch (e) {
       print('Error en el chat: $e');
       return 'Error al procesar tu mensaje';
