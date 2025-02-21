@@ -7,7 +7,6 @@ import 'package:mAIz/core/fontsize_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'package:mAIz/core/theme_provider.dart';
-import 'package:mAIz/core/app_provider.dart';
 import 'package:mAIz/data/services/notification_service.dart';
 import 'package:mAIz/routing/router.dart';
 

@@ -6,7 +6,6 @@ import 'package:mAIz/screens/your_day/messages/your_day_message.dart';
 import 'package:mAIz/screens/your_day/widgets/breathing_exercise.dart';
 import 'package:mAIz/screens/your_day/widgets/music_player.dart';
 import 'package:mAIz/screens/your_day/widgets/phrases_card.dart';
-import 'package:mAIz/screens/your_day/widgets/your_day_cards.dart';
 
 
 class YourDayScreen extends StatelessWidget {

@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mAIz/core/fontsize_provider.dart';
-import 'package:mAIz/screens/navegator/main_screen.dart';
 import 'package:mAIz/screens/welcomePage/welcome.dart';
 import 'package:provider/provider.dart';
 
