@@ -10,7 +10,8 @@ class LoginForm extends StatelessWidget {
   final VoidCallback onShowTerms;
   final VoidCallback onNavigateToSignUp;
 
-  const LoginForm({super.key, 
+  const LoginForm({
+    super.key,
     required this.emailController,
     required this.passwordController,
     required this.termsAccepted,
@@ -90,8 +91,7 @@ class LoginForm extends StatelessWidget {
           SizedBox(height: 20),
           ElevatedButton.icon(
             onPressed: onSignGoogle,
-            icon: Image.asset('assets/resources/logoGoogle.png',
-                height: 24),
+            icon: Image.asset('assets/resources/logoGoogle.png', height: 24),
             label: Text("Ingresar con Google"),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
