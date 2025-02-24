@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    bool result = await _authService.signIn(email, password);
+    bool result = await _authService.verifyUser(email, password);
     if (result) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Inicio de sesión exitoso")),

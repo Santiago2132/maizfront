@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mAIz/data/services/calendar_service.dart';
 import 'package:mAIz/screens/calendar/calendarBar.dart';
 import 'package:mAIz/screens/calendar/calendarContainer.dart';
-import 'package:mAIz/screens/calendar/calendarMarkets.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
