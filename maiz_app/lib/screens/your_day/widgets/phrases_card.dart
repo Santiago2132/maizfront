@@ -6,6 +6,8 @@ class PhrasesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -19,11 +21,15 @@ class PhrasesCard extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isDarkMode
+              ? const Color(0xFF1C1C1E) // Color oscuro
+              : Colors.white,
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
-              color: Colors.black12,
+              color: isDarkMode
+                  ? Colors.white.withOpacity(0.1) // Sombra más suave en oscuro
+                  : Colors.black12,
               blurRadius: 10,
               spreadRadius: 2,
             ),
@@ -32,15 +38,21 @@ class PhrasesCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
+            Text(
               "Ver Frases del Día",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color:
+                    isDarkMode ? Colors.white : Colors.black, // Texto adaptable
               ),
             ),
-            const Icon(Icons.arrow_forward_ios, color: Colors.deepPurple),
+            Icon(
+              Icons.arrow_forward_ios,
+              color: isDarkMode
+                  ? Colors.deepPurple[200] // Púrpura más claro en oscuro
+                  : Colors.deepPurple,
+            ),
           ],
         ),
       ),

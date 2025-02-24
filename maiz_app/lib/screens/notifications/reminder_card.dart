@@ -10,9 +10,12 @@ class ReminderCard extends StatelessWidget {
       child: ListTile(
         leading: Icon(Icons.alarm),
         title: Text('Configurar Recordatorio'),
-          titleTextStyle: TextStyle(color: Colors.black ,fontSize: Provider.of<FontSizeProvider>(context).fontSize, 
-            ),
-        
+        titleTextStyle: TextStyle(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.white
+              : Colors.black,
+          fontSize: Provider.of<FontSizeProvider>(context).fontSize,
+        ),
         onTap: () {
           Navigator.push(
             context,
