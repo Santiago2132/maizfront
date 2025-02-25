@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ChatService {
-  static const String baseUrl = 'http://0.0.0.0:5000/chat'; // Cambiar según entorno
+  static const String baseUrl = 'http://0.0.0.0:5000/chat'; // esa ip me sirve en el emulador
 
   Future<String> sendAndReceiveMessage(String message) async {
     try {
