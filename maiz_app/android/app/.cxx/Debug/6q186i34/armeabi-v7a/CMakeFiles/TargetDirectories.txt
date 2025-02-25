@@ -1,0 +1,2 @@
+K:/maizfront/maiz_app/android/app/.cxx/Debug/6q186i34/armeabi-v7a/CMakeFiles/edit_cache.dir
+K:/maizfront/maiz_app/android/app/.cxx/Debug/6q186i34/armeabi-v7a/CMakeFiles/rebuild_cache.dir
