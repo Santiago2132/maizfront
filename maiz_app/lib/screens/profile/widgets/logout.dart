@@ -17,12 +17,16 @@ class LogoutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return TextButton.icon(
       onPressed: () => _signOut(context),
-      icon: const Icon(Icons.logout, color: Color.fromARGB(255, 0, 0, 0)),
+      icon:  Icon(Icons.logout, 
+      color: isDarkMode ? Colors.white : Colors.black) ,// Texto           
       label: Text(
         "Cerrar sesión",
-        style: TextStyle(color: Color.fromARGB(255, 0, 0, 0),                 
+        style: TextStyle(
+        color: isDarkMode ? Colors.white : Colors.black, // Texto           
         fontSize: Provider.of<FontSizeProvider>(context).fontSize,
         ),
       ),

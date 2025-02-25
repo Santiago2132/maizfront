@@ -7,6 +7,7 @@ class WelcomeMessage extends StatelessWidget {
   @override
    Widget build(BuildContext context) {
     final UserService userService = UserService(); // Instancia del servicio
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return FutureBuilder<String>(
       future: userService.getUserName(), // Obtiene el nombre del usuario
@@ -26,11 +27,11 @@ class WelcomeMessage extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                TextSpan(
+               TextSpan(
                   text: '$userName,\n', // Muestra el nombre del usuario
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 32,
-                    color: Colors.black,
+                    color: isDarkMode ? Colors.white : Colors.black, // Texto
                     fontWeight: FontWeight.bold,
                   ),
                 ),

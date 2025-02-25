@@ -7,6 +7,8 @@ class EmotionSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     final Map<String, String> feelings = {
       'Deprimente': 'assets/icons/Depressed_icon.png',
       'Triste': 'assets/icons/sad_icon.png',
@@ -17,8 +19,8 @@ class EmotionSelector extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration:  BoxDecoration(
+        color: isDarkMode ? Colors.black : Colors.white, // Texto 
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       child: Column(

@@ -7,6 +7,8 @@ class MessageInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     final TextEditingController controller = TextEditingController();
 
     void sendMessage() {
@@ -26,11 +28,12 @@ class MessageInput extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: 'Escribe un mensaje...',
                 filled: true,
-                fillColor: Colors.grey[200],
+                fillColor:   isDarkMode ? Colors.black : Colors.white, // Texto 
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20.0),
                   borderSide: BorderSide.none,
                 ),
+                
               ),
               onSubmitted: (value) => sendMessage(), // Enviar con Enter
             ),

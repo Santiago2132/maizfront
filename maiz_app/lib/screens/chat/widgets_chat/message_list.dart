@@ -11,6 +11,7 @@ class MessageList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return ListView.builder(
       itemCount: messages.length + (isTyping ? 1 : 0),
       itemBuilder: (context, index) {
@@ -24,6 +25,7 @@ class MessageList extends StatelessWidget {
 
   Widget _buildMessageBubble(BuildContext context, String message, bool isUserMessage) {
     double fontSize = Provider.of<FontSizeProvider>(context).fontSize; // Obtiene el tamaño de la fuente
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
@@ -37,7 +39,9 @@ class MessageList extends StatelessWidget {
           ),
           child: Text(
             message,
-            style: TextStyle(fontSize: fontSize),
+            style: TextStyle(fontSize: fontSize,
+             color:
+                    isDarkMode ? Colors.black : Colors.black) // Texto adaptable),
           ),
         ),
       ),

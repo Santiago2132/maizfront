@@ -8,16 +8,19 @@ class DayNumber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       width: 36, 
       height: 36,
       alignment: Alignment.topCenter,
       child: Text(
         '${date.day}',
-        style: const TextStyle(
+        style:  TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.bold,
-          color: Colors.black,
+          color: isDarkMode ? Colors.white : Colors.black, // Texto
+
         ),
       ),
     );

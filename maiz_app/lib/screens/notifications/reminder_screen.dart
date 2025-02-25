@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mAIz/core/fontsize_provider.dart';
 import 'package:mAIz/data/services/notification_service.dart';
+import 'package:mAIz/screens/navegator/main_screen.dart';
 import 'package:mAIz/screens/profile/profile_screen.dart';
 import 'package:mAIz/widgets/purple_loading.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +58,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
     if (mounted) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => ProfileScreen()),
+        MaterialPageRoute(builder: (context) => MainScreen()),
       );
 
     }

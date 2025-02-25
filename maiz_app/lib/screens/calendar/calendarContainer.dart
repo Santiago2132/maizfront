@@ -76,6 +76,7 @@ class _CalendarContainerState extends State<CalendarContainer> {
     final calendarMarkers =
         CalendarMarkers(emotionalRecords: _emotionalRecords);
     final double fontSizee = Provider.of<FontSizeProvider>(context).fontSize;
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -117,11 +118,13 @@ class _CalendarContainerState extends State<CalendarContainer> {
                 fontSize: fontSizee.clamp(12, 24), 
                 height: 1,// Ajusta tamaño de días de semana
                 fontWeight: FontWeight.bold,
+                color: isDarkMode ? Colors.white : Colors.black, // Texto
               ),
               weekendStyle: TextStyle(
                 fontSize: fontSizee.clamp(12, 24), // Ajusta tamaño de sábados y domingos
                 fontWeight: FontWeight.bold,
                                 height: 1,// Ajusta tamaño de días de semana
+                color: isDarkMode ? Colors.white : Colors.black, // Texto
 
               ),
             ),

@@ -19,6 +19,7 @@ class CalendarMarkers {
 
   Widget? buildMarker(BuildContext context, DateTime date) {
     DateTime normalizedDate = normalizeDate(date);
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     if (emotionalRecords.containsKey(normalizedDate)) {
       String? emotion = emotionalRecords[normalizedDate];
@@ -32,9 +33,9 @@ class CalendarMarkers {
           child: Container(
             width: 20,
             height: 20,
-            decoration: const BoxDecoration(
+            decoration:  BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white, // Fondo blanco para mayor visibilidad
+              color: isDarkMode ? Colors.black : Colors.white, // Texto 
             ),
             padding: const EdgeInsets.all(1), // Espaciado interno
             child: Image.asset(
