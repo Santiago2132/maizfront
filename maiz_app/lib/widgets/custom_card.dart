@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mAIz/core/fontsize_provider.dart';
+import 'package:provider/provider.dart';
 
 class CustomCard extends StatelessWidget {
   final String? title;
@@ -25,6 +27,8 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fontSizeProvider = Provider.of<FontSizeProvider>(context).fontSize;
+    final bool _changeFont = fontSizeProvider > 16;
     // Determinar el color de fondo efectivo
     Color effectiveBackgroundColor = backgroundColor;
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
@@ -38,7 +42,7 @@ class CustomCard extends StatelessWidget {
 
     return Container(
       width: width,
-      height: height,
+      height: _changeFont ? height+30: height,
       decoration: BoxDecoration(
         color: effectiveBackgroundColor,
         borderRadius: BorderRadius.circular(25),
@@ -49,6 +53,8 @@ class CustomCard extends StatelessWidget {
   }
 
   Widget _buildTitle(BuildContext context) {
+    final fontSizeProvider = Provider.of<FontSizeProvider>(context).fontSize;
+
     // Determinar el color del texto efectivo
     Color effectiveTextColor = textColor;
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
@@ -62,7 +68,7 @@ class CustomCard extends StatelessWidget {
       title!,
       style: TextStyle(
           color: effectiveTextColor,
-          fontSize: fontSize,
+          fontSize: fontSizeProvider,
           fontWeight: FontWeight.bold),
       textAlign: TextAlign.center,
     );

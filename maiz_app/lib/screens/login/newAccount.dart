@@ -133,14 +133,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Widget _buildTextField(TextEditingController controller, String label, {bool obscureText = false}) {
+  final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return TextField(
       controller: controller,
       decoration: InputDecoration(
         labelText: label,
         filled: true,
+        labelStyle:  TextStyle(color: isDarkMode ? Colors.black : Colors.white,),
         fillColor: Colors.white.withOpacity(0.7),
       ),
       obscureText: obscureText,
+      style: TextStyle(color: isDarkMode ? Colors.black : Colors.black ),
+
     );
   }
 
@@ -154,7 +159,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         GestureDetector(
           onTap: _showTermsAndConditions,
           child: const Text(
-            "Acepto los términos y condiciones",
+            "Términos y Condiciones",
             style: TextStyle(
               color: Colors.white,
               decoration: TextDecoration.underline,
@@ -190,7 +195,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           color: Colors.white,
           decoration: TextDecoration.underline,
           decorationColor: Colors.white,
+          fontSize: 18
         ),
+        textAlign: TextAlign.center,
       ),
     );
   }

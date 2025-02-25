@@ -1,7 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:mAIz/core/fontsize_provider.dart';
 import 'package:mAIz/widgets/custom_card.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:provider/provider.dart';
 
 class MusicPlayer extends StatefulWidget {
   const MusicPlayer({super.key});
@@ -57,12 +61,15 @@ class _MusicPlayerState extends State<MusicPlayer> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+    double fontSizeProvider = Provider.of<FontSizeProvider>(context).fontSize;
+    final bool _changeFont = (fontSizeProvider > 15) as bool;
 
     return SizedBox(
-      height: screenHeight * 0.20,
+      height: _changeFont ? (screenHeight * 0.30): screenHeight * 0.30,
       child: CustomCard(
         backgroundColor: const Color(0xFF673AB7),
         textColor: Colors.white,
+        
         child: Padding(
           padding: const EdgeInsets.all(2.5),
           child: Column(
@@ -75,7 +82,8 @@ class _MusicPlayerState extends State<MusicPlayer> {
                       'Faithful Mission',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 15, // Reducido el tamaño de fuente
+                        fontSize:
+                            fontSizeProvider, // Reducido el tamaño de fuente
                         fontWeight: FontWeight.bold,
                       ),
                       maxLines: 1,
@@ -85,10 +93,16 @@ class _MusicPlayerState extends State<MusicPlayer> {
                       'Artificial.Music',
                       style: TextStyle(
                         color: Colors.white70,
-                        fontSize: 10, // Reducido el tamaño de fuente
+                        fontSize:
+                            fontSizeProvider, // Reducido el tamaño de fuente
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
+                      minFontSize:
+                          12, // Ajusta el tamaño mínimo para evitar el desbordamiento
+                      maxFontSize: 20,
+                      stepGranularity:
+                          1, // Opcional: controla la precisión de reducción
                     ),
                   ],
                 ),
@@ -112,7 +126,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                   ),
                 ),
               ),
-              Flexible(
+              Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -128,16 +142,16 @@ class _MusicPlayerState extends State<MusicPlayer> {
                         IconButton(
                           icon: Icon(
                             _isPlaying ? Icons.pause : Icons.play_arrow,
-                            size: 25,
+                            size: _changeFont ? 20: 25,
                             color: Colors.white,
                           ),
                           padding: EdgeInsets.zero,
                           onPressed: () => _isPlaying ? _pause() : _play(),
                         ),
                         IconButton(
-                          icon: const Icon(
+                          icon:  Icon(
                             Icons.stop,
-                            size: 25,
+                            size: _changeFont ? 20: 25,
                             color: Colors.white,
                           ),
                           padding: EdgeInsets.zero,

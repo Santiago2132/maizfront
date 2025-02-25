@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mAIz/core/fontsize_provider.dart';
 import 'package:mAIz/widgets/custom_card.dart';
 import 'package:mAIz/models/emotion_storage.dart';
+import 'package:provider/provider.dart';
 
 class ProgressCard extends StatelessWidget {
   final Map<String, String> emotionIcons = {
@@ -36,16 +38,18 @@ class ProgressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  final fontSizeProvider = Provider.of<FontSizeProvider>(context).fontSize;
+
     return CustomCard(
       // Deja el título vacío
       title: '',
       height: 400,
       child: Column(
         children: [
-          const Text(
+           Text(
             'Contador semanal',
             style: TextStyle(
-              fontSize: 19,
+              fontSize: fontSizeProvider,
               fontWeight: FontWeight.bold,
               color: Colors.deepPurple,
             ),
@@ -120,12 +124,12 @@ class ProgressCard extends StatelessWidget {
                 width: isSmallScreen ? 36 : 40,
                 height: isSmallScreen ? 36 : 40,
               ),
-              SizedBox(width: isSmallScreen ? 12 : 16),
+              SizedBox(width: isSmallScreen ? 12 : 20),
               Expanded(
                 child: Text(
                   emotion,
                   style: TextStyle(
-                    fontSize: isSmallScreen ? 15 : 16,
+                    fontSize: isSmallScreen ? 15 : 20,
                     fontWeight: FontWeight.w600,
                     color: Color(0xFF673AB7),
                   ),

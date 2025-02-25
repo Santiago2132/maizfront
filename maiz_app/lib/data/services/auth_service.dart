@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
-  final String baseUrl = 'http://0.0.0.0:5000/usuarios';
+  final String baseUrl = 'http://10.0.2.2:4000';
 
   // Registro de usuario sin Google, enviando también el UID de Firebase
   Future<bool> registerUser(String name, String email, String password) async {
@@ -22,6 +22,7 @@ class AuthService {
         body: jsonEncode({
           'name': name,
           'email': email,
+          'photo': null,
           'password': password,
           'google_id': user.uid, // Enviar también el UID de Firebase
         }),
@@ -42,10 +43,10 @@ class AuthService {
     }
   }
 
-  // Verificación de usuario sin Google
+  // Login sin google
   Future<bool> verifyUser(String email, String password) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/usuarios/verificar'),
+      Uri.parse('$baseUrl/usuarios/login'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'email': email,

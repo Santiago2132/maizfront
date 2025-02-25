@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/services.dart';
+import 'package:mAIz/core/fontsize_provider.dart';
 import 'package:mAIz/widgets/custom_card.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:provider/provider.dart';
 
 class YourDayCards extends StatefulWidget {
   const YourDayCards({super.key});
@@ -65,6 +67,8 @@ class _YourDayCardsState extends State<YourDayCards> {
 
   @override
   Widget build(BuildContext context) {
+    double fontSizeProvider = Provider.of<FontSizeProvider>(context).fontSize;
+
     final combinedList = [
       ..._phrases.map((phrase) => {'type': 'text', 'data': phrase}),
       ..._images.map((image) => {'type': 'image', 'path': image})
@@ -104,7 +108,7 @@ class _YourDayCardsState extends State<YourDayCards> {
                     text: TextSpan(
                       text: text,
                       style: TextStyle(
-                        fontSize: fontSize,
+                        fontSize: fontSizeProvider,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -149,13 +153,17 @@ class _YourDayCardsState extends State<YourDayCards> {
   }
 
   Widget _buildTextCard(Map<String, dynamic> phrase) {
+  double fontSizeProvider = Provider.of<FontSizeProvider>(context).fontSize;
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: AutoSizeText(
           phrase['text'],
           style: TextStyle(
-            fontSize: phrase['fontSize']?.toDouble() ?? 20,
+           // fontSize: phrase['fontSize']?.toDouble() ?? 20,
+            fontSize: fontSizeProvider,
+
             color: const Color(0xff673ab7),
             fontWeight: FontWeight.bold,
           ),

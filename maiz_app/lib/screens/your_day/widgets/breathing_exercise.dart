@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mAIz/core/fontsize_provider.dart';
 import 'package:mAIz/widgets/custom_card.dart';
+import 'package:provider/provider.dart';
 
 class BreathingExercise extends StatefulWidget {
   const BreathingExercise({super.key});
@@ -75,10 +77,16 @@ class _BreathingExerciseState extends State<BreathingExercise>
   }
 
   Widget _buildStartButton() {
+    double fontSizeProvider = Provider.of<FontSizeProvider>(context).fontSize;
+
     return Center(
       child: ElevatedButton(
         onPressed: _startAnimation,
-        child: const Text('Iniciar Ejercicio de Respiración'),
+        child:  Text(
+          'Iniciar Ejercicio de Respiración',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: fontSizeProvider ),
+        ),
       ),
     );
   }

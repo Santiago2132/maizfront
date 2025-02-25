@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mAIz/core/fontsize_provider.dart';
 import 'package:mAIz/models/emotion_storage.dart';
 import 'package:mAIz/widgets/custom_card.dart';
+import 'package:provider/provider.dart';
 
 class FeelingCard extends StatefulWidget {
   final VoidCallback onEmotionSelected; // Añadir esta línea
@@ -29,14 +31,16 @@ class _FeelingCardState extends State<FeelingCard> {
 
   @override
   Widget build(BuildContext context) {
+  final fontSizeProvider = Provider.of<FontSizeProvider>(context).fontSize;
+
     return CustomCard(
       height: 130,
       child: Column(
         children: [
-          const Text(
+           Text(
             '¿Cómo te sientes hoy?',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: fontSizeProvider,
               fontWeight: FontWeight.bold,
               color: Color(0xff673ab7)
             ),

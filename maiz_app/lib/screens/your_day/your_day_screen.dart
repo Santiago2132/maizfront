@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mAIz/core/fontsize_provider.dart';
 import 'package:mAIz/screens/your_day/messages/phrases_text.dart';
 import 'package:mAIz/screens/your_day/messages/text_breathing.dart';
 import 'package:mAIz/screens/your_day/messages/text_music.dart';
@@ -6,6 +7,7 @@ import 'package:mAIz/screens/your_day/messages/your_day_message.dart';
 import 'package:mAIz/screens/your_day/widgets/breathing_exercise.dart';
 import 'package:mAIz/screens/your_day/widgets/music_player.dart';
 import 'package:mAIz/screens/your_day/widgets/phrases_card.dart';
+import 'package:provider/provider.dart';
 
 
 class YourDayScreen extends StatelessWidget {

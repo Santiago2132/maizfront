@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:mAIz/core/fontsize_provider.dart';
 import 'package:mAIz/models/emotion_storage.dart';
 import 'package:mAIz/widgets/custom_card.dart';
+import 'package:provider/provider.dart';
 
 class GraphicCard extends StatelessWidget {
   final Map<String, double> emotionYValues = {
@@ -51,6 +53,8 @@ class GraphicCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fontSizeProvider = Provider.of<FontSizeProvider>(context).fontSize;
+
     return CustomCard(
       title: 'Tu semana emocional',
       height: 300,
@@ -63,10 +67,10 @@ class GraphicCard extends StatelessWidget {
 
           return Column(
             children: [
-              const Text(
+               Text(
                 'Tu semana emocional',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: fontSizeProvider,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF673AB7),
                 ),

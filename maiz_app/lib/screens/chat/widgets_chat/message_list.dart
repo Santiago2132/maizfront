@@ -24,7 +24,7 @@ class MessageList extends StatelessWidget {
   }
 
   Widget _buildMessageBubble(BuildContext context, String message, bool isUserMessage) {
-    double fontSize = Provider.of<FontSizeProvider>(context).fontSize; // Obtiene el tamaño de la fuente
+    double fontSize = Provider.of<FontSizeProvider>(context).fontSize; 
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Padding(

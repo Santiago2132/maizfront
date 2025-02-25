@@ -24,6 +24,8 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.2),
@@ -38,18 +40,23 @@ class LoginForm extends StatelessWidget {
             controller: emailController,
             decoration: InputDecoration(
               labelText: "Correo Electrónico",
+              labelStyle:  TextStyle(color: isDarkMode ? Colors.black : Colors.white,),
               filled: true,
               fillColor: Colors.white.withOpacity(0.7),
             ),
+            style: TextStyle(color: isDarkMode ? Colors.black : Colors.black ),
           ),
           SizedBox(height: 16),
           TextField(
             controller: passwordController,
             decoration: InputDecoration(
               labelText: "Contraseña",
+              labelStyle:  TextStyle(color: isDarkMode ? Colors.black : Colors.white,),
               filled: true,
               fillColor: Colors.white.withOpacity(0.7),
             ),
+            style: TextStyle(color: isDarkMode ? Colors.black : Colors.black ),
+
             obscureText: true,
           ),
           SizedBox(height: 20),
@@ -66,10 +73,12 @@ class LoginForm extends StatelessWidget {
                 child: Text(
                   "Términos y Condiciones",
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.white, // Texto
                       decoration: TextDecoration.underline,
                       decorationColor: Colors.white),
+                      textAlign: TextAlign.center,
                 ),
+                
               ),
             ],
           ),
@@ -110,6 +119,8 @@ class LoginForm extends StatelessWidget {
                   color: Colors.white,
                   decoration: TextDecoration.underline,
                   decorationColor: Colors.white),
+                  textAlign: TextAlign.center,
+
             ),
           ),
         ],

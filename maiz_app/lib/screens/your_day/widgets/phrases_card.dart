@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mAIz/core/fontsize_provider.dart';
 import 'package:mAIz/screens/your_day/widgets/phrases_screen.dart';
+import 'package:provider/provider.dart';
 
 class PhrasesCard extends StatelessWidget {
   const PhrasesCard({super.key});
@@ -7,6 +9,7 @@ class PhrasesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    double fontSizeProvider = Provider.of<FontSizeProvider>(context).fontSize;
 
     return GestureDetector(
       onTap: () {
@@ -41,7 +44,7 @@ class PhrasesCard extends StatelessWidget {
             Text(
               "Ver Frases del Día",
               style: TextStyle(
-                fontSize: 18,
+                fontSize: fontSizeProvider,
                 fontWeight: FontWeight.bold,
                 color:
                     isDarkMode ? Colors.white : Colors.black, // Texto adaptable
