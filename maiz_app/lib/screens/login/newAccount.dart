@@ -19,23 +19,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _termsAccepted = false;
 
   final AuthService _authService = AuthService();
-
+  
   void _signUp() async {
     if (!_validateFields()) return;
 
+    bool isRegistered = await _authService.verifyEmailUser(_emailController.text);
+
+    if (isRegistered) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('El correo ya está registrado. Por favor, inicia sesión.')),
+      );
+      return;
+    }
+
     bool result = await _authService.registerUser(
+      context,
       _nameController.text,
       _emailController.text,
       _passwordController.text,
     );
 
     if (result) {
-      _showMessage("Registro exitoso");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Registro exitoso. Ahora debes iniciar sesión.')),
+      );
       Navigator.pop(context);
     } else {
-      _showMessage("Error al registrar la cuenta");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al registrar la cuenta')),
+      );
     }
   }
+
 
   bool _validateFields() {
     if (_nameController.text.isEmpty ||

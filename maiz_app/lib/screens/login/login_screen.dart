@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text("Credenciales incorrectas o usuario no registrado")),
+            content: Text("Credenciales incorrectas")),
       );
     }
   }
