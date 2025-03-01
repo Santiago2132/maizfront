@@ -7,26 +7,33 @@ class MessageList extends StatelessWidget {
   final List<bool> isUserMessage;
   final bool isTyping;
 
-  const MessageList({super.key, required this.messages, required this.isUserMessage, required this.isTyping});
+  const MessageList(
+      {super.key,
+      required this.messages,
+      required this.isUserMessage,
+      required this.isTyping});
 
   @override
   Widget build(BuildContext context) {
-
     return ListView.builder(
       itemCount: messages.length + (isTyping ? 1 : 0),
       itemBuilder: (context, index) {
         if (index == messages.length && isTyping) {
           return _typingIndicator();
         }
-        return _buildMessageBubble(context, messages[index], isUserMessage[index]);
+        return _buildMessageBubble(
+            context, messages[index], isUserMessage[index]);
       },
     );
   }
 
-  Widget _buildMessageBubble(BuildContext context, String message, bool isUserMessage) {
-    double fontSize = Provider.of<FontSizeProvider>(context).fontSize; 
+  Widget _buildMessageBubble(
+      BuildContext context, String message, bool isUserMessage) {
+    double fontSize = Provider.of<FontSizeProvider>(context).fontSize;
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    print('isUserMessage: $isUserMessage, isDarkMode: $isDarkMode');
 
+    print(isDarkMode );
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
       child: Align(
@@ -34,15 +41,18 @@ class MessageList extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(12.0),
           decoration: BoxDecoration(
-            color: isUserMessage ? Colors.deepPurple[200] : Colors.yellow[200],
-            borderRadius: BorderRadius.circular(12.0),
+              color: isUserMessage
+                  ? Colors.deepPurple
+                  : (isDarkMode ? Colors.grey : Colors.yellow),
+              borderRadius: BorderRadius.circular(12.0),
           ),
-          child: Text(
-            message,
-            style: TextStyle(fontSize: fontSize,
-             color:
-                    isDarkMode ? Colors.black : Colors.black) // Texto adaptable),
-          ),
+          child: Text(message,
+              style: TextStyle(
+                  fontSize: fontSize,
+                  color: isDarkMode
+                      ? Colors.black
+                      : Colors.black) // Texto adaptable),
+              ),
         ),
       ),
     );

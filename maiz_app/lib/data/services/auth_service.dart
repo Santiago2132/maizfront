@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
   final String baseUrl =
-      'http://10.153.70.85:4000'; //sirve en la api de base de datos
+      'http://192.168.20.71:4000'; //sirve en la api de base de datos
  
  
   Future<bool> registerUser(BuildContext context, String name, String email, String password) async {
@@ -23,7 +23,7 @@ class AuthService {
         //);
 
         final response = await http.post(
-          Uri.parse('http://10.153.70.85:4000/usuarios'),
+          Uri.parse('$baseUrl/usuarios'),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             'name': name,
@@ -55,7 +55,7 @@ class AuthService {
 
   Future<bool> verifyEmailUser(String email) async {
     final response = await http.post(
-      Uri.parse('http://10.153.70.85:4000/usuarios/verificar'),
+      Uri.parse('$baseUrl/usuarios/verificar'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'email': email,
@@ -80,7 +80,7 @@ class AuthService {
     // Login sin google
     Future<bool> verifyUser(String email, String password) async {
       final response = await http.post(
-        Uri.parse('http://10.153.70.85:4000/login'),
+        Uri.parse('$baseUrl/login'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'email': email,
