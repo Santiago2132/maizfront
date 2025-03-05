@@ -93,4 +93,9 @@ class UserService {
       await user.updateDisplayName(name);
     }
   }
+
+  Future<String?> _getUserId() async {
+    final user = FirebaseAuth.instance.currentUser;
+    return user?.uid;
+  }
 }

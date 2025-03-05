@@ -32,6 +32,8 @@ class _ReminderScreenState extends State<ReminderScreen> {
         _selectedTime = picked;
       });
       _saveTime(picked);
+
+      print('día desde screen $picked');
       _notificationService.scheduleNotification(picked);
     }
   }
@@ -40,19 +42,19 @@ class _ReminderScreenState extends State<ReminderScreen> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('reminder_hour', time.hour);
     await prefs.setInt('reminder_minute', time.minute);
-    
+
     showDialog(
-        context: context,
-        barrierDismissible: false, // Evita que se cierre tocando fuera
-        builder: (context) => const PurpleLoadingIndicator(),
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const PurpleLoadingIndicator(),
     );
 
-    // Mostrar SnackBar de confirmación
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Recordatorio programado a las ${time.format(context)}")),
+      SnackBar(
+          content:
+              Text("Recordatorio programado a las ${time.format(context)}")),
     );
 
-    // Esperar 1 segundo y luego ir al perfil
     await Future.delayed(Duration(seconds: 1));
 
     if (mounted) {
@@ -60,7 +62,6 @@ class _ReminderScreenState extends State<ReminderScreen> {
         context,
         MaterialPageRoute(builder: (context) => MainScreen()),
       );
-
     }
   }
 
@@ -87,7 +88,8 @@ class _ReminderScreenState extends State<ReminderScreen> {
               _selectedTime == null
                   ? 'No hay recordatorio programado'
                   : 'Recordatorio: ${_selectedTime!.format(context)}',
-              style: TextStyle(fontSize: Provider.of<FontSizeProvider>(context).fontSize,),
+              style: TextStyle(
+                  fontSize: Provider.of<FontSizeProvider>(context).fontSize),
             ),
             SizedBox(height: 20),
             ElevatedButton(
