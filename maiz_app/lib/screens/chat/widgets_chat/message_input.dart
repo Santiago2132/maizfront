@@ -13,7 +13,7 @@ class MessageInput extends StatelessWidget {
 
     void sendMessage() {
       if (controller.text.trim().isNotEmpty) {
-        onSend(controller.text.trim()); // Enviar mensaje
+        onSend(controller.text); // Enviar mensaje
         controller.clear(); // Limpiar campo de texto
       }
     }

@@ -24,7 +24,7 @@ class LogoutButton extends StatelessWidget {
       icon:  Icon(Icons.logout, 
       color: isDarkMode ? Colors.white : Colors.black) ,// Texto           
       label: Text(
-        "Cerrar sesión",
+        "Cerrar sesion",
         style: TextStyle(
         color: isDarkMode ? Colors.white : Colors.black, // Texto           
         fontSize: Provider.of<FontSizeProvider>(context).fontSize,

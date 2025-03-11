@@ -69,7 +69,7 @@ class NotificationService {
     );
   }
 
-  final String _baseUrl = 'http://10.152.172.139:3000';
+  final String _baseUrl = 'http://192.168.20.71:4000';
 
   Future<void> registerFCMToken(String userId, String token) async {
     final response = await http.post(
