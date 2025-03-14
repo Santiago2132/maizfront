@@ -100,8 +100,7 @@ class NotificationService {
   }
 
   Future<void> createReminder(
-    String sheetId, String message, DateTime date) async {
-
+      String sheetId, String message, DateTime date) async {
     String? userId = FirebaseAuth.instance.currentUser?.uid;
 
     print('createReminder() ha sido llamada');
@@ -151,14 +150,12 @@ class NotificationService {
         DateTime(now.year, now.month, now.day, time.hour, time.minute);
 
     if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(Duration(days: 0));
+      scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
     print('Fecha programada: $scheduledDate');
     print('Fecha actual: $now');
-    
     await createReminder(
-          'recordatorio', 'Regitra tu emoción hoy', scheduledDate);
-
+        'recordatorio', 'Regitra tu emoción hoy', scheduledDate);
     await _localNotifications.zonedSchedule(
       0,
       'Recordatorio Programado',
@@ -172,11 +169,12 @@ class NotificationService {
           priority: Priority.high,
         ),
       ),
-      androidAllowWhileIdle: true,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
+      androidScheduleMode:
+          AndroidScheduleMode.exactAllowWhileIdle, 
     );
-   
+
     print('Notificación programada para: $scheduledDate');
   }
 }

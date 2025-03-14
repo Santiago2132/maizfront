@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mAIz/data/services/auth_service.dart';
 import 'package:mAIz/screens/login/login_screen.dart';
 import 'package:mAIz/widgets/avatarWidget.dart';
-import 'package:mAIz/widgets/terms_conditions.dart';
+import 'package:mAIz/screens/login/terms/terms_conditions.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});

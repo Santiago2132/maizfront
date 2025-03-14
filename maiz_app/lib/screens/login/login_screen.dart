@@ -3,9 +3,10 @@ import 'package:mAIz/data/services/auth_service.dart';
 import 'package:mAIz/screens/login/Firebase/firebase_auth.dart';
 import 'package:mAIz/screens/login/login_form.dart';
 import 'package:mAIz/screens/login/newAccount.dart';
+import 'package:mAIz/screens/login/terms/terms_page.dart';
 import 'package:mAIz/screens/navegator/main_screen.dart';
 import 'package:mAIz/widgets/avatarWidget.dart';
-import 'package:mAIz/widgets/terms_conditions.dart';
+import 'package:mAIz/screens/login/terms/terms_conditions.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -59,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return TermsAndConditionsDialog();
+        return TermsAndConditionsPage();
       },
     );
   }
