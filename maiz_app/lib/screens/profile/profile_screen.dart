@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mAIz/core/fontsize_provider.dart';
 import 'package:mAIz/screens/navegator/main_screen.dart';
 import 'package:mAIz/screens/notifications/reminder_card.dart';
+import 'package:mAIz/screens/payment/PaymentButton.dart';
+import 'package:mAIz/screens/payment/PaymentMethodsPage.dart';
 import 'package:mAIz/screens/profile/widgets/badgeCard.dart';
 import 'package:mAIz/screens/profile/widgets/fontSize_card.dart';
 import 'package:mAIz/screens/profile/widgets/logout.dart';
@@ -44,6 +46,7 @@ class ProfileScreen extends StatelessWidget {
               ReminderCard(),
               ThemeToggleCard(),
               const FontSizeCard(),
+              const PaymentCardButton(),
               const LogoutButton(),
               const SizedBox(height: 20),
              
