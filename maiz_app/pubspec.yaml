@@ -53,14 +53,11 @@ dependencies:
   image_picker: ^1.1.2
   provider: ^6.0.5
   rive: ^0.13.20
-<<<<<<< HEAD
   flutter_pdfview: ^1.2.7
-
-=======
   shared_preferences: ^2.5.2
   table_calendar: ^3.0.9
   timezone: ^0.9.2
->>>>>>> ff64ae3945b4fa9a782866f35b0453f1a3a1c8a5
+
 
 dev_dependencies:
   firebase_storage_web: ^3.6.22
@@ -104,10 +101,8 @@ flutter:
     - assets/icon/mAIz_icon.png
     - assets/music/faithful.mp3
     - assets/rive/
-<<<<<<< HEAD
     - assets/terms/terms_and_conditions.pdf
-=======
->>>>>>> ff64ae3945b4fa9a782866f35b0453f1a3a1c8a5
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
   # For details regarding adding assets from package dependencies, see
