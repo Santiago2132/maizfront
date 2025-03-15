@@ -13,7 +13,8 @@ class AppRouter {
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => AuthCheck()); //verificar sesion activa
+        return MaterialPageRoute(
+            builder: (_) => AuthCheck()); //verificar sesion activa
       case '/home':
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case '/calendar':
