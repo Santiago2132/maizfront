@@ -16,34 +16,19 @@ class _ChatScreenState extends State<ChatScreen> {
   final ChatService _chatService = ChatService();
 
   void _sendMessage(String text) async {
-    if (text.trim().isEmpty) return; // Evita enviar mensajes vacíos
-
     setState(() {
       _messages.add(text);
       _isUserMessage.add(true);
       _isTyping = true;
     });
 
-    try {
-      print(text);
-      String botResponse =
-          await _chatService.sendAndReceiveMessage(text);
+    String botResponse = await _chatService.sendAndReceiveMessage(text);
 
-      setState(() {
-        _messages.add(botResponse);
-        _isUserMessage.add(false);
-      });
-    } catch (e) {
-      setState(() {
-        _messages.add('Error al obtener respuesta del chatbot');
-        _isUserMessage.add(false);
-      });
-      print('Error: $e');
-    } finally {
-      setState(() {
-        _isTyping = false;
-      });
-    }
+    setState(() {
+      _messages.add(botResponse);
+      _isUserMessage.add(false);
+      _isTyping = false;
+    });
   }
 
   @override

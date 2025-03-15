@@ -13,12 +13,15 @@ class CalendarContainer extends StatefulWidget {
   final DateTime focusedDay;
   final DateTime? selectedDay;
   final Function(DateTime, DateTime) onDaySelected;
+  final Function(int, int) onMonthChanged; // Nuevo callback para el mes
 
   const CalendarContainer({
     super.key,
     required this.focusedDay,
     required this.selectedDay,
     required this.onDaySelected,
+        required this.onMonthChanged, 
+
   });
 
   @override
@@ -77,18 +80,26 @@ class _CalendarContainerState extends State<CalendarContainer> {
         CalendarMarkers(emotionalRecords: _emotionalRecords);
     final double fontSizee = Provider.of<FontSizeProvider>(context).fontSize;
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    CalendarFormat _calendarFormat = CalendarFormat.month;
+    final Function(int year, int month) onMonthChanged;
 
     return LayoutBuilder(
       builder: (context, constraints) {
         return SizedBox(
           width: constraints.maxWidth, // Usa el ancho disponible
-          height: fontSizee * 50, // Ajusta la altura en función del tamaño de la fuente
+          height: 400, // Ajusta la altura en función del tamaño de la fuente
           child: TableCalendar(
             firstDay: DateTime.utc(2024, 1, 1),
             lastDay: DateTime.utc(2025, 12, 31),
             focusedDay: widget.focusedDay,
             selectedDayPredicate: (day) => isSameDay(widget.selectedDay, day),
             onDaySelected: widget.onDaySelected,
+            onPageChanged: (focusedDay) {
+              setState(() {
+                widget.onMonthChanged(focusedDay.year, focusedDay.month);
+              });
+            },
+
             calendarFormat: CalendarFormat.month,
             availableGestures: AvailableGestures.all,
             headerStyle: HeaderStyle(
