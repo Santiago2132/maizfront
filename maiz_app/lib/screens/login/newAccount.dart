@@ -19,15 +19,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _termsAccepted = false;
 
   final AuthService _authService = AuthService();
-  
+
   void _signUp() async {
     if (!_validateFields()) return;
 
-    bool isRegistered = await _authService.verifyEmailUser(_emailController.text);
+    bool isRegistered =
+        await _authService.verifyEmailUser(_emailController.text);
 
     if (isRegistered) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('El correo ya está registrado. Por favor, inicia sesión.')),
+        SnackBar(
+            content: Text(
+                'El correo ya está registrado. Por favor, inicia sesión.')),
       );
       return;
     }
@@ -41,7 +44,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     if (result) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Registro exitoso. Ahora debes iniciar sesión.')),
+        SnackBar(
+            content: Text('Registro exitoso. Ahora debes iniciar sesión.')),
       );
       Navigator.pop(context);
     } else {
@@ -50,7 +54,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       );
     }
   }
-
 
   bool _validateFields() {
     if (_nameController.text.isEmpty ||
@@ -135,7 +138,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
           const SizedBox(height: 16),
           _buildTextField(_passwordController, "Contraseña", obscureText: true),
           const SizedBox(height: 16),
-          _buildTextField(_confirmPasswordController, "Confirmar contraseña", obscureText: true),
+          _buildTextField(_confirmPasswordController, "Confirmar contraseña",
+              obscureText: true),
           const SizedBox(height: 16),
           _buildTermsCheckbox(),
           const SizedBox(height: 20),
@@ -147,20 +151,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String label, {bool obscureText = false}) {
-  final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+  Widget _buildTextField(TextEditingController controller, String label,
+      {bool obscureText = false}) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return TextField(
       controller: controller,
       decoration: InputDecoration(
         labelText: label,
         filled: true,
-        labelStyle:  TextStyle(color: isDarkMode ? Colors.black : Colors.white,),
+        labelStyle: TextStyle(
+          color: isDarkMode ? Colors.black : Colors.white,
+        ),
         fillColor: Colors.white.withOpacity(0.7),
       ),
       obscureText: obscureText,
-      style: TextStyle(color: isDarkMode ? Colors.black : Colors.black ),
-
+      style: TextStyle(color: isDarkMode ? Colors.black : Colors.black),
     );
   }
 
@@ -169,7 +175,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       children: [
         Checkbox(
           value: _termsAccepted,
-          onChanged: (bool? value) => setState(() => _termsAccepted = value ?? false),
+          onChanged: (bool? value) =>
+              setState(() => _termsAccepted = value ?? false),
         ),
         GestureDetector(
           onTap: _showTermsAndConditions,
@@ -194,7 +201,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
       ),
-      child: const Text("Registrar", style: TextStyle(fontSize: 16, color: Colors.white)),
+      child: const Text("Registrar",
+          style: TextStyle(fontSize: 16, color: Colors.white)),
     );
   }
 
@@ -207,11 +215,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: const Text(
         "¿Ya tienes una cuenta? Inicia sesión",
         style: TextStyle(
-          color: Colors.white,
-          decoration: TextDecoration.underline,
-          decorationColor: Colors.white,
-          fontSize: 18
-        ),
+            color: Colors.white,
+            decoration: TextDecoration.underline,
+            decorationColor: Colors.white,
+            fontSize: 18),
         textAlign: TextAlign.center,
       ),
     );

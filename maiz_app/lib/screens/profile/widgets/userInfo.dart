@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mAIz/core/fontsize_provider.dart';
 import 'package:mAIz/data/services/firebase_service.dart';
-import 'package:mAIz/widgets/avatarWidget.dart';
+import 'package:mAIz/widgets/avatarProfile.dart';
 import 'package:provider/provider.dart';
 
 class UserInfoSection extends StatelessWidget {
@@ -13,7 +13,7 @@ class UserInfoSection extends StatelessWidget {
 
     return Column(
       children: [
-        const AvatarWidget(),
+        const AvatarProfile(),
         const SizedBox(height: 20),
 
         // FutureBuilder para obtener el nombre del usuario
@@ -27,7 +27,7 @@ class UserInfoSection extends StatelessWidget {
             } else {
               return Text(
                 'Hola, ${snapshot.data}',
-                style:  TextStyle(
+                style: TextStyle(
                   fontSize: Provider.of<FontSizeProvider>(context).fontSize,
                   fontWeight: FontWeight.bold,
                 ),

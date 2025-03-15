@@ -49,8 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text("Credenciales incorrectas")),
+        SnackBar(content: Text("Credenciales incorrectas")),
       );
     }
   }
@@ -70,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
       MaterialPageRoute(builder: (context) => SignUpScreen()),
     );
   }
-  
+
   void _signInWithGoogle() async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -88,7 +87,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       await googleSignIn.signOut();
-      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
 
       if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleSignInAuthentication =
@@ -122,15 +122,12 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
-  final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      resizeToAvoidBottomInset: true, 
+      resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
           Positioned.fill(
@@ -157,8 +154,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           _termsAccepted = value;
                         });
                       },
-                      onSignIn: _termsAccepted ? _signInWithEmailAndPassword : null,
-                      onSignGoogle:  _signInWithGoogle ,
+                      onSignIn:
+                          _termsAccepted ? _signInWithEmailAndPassword : null,
+                      onSignGoogle: _signInWithGoogle,
                       onShowTerms: _showTermsAndConditions,
                       onNavigateToSignUp: _navigateToSignUp,
                     ),
@@ -172,4 +170,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
