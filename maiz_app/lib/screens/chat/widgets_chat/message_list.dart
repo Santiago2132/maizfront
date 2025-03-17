@@ -66,7 +66,7 @@ class _MessageListState extends State<MessageList> {
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     final Color userMessageColor = isUserMessage
-        ? (isDarkMode ? Colors.deepPurpleAccent : Colors.deepPurple)
+        ? (isDarkMode ? Colors.deepPurpleAccent : Colors.deepPurpleAccent)
         : (isDarkMode ? Colors.blueGrey : Colors.yellow);
 
     final Color textColor = isDarkMode ? Colors.white : Colors.black;
@@ -85,7 +85,7 @@ class _MessageListState extends State<MessageList> {
             message,
             style: TextStyle(
               fontSize: fontSize,
-              color: textColor,
+              color: isUserMessage ? Colors.white: textColor,
             ),
           ),
         ),
