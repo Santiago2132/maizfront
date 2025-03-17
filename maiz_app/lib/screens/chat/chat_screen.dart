@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mAIz/data/services/chat_service.dart';
 import 'package:mAIz/screens/chat/widgets_chat/message_input.dart';
 import 'package:mAIz/screens/chat/widgets_chat/message_list.dart';
+import 'package:mAIz/screens/chat/widgets_chat/selector.dart';
 
 class ChatScreen extends StatefulWidget {
+  const ChatScreen({super.key});
+
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -12,8 +15,22 @@ class _ChatScreenState extends State<ChatScreen> {
   final List<String> _messages = [];
   final List<bool> _isUserMessage = [];
   bool _isTyping = false;
+  String _chatMode = 'basic'; // Modo por defecto
 
   final ChatService _chatService = ChatService();
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchChatMode();
+  }
+
+  void _fetchChatMode() async {
+    String mode = await _chatService.getChatMode();
+    setState(() {
+      _chatMode = mode;
+    });
+  }
 
   void _sendMessage(String text) async {
     setState(() {
@@ -35,14 +52,10 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Freuddy'),
-        backgroundColor: Colors.deepPurple,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        backgroundColor: _chatMode == 'premium' ? Colors.amber : Colors.deepPurple,
+        actions: [
+          ChatModeSelector(onModeChanged: _fetchChatMode), // Recarga cuando se cambia el modo
+        ],
       ),
       body: Column(
         children: <Widget>[

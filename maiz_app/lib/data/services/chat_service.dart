@@ -25,4 +25,17 @@ class ChatService {
     }
   }
 
+
+  Future<String> getChatMode() async {
+    // Simulación 
+    await Future.delayed(const Duration(milliseconds: 500)); 
+    return 'basic'; // Cambia esto a 'premium' si lo deseas
+  }
+
+  Future<void> setChatMode(String mode) async {
+    // Simulación de guardado
+    await Future.delayed(const Duration(milliseconds: 500));
+    print('Modo de chat guardado: $mode'); 
+  }
+
 }

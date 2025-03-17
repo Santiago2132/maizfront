@@ -24,7 +24,7 @@ class PremiumPlanCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             const Text(
-              '99 MXN/mes',
+              '9.990 COP/mes',
               style: TextStyle(fontSize: 20, color: Color.fromARGB(255, 20, 20, 20)),
             ),
             const SizedBox(height: 16),

@@ -11,14 +11,27 @@ class EmotionService {
     'Euforico': 4,
   };
 
-  static Future<List<FlSpot>> fetchMonthlyStatistics(int year, int month) async {
+  static Future<Map<int, String>> fetchMonthlyEmotions(int year, int month) async {
     final records = await CalendarService.getEmotionalRecords();
-    final List<FlSpot> spots = [];
+    final Map<int, String> monthlyEmotions = {};
 
     records.forEach((date, emotion) {
       if (date.year == year && date.month == month) {
-        spots.add(FlSpot(date.day.toDouble(), emotionYValues[emotion] ?? 0));
+        monthlyEmotions[date.day] = emotion;
       }
+    });
+
+    return monthlyEmotions;
+  }
+  
+  static Future<List<FlSpot>> fetchMonthlyStatistics(int year, int month) async {
+    final records = await fetchMonthlyEmotions(year, month);
+    
+    final List<FlSpot> spots = [];
+
+    records.forEach((day, emotion) {
+      final double yValue = emotionYValues[emotion] ?? 0;
+      spots.add(FlSpot(day.toDouble(), yValue));
     });
 
     return spots;

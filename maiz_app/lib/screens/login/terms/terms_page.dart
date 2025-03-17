@@ -146,7 +146,7 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
         await file.writeAsBytes(byteData.buffer.asUint8List(), flush: true);
 
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('PDF guardado en ${file.path}')),
+          SnackBar(content: Text('PDF guardado')),
         );
 
         // Notificación de descarga completa

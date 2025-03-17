@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mAIz/screens/login/login_screen.dart';
+import 'package:animate_do/animate_do.dart'; // Librería para animaciones
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -9,44 +10,53 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Imagen de fondo
+          // Imagen de fondo con efecto de fade-in
           Positioned.fill(
-            child: Image.asset(
-              'assets/resources/fondoMorado.jpg',
-              fit: BoxFit.cover,
+            child: FadeIn(
+              duration: const Duration(seconds: 2),
+              child: Image.asset(
+                'assets/resources/fondoMorado.jpg',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-          // Contenido sobre la imagen de fondo
+          // Contenido sobre la imagen de fondo con animaciones
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                
-                // Título principal con mayor impacto visual
-                const Text(
-                  'mAIz  Chat',
-                  style: TextStyle(
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: 2,
-                    shadows: [
-                      Shadow(
-                        blurRadius: 10,
-                        color: Colors.black87,
-                        offset: Offset(2, 2),
-                      ),
-                    ],
+                // Título principal con animación
+                BounceInDown(
+                  duration: const Duration(milliseconds: 1500),
+                  child: const Text(
+                    'mAIz  Chat',
+                    style: TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      letterSpacing: 2,
+                      shadows: [
+                        Shadow(
+                          blurRadius: 10,
+                          color: Colors.black87,
+                          offset: Offset(2, 2),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                Center(
+
+                // Subtítulo con animación de fade-in
+                FadeInUp(
+                  duration: const Duration(milliseconds: 2000),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     child: Text(
                       'Tu compañero emocional, siempre aquí para ti',
-                        textAlign: TextAlign.center, // Asegura que el texto se alinee bien
-                      style: TextStyle(
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
@@ -63,28 +73,34 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ),
 
+                const SizedBox(height: 20), // Espacio
 
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    iconColor: Colors.black45, // Color de fondo del botón
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                // Botón con animación de escala y fade-in
+                ZoomIn(
+                  duration: const Duration(milliseconds: 2000),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginScreen()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 15),
                     ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 15),
-                  ),
-                  child: const Text(
-                    'Continuar',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.deepPurple,
+                    child: const Text(
+                      'Continuar',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepPurple,
+                      ),
                     ),
                   ),
                 ),

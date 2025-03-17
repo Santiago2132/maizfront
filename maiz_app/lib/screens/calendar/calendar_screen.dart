@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mAIz/data/services/calendar_service.dart';
 import 'package:mAIz/screens/calendar/calendarBar.dart';
 import 'package:mAIz/screens/calendar/calendarContainer.dart';
+import 'package:mAIz/screens/calendar/montly/EmotionRadialChart.dart';
 import 'package:mAIz/screens/calendar/montly/MonthlyEmotionChart.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -71,7 +72,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 child: SizedBox(
                   height: 300, // Asegura una altura fija
                   width: 500, // Asegura que ocupe todo el ancho disponible
-                  child: MonthlyEmotionChart(year: _currentYear, month: _currentMonth),
+                 // child: MonthlyHeatMap(year: _currentYear, month: _currentMonth),
+                 child: EmotionRadialChart(year: _currentYear, month: _currentMonth),
 
                 ),
               ),
