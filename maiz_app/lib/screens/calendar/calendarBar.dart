@@ -7,10 +7,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text('Calendario emocional'),
+      title: const Text('Calendario emocional', style: TextStyle(color: Colors.white),),
       backgroundColor: Colors.deepPurple,
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back, color: Colors.white,),
         onPressed: () {
           Navigator.pushAndRemoveUntil(
             context,

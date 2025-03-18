@@ -28,7 +28,7 @@ class MessageInput extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: 'Escribe un mensaje...',
                 filled: true,
-                fillColor:   isDarkMode ? Colors.black : Colors.white, // Texto 
+                fillColor:   isDarkMode ? Colors.black : const Color.fromARGB(255, 203, 203, 203), // Texto 
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20.0),
                   borderSide: BorderSide.none,

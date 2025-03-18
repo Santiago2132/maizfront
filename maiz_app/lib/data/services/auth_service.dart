@@ -28,7 +28,6 @@ class AuthService {
           body: jsonEncode({
             'name': name,
             'email': email,
-            'photo': null,
             'password': password,
             'google_id': user.uid,
           }),
@@ -110,7 +109,6 @@ class AuthService {
           'google_id': googleId,
           'email': email,
           'name': name,
-          'photo': photoUrl,
         }),
       );
 
