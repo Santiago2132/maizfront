@@ -1,0 +1,54 @@
+{
+  "videos": [
+    {
+      "emotion": "Deprimente",
+      "title": "Superando la tristeza",
+      "videoUrl": "https://www.youtube.com/watch?v=2OEL4P1Rz04"
+    },
+    {
+      "emotion": "Deprimente",
+      "title": "La Depresión es un Océano ",
+      "videoUrl": "https://youtu.be/bodLHaODC0U?si=JecgT9EoKaeHW06S"
+    },
+    {
+      "emotion": "Triste",
+      "title": "Ánimo en tiempos difíciles",
+      "videoUrl": "https://youtu.be/4nDYr7hqLDo?si=QZcWOtIvsdYeIwpr"
+    },
+    {
+      "emotion": "Triste",
+      "title": "Viaje de la Soledad",
+      "videoUrl": "https://youtu.be/SsYGhNx3_0w?si=V7rke1Q0uKF6GCQA"
+    },
+    {
+      "emotion": "Regular",
+      "title": "La Trampa del ÉXITO",
+      "videoUrl": "https://youtu.be/HrYhZ85c8JU?si=KShzFk_x9TUIrWVj"
+    },
+    {
+      "emotion": "Regular",
+      "title": "Cómo mantener la paz mental",
+      "videoUrl": "https://www.youtube.com/watch?v=1vx8iUvfyCY"
+    },
+    {
+      "emotion": "Feliz",
+      "title": "Motivación y energía positiva",
+      "videoUrl": "https://www.youtube.com/watch?v=ZXsQAXx_ao0"
+    },
+    {
+      "emotion": "Feliz",
+      "title": "Videos para inspirarte",
+      "videoUrl": "https://www.youtube.com/watch?v=wnHW6o8WMas"
+    },
+    {
+      "emotion": "Euforico",
+      "title": "Música para la euforia",
+      "videoUrl": "https://www.youtube.com/watch?v=60ItHLz5WEA"
+    },
+    {
+      "emotion": "Euforico",
+      "title": "Celebra tu felicidad",
+      "videoUrl": "https://www.youtube.com/watch?v=MBNQgq56egk"
+    }
+  ]
+}

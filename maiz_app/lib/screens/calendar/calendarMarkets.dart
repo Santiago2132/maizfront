@@ -35,7 +35,7 @@ class CalendarMarkers {
             height: 20,
             decoration:  BoxDecoration(
               shape: BoxShape.circle,
-              color: isDarkMode ? Colors.black : Colors.white, // Texto 
+              color: isDarkMode ? Colors.black12 : Colors.white, // Texto 
             ),
             padding: const EdgeInsets.all(1), // Espaciado interno
             child: Image.asset(

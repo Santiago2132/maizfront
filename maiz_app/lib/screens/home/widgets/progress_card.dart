@@ -78,6 +78,7 @@ class ProgressCard extends StatelessWidget {
                           count: entry.value,
                           icon: emotionIcons[entry.key]!,
                           maxWidth: constraints.maxWidth,
+                          context: context
                         ),
                       ),
                       SizedBox(height: MediaQuery.of(context).padding.bottom),
@@ -97,8 +98,10 @@ class ProgressCard extends StatelessWidget {
     required int count,
     required String icon,
     required double maxWidth,
+    required BuildContext context, // Agrega el contexto aquí
   }) {
     final isSmallScreen = maxWidth < 350;
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -140,7 +143,9 @@ class ProgressCard extends StatelessWidget {
                     horizontal: isSmallScreen ? 10 : 14,
                     vertical: isSmallScreen ? 5 : 7),
                 decoration: BoxDecoration(
-                  color: Color(0xFFFFD740).withOpacity(0.15),
+                color: isDarkMode
+                    ? const Color.fromARGB(255, 54, 53, 53)
+                    : Color(0xFFFFD740).withOpacity(0.15),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
@@ -157,7 +162,9 @@ class ProgressCard extends StatelessWidget {
                     Icon(
                       Icons.emoji_emotions_outlined,
                       size: isSmallScreen ? 18 : 20,
-                      color: Color(0xFFFFD740),
+                      color: isDarkMode
+                        ? const Color.fromARGB(255, 244, 240, 240)
+                        : Color(0xFFFFD740).withOpacity(0.15),
                     ),
                   ],
                 ),

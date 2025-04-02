@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mAIz/data/services/auth_service.dart';
+import 'package:mAIz/data/services/notification_service.dart';
+import 'package:mAIz/data/services/user_firebase_service.dart';
+import 'package:mAIz/models/shared_preferences.dart';
 import 'package:mAIz/screens/login/Firebase/firebase_auth.dart';
 import 'package:mAIz/screens/login/login_form.dart';
 import 'package:mAIz/screens/login/newAccount.dart';
@@ -48,6 +51,8 @@ class _LoginScreenState extends State<LoginScreen> {
         context,
         MaterialPageRoute(builder: (context) => const MainScreen()),
       );
+      NotificationService notificationService = new NotificationService();
+      await notificationService.registerToken();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Credenciales incorrectas")),
@@ -100,27 +105,51 @@ class _LoginScreenState extends State<LoginScreen> {
           accessToken: googleSignInAuthentication.accessToken,
         );
 
-        await firebaseAuth.signInWithCredential(credential);
+        print(credential.token);
+        print(credential.accessToken);
+        UserCredential userCredential = await firebaseAuth.signInWithCredential(credential);
 
-        // Cerrar loading antes de navegar
+        // Obtener el usuario autenticado
+        final user = userCredential.user;
+
+       if (user != null) {
+            final token = await user.getIdToken();
+            final googleId = user.uid;
+            final userName = user.displayName ?? 'Sin nombre';
+            final email = user.email ?? '';
+            
+            final userService = AuthService(); 
+            final userId = await userService.sendGoogleUid(googleId, email, userName); 
+
+            if (userId != null) {
+              final prefsService = SharedPreferencesService();
+              await prefsService.saveGoogleSession(
+                token: token ?? '',
+                googleUid: user.uid,
+                userId: userId,
+                name: userName,
+              );
+              print('Sesión completa guardada');
+            }if(userId==null){
+                 ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Verifique el usuario")),
+                  );
+            } else {
+              print('No se pudo registrar/verificar el usuario en el servidor');
+            }
+
+            Navigator.pop(context);
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainScreen()));
+          }
+        } else {
+          Navigator.pop(context);
+        }
+      } catch (e) {
         Navigator.pop(context);
-
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const MainScreen()),
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Inicio de sesión fallido: $e")),
         );
-      } else {
-        // Cerrar loading si el usuario cancela el inicio de sesión
-        Navigator.pop(context);
       }
-    } catch (e) {
-      // Cerrar loading en caso de error
-      Navigator.pop(context);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Inicio de sesión fallido: $e")),
-      );
-    }
   }
 
   @override

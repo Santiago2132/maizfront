@@ -154,6 +154,7 @@ class _YourDayCardsState extends State<YourDayCards> {
 
   Widget _buildTextCard(Map<String, dynamic> phrase) {
   double fontSizeProvider = Provider.of<FontSizeProvider>(context).fontSize;
+  final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Center(
       child: Padding(
@@ -164,7 +165,7 @@ class _YourDayCardsState extends State<YourDayCards> {
            // fontSize: phrase['fontSize']?.toDouble() ?? 20,
             fontSize: fontSizeProvider,
 
-            color: const Color(0xff673ab7),
+            color:  isDarkMode ? Colors.deepPurple[100] :  Color(0xff673ab7),
             fontWeight: FontWeight.bold,
           ),
           textAlign: TextAlign.center,

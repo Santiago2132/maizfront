@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mAIz/core/fontsize_provider.dart';
-import 'package:mAIz/data/services/firebase_service.dart';
+import 'package:mAIz/data/services/user_firebase_service.dart';
 import 'package:mAIz/widgets/avatarProfile.dart';
 import 'package:provider/provider.dart';
 

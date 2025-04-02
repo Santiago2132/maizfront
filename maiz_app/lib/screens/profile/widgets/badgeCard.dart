@@ -28,7 +28,7 @@ class _BadgeCardState extends State<BadgeCard> {
       child: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
+            child: Column(
             children: [
               Text(
                 'Tus Insignias',
@@ -39,16 +39,20 @@ class _BadgeCardState extends State<BadgeCard> {
               ),
               const SizedBox(height: 10),
 
-              // Muestra hasta 3 insignias o todas si showAll = true
-              Wrap(
-                spacing: 14,
-                children: displayBadges.map((badge) {
-                  return HexagonWidget(
-                    imagePath: badge.imagePath,
-                    badgeName: badge.name,
-                  );
-                }).toList(),
+             Center(
+                child: Wrap(
+                  alignment: WrapAlignment.center, // Centra los elementos en cada línea
+                  spacing: 14,
+                  runSpacing: 10, // Espaciado vertical entre filas
+                  children: displayBadges.map((badge) {
+                    return HexagonWidget(
+                      imagePath: badge.imagePath,
+                      badgeName: badge.name,
+                    );
+                  }).toList(),
+                ),
               ),
+
 
               const SizedBox(height: 10),
 
@@ -67,7 +71,7 @@ class _BadgeCardState extends State<BadgeCard> {
                 ),
             ],
           ),
-        ),
+          ),
       ),
     );
   }

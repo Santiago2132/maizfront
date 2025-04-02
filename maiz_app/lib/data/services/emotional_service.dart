@@ -1,8 +1,9 @@
-import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:mAIz/data/services/calendar_service.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class EmotionService {
+
   static final Map<String, double> emotionYValues = {
     'Deprimente': 0,
     'Triste': 1,
@@ -58,4 +59,8 @@ class EmotionService {
             orElse: () => const MapEntry('', -1))
         .key;
   }
+
+
+
+
 }

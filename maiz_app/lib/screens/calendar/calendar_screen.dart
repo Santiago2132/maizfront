@@ -66,7 +66,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 onDaySelected: _onDaySelected,
                 onMonthChanged: _onMonthChanged,
               ),
-              const SizedBox(height: 20),
              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0), // Margen horizontal
                 child: SizedBox(

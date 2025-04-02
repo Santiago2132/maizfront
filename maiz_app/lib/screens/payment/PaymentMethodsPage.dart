@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mAIz/screens/navegator/main_screen.dart';
 import 'package:mAIz/screens/payment/premiumCard.dart';
 
 class PaymentMethodsPage extends StatelessWidget {
@@ -8,8 +9,20 @@ class PaymentMethodsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text( 'Métodos de Pago',
-         style: const TextStyle(color: Colors.black)  )),
+          title: const Text( 'Métodos de Pago',
+          style: TextStyle(color: Colors.white),),
+          backgroundColor: Colors.deepPurple,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white,),
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => MainScreen()),
+                  (route) => false,
+                );
+            }, 
+          ),
+        ),
       body: Center(
         child: PremiumPlanCard(
           onSelect: () {

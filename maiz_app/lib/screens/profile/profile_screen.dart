@@ -18,22 +18,21 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Perfil',
-          style: TextStyle(
-            fontSize: Provider.of<FontSizeProvider>(context).fontSize, 
+          backgroundColor: Colors.deepPurple,
+          title: Text(
+            'Perfil',
+          style: TextStyle(color: Colors.white),),
+          leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white,),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => MainScreen()),
+                    (route) => false,
+                  );
+              }, 
+            ),
           ),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const MainScreen()),
-            );
-          },
-        ),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(

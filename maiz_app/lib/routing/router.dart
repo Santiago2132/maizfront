@@ -14,7 +14,7 @@ class AppRouter {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(
-            builder: (_) => AuthCheck()); //verificar sesion activa
+            builder: (_) => ProfileScreen()); //verificar sesion activa
       case '/home':
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case '/calendar':

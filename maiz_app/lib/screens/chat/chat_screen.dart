@@ -55,9 +55,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Freudy", style: TextStyle(color: Colors.white),),
+        title: Text("Freudy", style: TextStyle( color: isDarkMode ? Colors.white: Colors.white)),
         backgroundColor: _chatMode == 'premium' ? Colors.amber : Colors.deepPurple,
         actions: [
           ChatModeSelector(onModeChanged: _fetchChatMode), // Recarga cuando se cambia el modo
@@ -83,10 +85,10 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const Text(
+                     Text(
                       "¡Hola! Soy Freudy 🤖\nTu asistente virtual emocional.\nEstoy aquí para acompañarte.",
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 18, color: Colors.black54),
+                      style: TextStyle(fontSize: 18,  color: isDarkMode ? Colors.white: Colors.grey),
                     ),
                   ],
                 ),

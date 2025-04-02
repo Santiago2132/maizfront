@@ -65,8 +65,8 @@ class _BreathingExerciseState extends State<BreathingExercise>
 
         return CustomCard(
           height: isSmallScreen
-              ? 200
-              : 234, // Altura para pantallas pequeñas y grandes
+              ? 100
+              : 134, // Altura para pantallas pequeñas y grandes
           backgroundColor: _baseColor,
           child: _isAnimating
               ? _buildAnimationContent(isSmallScreen)
@@ -92,7 +92,7 @@ class _BreathingExerciseState extends State<BreathingExercise>
   }
 
   Widget _buildAnimationContent(bool isSmallScreen) {
-    return Column(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         // Círculo animado con tamaño responsive
@@ -113,8 +113,8 @@ class _BreathingExerciseState extends State<BreathingExercise>
                       tween: Tween(begin: 0.5, end: 0.8), weight: 2),
                 ]).evaluate(_controller),
                 child: Container(
-                  width: isSmallScreen ? 60 : 80,
-                  height: isSmallScreen ? 60 : 80,
+                  width: isSmallScreen ? 40 : 60,
+                  height: isSmallScreen ? 40 : 60,
                   decoration: BoxDecoration(
                     color: _accentColor,
                     shape: BoxShape.circle,

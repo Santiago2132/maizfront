@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mAIz/core/fontsize_provider.dart';
+import 'package:mAIz/screens/chat/widgets_chat/typingIndicator.dart';
 import 'package:provider/provider.dart';
 
 class MessageList extends StatefulWidget {
@@ -50,7 +51,7 @@ class _MessageListState extends State<MessageList> {
       itemCount: widget.messages.length + (widget.isTyping ? 1 : 0),
       itemBuilder: (context, index) {
         if (index == widget.messages.length && widget.isTyping) {
-          return _typingIndicator();
+          return const TypingIndicator(); // Muestra la animación;
         }
         return _buildMessageBubble(
           context,
@@ -98,18 +99,28 @@ class _MessageListState extends State<MessageList> {
       padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
       child: Align(
         alignment: Alignment.centerLeft,
-        child: Container(
-          padding: const EdgeInsets.all(12.0),
-          decoration: BoxDecoration(
-            color: Colors.yellow[200],
-            borderRadius: BorderRadius.circular(12.0),
-          ),
-          child: const Text(
-            "...",
-            style: TextStyle(fontSize: 16.0, fontStyle: FontStyle.italic),
+        child: AnimatedOpacity(
+          opacity: widget.isTyping ? 1.0 : 0.0,
+          duration: const Duration(seconds: 1),
+          curve: Curves.easeInOut,
+          child: Container(
+            padding: const EdgeInsets.all(12.0),
+            decoration: BoxDecoration(
+              color: Colors.grey[300],
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: const Text(
+              "Pensando...",
+              style: TextStyle(
+                fontSize: 16.0,
+                fontStyle: FontStyle.italic,
+                color: Colors.grey,
+              ),
+            ),
           ),
         ),
       ),
     );
   }
+
 }

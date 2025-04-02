@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -13,6 +14,8 @@ class NotificationService {
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin _localNotifications =
       FlutterLocalNotificationsPlugin();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   NotificationService() {
     _initialize();
@@ -46,6 +49,7 @@ class NotificationService {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print("Notificación abierta: ${message.notification?.title}");
     });
+    
   }
 
   Future<void> _showNotification(RemoteMessage message) async {
@@ -62,14 +66,14 @@ class NotificationService {
 
     await _localNotifications.show(
       0,
-      message.notification?.title ?? 'Registra tu daily mood',
+      message.notification?.title ?? 'Registra tu daily moodd',
       message.notification?.body ??
           '¿Tienes un minuto para registrar tu emoción diaria?',
       notificationDetails,
     );
   }
 
-  final String _baseUrl = 'http://192.168.20.71:4000';
+  final String _baseUrl = 'http://192.168.20.71:3000';
 
   Future<void> registerFCMToken(String userId, String token) async {
     final response = await http.post(
@@ -82,6 +86,18 @@ class NotificationService {
       print('Token registrado correctamente');
     } else {
       print('Error al registrar el token: ${response.body}');
+    }
+  }
+
+  Future<void> registerToken() async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    String? token = await _messaging.getToken();
+    if (token != null) {
+      await _firestore.collection('user_tokens').doc(user.uid).set({
+        'fcmToken': token,
+      });
     }
   }
 
@@ -120,7 +136,7 @@ class NotificationService {
         'date': date.toIso8601String(),
       }),
     );
-
+    print(response);
     if (response.statusCode == 201) {
       print('Recordatorio creado');
     } else {
@@ -154,27 +170,36 @@ class NotificationService {
     }
     print('Fecha programada: $scheduledDate');
     print('Fecha actual: $now');
+
     await createReminder(
-        'recordatorio', 'Regitra tu emoción hoy', scheduledDate);
-    await _localNotifications.zonedSchedule(
-      0,
-      'Recordatorio Programado',
-      'Este es tu recordatorio para la hora seleccionada',
-      tz.TZDateTime.from(scheduledDate, tz.local),
-      const NotificationDetails(
-        android: AndroidNotificationDetails(
-          'reminder_channel',
-          'Recordatorio',
-          importance: Importance.high,
-          priority: Priority.high,
-        ),
+        'recordatorio', '¿Tienes un minuto para registrar tu emoción diaria?', scheduledDate);
+    
+    final notificationId = scheduledDate.millisecondsSinceEpoch ~/ 1000; // ID único
+/*
+   await _localNotifications.zonedSchedule(
+    notificationId,
+    'Recordatorio Programado',
+    'Este es tu recordatorio para la hora seleccionada',
+    tz.TZDateTime.from(scheduledDate, tz.local),
+    const NotificationDetails(
+      android: AndroidNotificationDetails(
+        'reminder_channel',
+        'Recordatorio',
+        channelDescription: 'Canal para recordatorios diarios',
+        importance: Importance.high,
+        priority: Priority.min,
       ),
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      androidScheduleMode:
-          AndroidScheduleMode.exactAllowWhileIdle, 
-    );
+      iOS: DarwinNotificationDetails(), // 🔹 Soporte para iOS
+    ),
+    uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime,
+    androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+  );
+*/
+
 
     print('Notificación programada para: $scheduledDate');
   }
+
+
 }

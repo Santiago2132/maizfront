@@ -1,3 +1,4 @@
+import 'package:mAIz/data/services/moodService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EmotionStorage {
@@ -6,6 +7,8 @@ class EmotionStorage {
   // Guardar una emoción con la fecha actual
   static Future<void> saveEmotion(String emotion) async {
     final prefs = await SharedPreferences.getInstance();
+    await MoodService().saveMood(emotion);
+  
     final emotions = await getEmotions();
 
     emotions.add({

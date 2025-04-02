@@ -1,18 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mAIz/models/shared_preferences.dart';
 
 class UserService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // Método para iniciar sesión con Google y guardar el UID en Firestore
-  Future<void> signInWithGoogle() async {
+  /* Future<void> signInWithGoogle() async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
 
     try {
-      await googleSignIn.signOut(); // Cerrar sesión previa para elegir otra cuenta
-      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+      await googleSignIn
+          .signOut(); // Cerrar sesión previa para elegir otra cuenta
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
 
       if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleAuth =
@@ -36,7 +38,7 @@ class UserService {
 
           if (!userDoc.exists) {
             await _firestore.collection('users').doc(uid).set({
-              'uid': uid,  // Guarda el UID
+              'uid': uid, // Guarda el UID
               'name': user.displayName ?? 'Usuario',
               'email': user.email,
               'photoUrl': user.photoURL,
@@ -49,31 +51,25 @@ class UserService {
       print("Error al iniciar sesión con Google: $e");
     }
   }
+*/
 
   // Método para obtener el nombre del usuario autenticado
   Future<String> getUserName() async {
-    final User? user = _auth.currentUser;
+    final prefsService = SharedPreferencesService();
+    final name = await prefsService.getUserName();
 
-    if (user == null) return 'Usuario';
-
-    // Nombre desde Firebase Auth
-    if (user.displayName != null && user.displayName!.isNotEmpty) {
-      return user.displayName!;
-    }
-
-    // Nombre desde Firestore
-    DocumentSnapshot userDoc =
-        await _firestore.collection('users').doc(user.uid).get();
-    if (userDoc.exists && userDoc.data() != null) {
-      var data = userDoc.data() as Map<String, dynamic>;
-      if (data.containsKey('name') && data['name'] != null) {
-        return data['name'];
-      }
-    }
-
-    return 'Usuario';
+    // Si no existe, retorna un valor por defecto
+    return name ?? 'Invitado';
   }
 
+  Future<String> getUserId() async {
+    final prefsService = SharedPreferencesService();
+    final id = await prefsService.getUserId();
+    print('id de la app');
+    print(id);
+    // Si no existe, retorna un valor por defecto
+    return id ?? '';
+  }
 
   Future<void> registerUser(String email, String password, String name) async {
     UserCredential userCredential =
@@ -94,7 +90,7 @@ class UserService {
     }
   }
 
-  Future<String?> _getUserId() async {
+  Future<String?> _getUserUid() async {
     final user = FirebaseAuth.instance.currentUser;
     return user?.uid;
   }
