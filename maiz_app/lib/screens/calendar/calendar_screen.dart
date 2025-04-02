@@ -25,7 +25,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
   void initState() {
     super.initState();
 
-    CalendarService.getEmotionalRecords().then((records) {
+    DateTime now = DateTime.now();
+
+    CalendarService.getEmotionalRecords(now.year, now.month).then((records) {
       setState(() {
         _emotionalRecords = records.map((key, value) => MapEntry(
               DateTime(key.year, key.month, key.day), // Normaliza la fecha

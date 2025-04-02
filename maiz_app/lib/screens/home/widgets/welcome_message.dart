@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mAIz/data/services/user_firebase_service.dart';
+import 'package:mAIz/data/services/user_service.dart';
 
 class WelcomeMessage extends StatelessWidget {
   const WelcomeMessage({super.key});

@@ -1,7 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:mAIz/data/services/auth_service.dart';
 import 'package:mAIz/data/services/notification_service.dart';
-import 'package:mAIz/data/services/user_firebase_service.dart';
+import 'package:mAIz/data/services/user_service.dart';
 import 'package:mAIz/models/shared_preferences.dart';
 import 'package:mAIz/screens/login/Firebase/firebase_auth.dart';
 import 'package:mAIz/screens/login/login_form.dart';
@@ -42,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    bool result = await _authService.verifyUser(email, password);
+    bool result = await _authService.loginApp(email, password);
     if (result) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Inicio de sesión exitoso")),
@@ -107,49 +109,54 @@ class _LoginScreenState extends State<LoginScreen> {
 
         print(credential.token);
         print(credential.accessToken);
-        UserCredential userCredential = await firebaseAuth.signInWithCredential(credential);
+
+        UserCredential userCredential =
+            await firebaseAuth.signInWithCredential(credential);
 
         // Obtener el usuario autenticado
         final user = userCredential.user;
+        print('user google');
+        print(user);
+        if (user != null) {
+          final token = await user.getIdToken();
+          final googleId = user.uid;
+          final userName = user.displayName ?? 'Sin nombre';
+          final email = user.email ?? '';
+          print(googleId);
 
-       if (user != null) {
-            final token = await user.getIdToken();
-            final googleId = user.uid;
-            final userName = user.displayName ?? 'Sin nombre';
-            final email = user.email ?? '';
-            
-            final userService = AuthService(); 
-            final userId = await userService.sendGoogleUid(googleId, email, userName); 
+          final AuthService userService = AuthService();
+          final userId = 10; //await userService.sendGoogleUid(googleId, email, userName);
 
-            if (userId != null) {
-              final prefsService = SharedPreferencesService();
-              await prefsService.saveGoogleSession(
-                token: token ?? '',
-                googleUid: user.uid,
-                userId: userId,
-                name: userName,
-              );
-              print('Sesión completa guardada');
-            }if(userId==null){
-                 ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Verifique el usuario")),
-                  );
-            } else {
-              print('No se pudo registrar/verificar el usuario en el servidor');
-            }
-
-            Navigator.pop(context);
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainScreen()));
+          print('id');
+          print(userId);
+          if (userId != 0) {
+            final prefsService = SharedPreferencesService();
+            await prefsService.saveGoogleSession(
+              token: token ?? '',
+              googleUid: user.uid,
+              userId: userId ?? 0,
+              name: userName,
+            );
+            print('Sesión completa guardada');
           }
-        } else {
-          Navigator.pop(context);
+          if (userId == null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Verifique el usuario")),
+            );
+          }
+
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const MainScreen()));
         }
-      } catch (e) {
+      } else {
         Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Inicio de sesión fallido: $e")),
-        );
       }
+    } catch (e) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Inicio de sesión fallido: $e")),
+      );
+    }
   }
 
   @override

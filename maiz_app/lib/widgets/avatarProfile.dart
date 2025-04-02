@@ -56,27 +56,51 @@ class _AvatarProfileState extends State<AvatarProfile> {
       child: SizedBox(
         width: 150,
         height: 150,
-        child: ClipOval(
-          child: Stack(
-            children: [
-              Container(
+        child: Stack(
+          children: [
+            ClipOval(
+              child: Container(
                 alignment: Alignment.center,
-                color: const Color(0xFF7B1FA2),
-                child: const Icon(
-                  Icons.person,
-                  size: 60,
+                color: Colors.deepPurple,
+                child: _image == null
+                    ? const Icon(
+                        Icons.person,
+                        size: 60,
+                        color: Colors.white,
+                      )
+                    : Image.file(
+                        _image!,
+                        width: 150,
+                        height: 150,
+                        fit: BoxFit.cover,
+                      ),
+              ),
+            ),
+            // Ícono de lápiz en la esquina inferior derecha
+            Positioned(
+              bottom: 5,
+              right: 5,
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
                   color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: const Icon(
+                  Icons.edit,
+                  size: 20,
+                  color:  Colors.deepPurple,
                 ),
               ),
-              if (_image != null)
-                Image.file(
-                  _image!,
-                  width: 150,
-                  height: 150,
-                  fit: BoxFit.cover,
-                ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

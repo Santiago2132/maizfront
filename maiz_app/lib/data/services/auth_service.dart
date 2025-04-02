@@ -6,44 +6,30 @@ import 'package:mAIz/models/shared_preferences.dart';
 
 class AuthService {
   final String baseUrl =
-      'http://10.153.90.64:4000'; //sirve en la api de base de datos
+      'http://10.153.90.32:4000'; //sirve en la api de base de datos
 
   final prefsService = SharedPreferencesService();
 
-  Future<bool> registerUser(
-      BuildContext context, String name, String email, String password) async {
+  Future<bool> registerUser(BuildContext context, String name, String email,
+      String password, String confirmPasssword) async {
     try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
+      final response = await http.post(
+        Uri.parse('$baseUrl/registro/app'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'name': name,
+          'email': email,
+          'password': password,
+          'confirm_password': confirmPasssword
+        }),
       );
-      User? user = userCredential.user;
-      if (user != null) {
-        //ScaffoldMessenger.of(context).showSnackBar(
-        //SnackBar(content: Text('Usuario registrado correctamente: UID: ${user.uid}')),
-        //);
-        final response = await http.post(
-          Uri.parse('$baseUrl/registro/app'),
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode({
-            'name': name,
-            'email': email,
-            'password': password,
-            'google_id': user.uid,
-          }),
-        );
 
-        if (response.statusCode == 201 || response.statusCode == 200) {
-          print('Usuario registrado correctamente en el servidor');
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        print('Usuario registrado correctamente en el servidor');
 
-          return true;
-        } else {
-          print('Error al registrar usuario en el servidor: ${response.body}');
-          return false;
-        }
+        return true;
       } else {
-        print('Error al obtener el UID de Firebase');
+        print('Error al registrar usuario en el servidor: ${response.body}');
         return false;
       }
     } on FirebaseAuthException catch (e) {
@@ -77,7 +63,7 @@ class AuthService {
   }
 
   // Login sin google
-  Future<bool> verifyUser(String email, String password) async {
+  Future<bool> loginApp(String email, String password) async {
     final response = await http.post(
       Uri.parse('$baseUrl/login/app'),
       headers: {'Content-Type': 'application/json'},
@@ -87,14 +73,17 @@ class AuthService {
       }),
     );
 
-    if (response.statusCode == 200) {
+    print(response.body);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
       print('Usuario encontrado: ${response.body}');
 
+      print(response.body);
       final data = jsonDecode(response.body);
       print(data);
       //token y userId de la respuesta
       final token = data['token'];
-      final userId = data['user']['id'];
+      final userId = data['user']['id'] as int;
       final userName = data['user']['name'];
 
       print('Usuario encontrado: $data');
@@ -113,10 +102,10 @@ class AuthService {
   }
 
   //registro google para nuestr app
-  Future<String?> sendGoogleUid(
-      String googleId, String email, String name) async {
+  Future<int?> sendGoogleUid(String googleId, String email, String name) async {
+    
     final response = await http.post(
-      Uri.parse('$baseUrl/registro/google/'),
+      Uri.parse('$baseUrl/registro/google'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'email': email,
@@ -128,10 +117,11 @@ class AuthService {
     if (response.statusCode == 201 || response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
       print('Usuario registrado/verificado correctamente');
-      return responseData['id'].toString();
+      final id = responseData['user_id'] as int;
+      return id; 
     } else {
       print('Error al enviar UID de Google: ${response.body}');
-      return null;
+      return 0; //TEMPORAL
     }
   }
 

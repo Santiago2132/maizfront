@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:mAIz/data/services/calendar_service.dart';
-import 'package:flutter/services.dart' show rootBundle;
+
 
 class EmotionService {
 
@@ -13,7 +13,7 @@ class EmotionService {
   };
 
   static Future<Map<int, String>> fetchMonthlyEmotions(int year, int month) async {
-    final records = await CalendarService.getEmotionalRecords();
+    final records = await CalendarService.getEmotionalRecords(year, month);
     final Map<int, String> monthlyEmotions = {};
 
     records.forEach((date, emotion) {

@@ -38,11 +38,15 @@ class _CalendarContainerState extends State<CalendarContainer> {
   }
 
   Future<void> _loadEmotionalRecords() async {
-    final records = await CalendarService.getEmotionalRecords();
-    setState(() {
-      _emotionalRecords = records.map(
-        (key, value) => MapEntry(DateTime(key.year, key.month, key.day), value),
-      );
+     DateTime now = DateTime.now();
+
+    CalendarService.getEmotionalRecords(now.year, now.month).then((records) {
+      setState(() {
+        _emotionalRecords = records.map((key, value) => MapEntry(
+              DateTime(key.year, key.month, key.day), // Normaliza la fecha
+              value,
+            ));
+      });
     });
   }
 

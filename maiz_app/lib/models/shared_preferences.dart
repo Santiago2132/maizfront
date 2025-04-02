@@ -10,12 +10,12 @@ class SharedPreferencesService {
    // Guardar sesión de usuario normal
   Future<void> saveUserSession({
     required String token,
-    required String userId,
+    required int userId,
     required String name,
   }) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_tokenKey, token);
-    await prefs.setString(_userIdKey, userId);
+    await prefs.setInt(_userIdKey, userId);
     await prefs.setString(_userNameKey, name);
     await prefs.remove(_googleUidKey);
   }
@@ -24,7 +24,7 @@ class SharedPreferencesService {
   Future<void> saveGoogleSession({
     required String token,
     required String googleUid,
-    required String userId,
+    required int userId,
     required String name,
     
   }) async {
@@ -32,7 +32,7 @@ class SharedPreferencesService {
     await prefs.setString(_tokenKey, token);
     await prefs.setString(_googleUidKey, googleUid);
     await prefs.setString(_userNameKey, name);
-    await prefs.setString(_userIdKey, name);
+    await prefs.setInt(_userIdKey, userId);
   }
 
   // Obtener token
@@ -42,9 +42,9 @@ class SharedPreferencesService {
   }
 
   // Obtener userId (si es usuario normal)
-  Future<String?> getUserId() async {
+  Future<int?> getUserId() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_userIdKey);
+    return prefs.getInt(_userIdKey);
   }
 
   // Obtener googleUid (si es usuario de Google)
