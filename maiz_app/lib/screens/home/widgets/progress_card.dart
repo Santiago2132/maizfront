@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mAIz/core/fontsize_provider.dart';
+import 'package:mAIz/data/services/calendar_service.dart';
+import 'package:mAIz/data/services/emotional_service.dart';
 import 'package:mAIz/widgets/custom_card.dart';
 import 'package:mAIz/models/emotion_storage.dart';
 import 'package:provider/provider.dart';
@@ -13,10 +15,13 @@ class ProgressCard extends StatelessWidget {
     'Euforico': 'assets/icons/Euphoric_icon.png',
   };
 
-  Future<Map<String, int>> getWeeklyEmotionCounts() async {
-    final emotions = await EmotionStorage.getEmotions();
+  final EmotionStorage _emotionStorage = EmotionStorage();
+
+  Future<Map<String, int>> getWeeklyEmotionCounts(int year, int month) async {
+    final allWeekData = await CalendarService.getAllEmotionOccurrencesByWeek(year, month);
+
     final today = DateTime.now();
-    final firstDayOfWeek = today.subtract(Duration(days: today.weekday - 1));
+    final currentWeek = ((today.day - 1) ~/ 7) + 1;
 
     final counts = {
       'Deprimente': 0,
@@ -26,15 +31,17 @@ class ProgressCard extends StatelessWidget {
       'Euforico': 0,
     };
 
-    for (var emotion in emotions) {
-      final date = DateTime.parse(emotion['date']!);
-      if (date.isAfter(firstDayOfWeek.subtract(const Duration(days: 1)))) {
-        counts[emotion['emotion']!] = (counts[emotion['emotion']!] ?? 0) + 1;
+    final currentWeekEmotions = allWeekData[currentWeek] ?? [];
+
+    for (final emotion in currentWeekEmotions) {
+      if (counts.containsKey(emotion)) {
+        counts[emotion] = (counts[emotion] ?? 0) + 1;
       }
     }
 
     return counts;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +64,7 @@ class ProgressCard extends StatelessWidget {
           LayoutBuilder(
             builder: (context, constraints) {
               return FutureBuilder<Map<String, int>>(
-                future: getWeeklyEmotionCounts(),
+                future: getWeeklyEmotionCounts(DateTime.now().year, DateTime.now().month),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState != ConnectionState.done) {
                     return Center(
@@ -164,7 +171,7 @@ class ProgressCard extends StatelessWidget {
                       size: isSmallScreen ? 18 : 20,
                       color: isDarkMode
                         ? const Color.fromARGB(255, 244, 240, 240)
-                        : Color(0xFFFFD740).withOpacity(0.15),
+                        : Color.fromARGB(255, 23, 23, 2).withOpacity(0.8),
                     ),
                   ],
                 ),

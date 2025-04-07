@@ -14,7 +14,7 @@ class FeelingCard extends StatefulWidget {
 
 class _FeelingCardState extends State<FeelingCard> {
   String? selectedFeeling;
-
+  final EmotionStorage _emotionStorage = EmotionStorage();
   final Map<String, String> feelings = {
     'Deprimente': 'assets/icons/Depressed_icon.png',
     'Triste': 'assets/icons/sad_icon.png',
@@ -25,25 +25,24 @@ class _FeelingCardState extends State<FeelingCard> {
 
   void _handleFeelingSelection(String feeling) async {
     setState(() => selectedFeeling = feeling);
-    await EmotionStorage.saveEmotion(feeling);
+    await _emotionStorage.saveEmotion(feeling);
     widget.onEmotionSelected(); // Notificar al padre
   }
 
   @override
   Widget build(BuildContext context) {
-  final fontSizeProvider = Provider.of<FontSizeProvider>(context).fontSize;
+    final fontSizeProvider = Provider.of<FontSizeProvider>(context).fontSize;
 
     return CustomCard(
       height: 130,
       child: Column(
         children: [
-           Text(
+          Text(
             '¿Cómo te sientes hoy?',
             style: TextStyle(
-              fontSize: fontSizeProvider,
-              fontWeight: FontWeight.bold,
-              color: Color(0xff673ab7)
-            ),
+                fontSize: fontSizeProvider,
+                fontWeight: FontWeight.bold,
+                color: Color(0xff673ab7)),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),

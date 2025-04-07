@@ -1,9 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:mAIz/data/services/calendar_service.dart';
 
-
 class EmotionService {
-
   static final Map<String, double> emotionYValues = {
     'Deprimente': 0,
     'Triste': 1,
@@ -12,8 +10,10 @@ class EmotionService {
     'Euforico': 4,
   };
 
-  static Future<Map<int, String>> fetchMonthlyEmotions(int year, int month) async {
-    final records = await CalendarService.getEmotionalRecords(year, month);
+  static Future<Map<int, String>> fetchMonthlyEmotions(
+      int year, int month) async {
+    final records = await CalendarService.getDominantEmotionPerDay(year, month);
+
     final Map<int, String> monthlyEmotions = {};
 
     records.forEach((date, emotion) {
@@ -24,10 +24,28 @@ class EmotionService {
 
     return monthlyEmotions;
   }
-  
-  static Future<List<FlSpot>> fetchMonthlyStatistics(int year, int month) async {
+
+  static Future<List<FlSpot>> fetchAllEmotionSpots(int year, int month) async {
+    final data = await CalendarService.getAllEmotionOccurrencesByDay(year, month);
+    final List<FlSpot> allSpots = [];
+
+    data.forEach((date, emotions) {
+      for (var emotion in emotions) {
+        final double? y = emotionYValues[emotion];
+        if (y != null) {
+          allSpots.add(FlSpot(date.day.toDouble(), y));
+        }
+      }
+    });
+
+    return allSpots;
+  }
+
+
+  static Future<List<FlSpot>> fetchMonthlyStatistics(
+      int year, int month) async {
     final records = await fetchMonthlyEmotions(year, month);
-    
+
     final List<FlSpot> spots = [];
 
     records.forEach((day, emotion) {
@@ -37,7 +55,6 @@ class EmotionService {
 
     return spots;
   }
-
 
   static double calculateMonthlyAverage(List<FlSpot> data) {
     if (data.isEmpty) return 2.0;
@@ -59,8 +76,4 @@ class EmotionService {
             orElse: () => const MapEntry('', -1))
         .key;
   }
-
-
-
-
 }

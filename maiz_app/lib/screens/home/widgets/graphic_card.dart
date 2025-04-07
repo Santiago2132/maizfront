@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:mAIz/core/fontsize_provider.dart';
+import 'package:mAIz/data/services/calendar_service.dart';
+import 'package:mAIz/data/services/emotional_service.dart';
 import 'package:mAIz/models/emotion_storage.dart';
 import 'package:mAIz/widgets/custom_card.dart';
 import 'package:provider/provider.dart';
@@ -17,39 +19,42 @@ class GraphicCard extends StatelessWidget {
   bool _isSameDay(DateTime a, DateTime b) {
     return a.year == b.year && a.month == b.month && a.day == b.day;
   }
+  
+  final EmotionStorage _emotionStorage = EmotionStorage();
 
-  Future<List<FlSpot>> getWeeklyData() async {
-    final emotions = await EmotionStorage.getEmotions();
+  static Future<List<FlSpot>> getWeeklyData(int year, int month) async {
+    final weeklyEmotions = await CalendarService.getAllEmotionOccurrencesByWeek(year, month);
     final today = DateTime.now();
-    final firstDayOfWeek = today.subtract(Duration(days: today.weekday - 1));
-    final weekDays =
-        List.generate(7, (i) => firstDayOfWeek.add(Duration(days: i)));
+    final int currentWeek = ((today.day - 1) ~/ 7) + 1;
+    final emotions = weeklyEmotions[currentWeek] ?? [];
 
-    // Debug: Imprimir emociones almacenadas
-    debugPrint('Emociones almacenadas: $emotions');
+    final Map<int, List<double>> dayEmotionValues = {
+      for (var i = 0; i < 7; i++) i: []
+    };
 
-    return weekDays.map((day) {
-      final dailyEmotions = emotions
-          .where((e) => _isSameDay(DateTime.parse(e['date']!), day))
-          .toList();
+    for (var i = 0; i < emotions.length; i++) {
+      final emotion = emotions[i];
+      final double? y = EmotionService.emotionYValues[emotion];
+      if (y != null) {
+        final date = today.subtract(Duration(days: today.weekday - 1 - (i % 7)));
+        final int dayIndex = date.weekday - 1; // Lunes = 0 ... Domingo = 6
+        dayEmotionValues[dayIndex]?.add(y);
+      }
+    }
 
-      // Debug: Imprimir emociones del día
-      debugPrint(
-          'Día ${day.toString()}: ${dailyEmotions.map((e) => e['emotion'])}');
+    final List<FlSpot> spots = [];
 
-      final average = dailyEmotions.isEmpty
+    dayEmotionValues.forEach((dayIndex, values) {
+      final double avg = values.isEmpty
           ? 2.0
-          : dailyEmotions
-                  .map((e) => emotionYValues[e['emotion']]!)
-                  .reduce((a, b) => a + b) /
-              dailyEmotions.length;
+          : values.reduce((a, b) => a + b) / values.length;
 
-      // Debug: Imprimir promedio
-      debugPrint('Promedio para ${day.toString()}: $average');
+      spots.add(FlSpot(dayIndex.toDouble(), avg));
+    });
 
-      return FlSpot(weekDays.indexOf(day).toDouble(), average);
-    }).toList();
+    return spots;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +64,7 @@ class GraphicCard extends StatelessWidget {
       title: 'Tu semana emocional',
       height: 300,
       child: FutureBuilder<List<FlSpot>>(
-        future: getWeeklyData(),
+        future: getWeeklyData(DateTime.now().year, DateTime.now().month),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return const Center(child: CircularProgressIndicator());

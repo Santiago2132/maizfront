@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mAIz/core/fontsize_provider.dart';
 import 'package:mAIz/data/services/calendar_service.dart';
+import 'package:mAIz/models/emotion_storage.dart';
 import 'package:mAIz/screens/calendar/calendarMarkets.dart';
 import 'package:mAIz/screens/calendar/widgets/add_button.dart';
 import 'package:mAIz/screens/calendar/widgets/day_number.dart';
@@ -14,14 +15,15 @@ class CalendarContainer extends StatefulWidget {
   final DateTime? selectedDay;
   final Function(DateTime, DateTime) onDaySelected;
   final Function(int, int) onMonthChanged; // Nuevo callback para el mes
+  final VoidCallback? onEmotionSaved; // nuevo callback
 
   const CalendarContainer({
     super.key,
     required this.focusedDay,
     required this.selectedDay,
     required this.onDaySelected,
-        required this.onMonthChanged, 
-
+    required this.onMonthChanged,
+    required this.onEmotionSaved
   });
 
   @override
@@ -38,25 +40,27 @@ class _CalendarContainerState extends State<CalendarContainer> {
   }
 
   Future<void> _loadEmotionalRecords() async {
-     DateTime now = DateTime.now();
+    final year = widget.focusedDay.year;
+    final month = widget.focusedDay.month;
 
-    CalendarService.getEmotionalRecords(now.year, now.month).then((records) {
-      setState(() {
-        _emotionalRecords = records.map((key, value) => MapEntry(
-              DateTime(key.year, key.month, key.day), // Normaliza la fecha
-              value,
-            ));
-      });
+    final records = await CalendarService.getDominantEmotionPerDay(year, month);
+    setState(() {
+      _emotionalRecords = records.map((key, value) => MapEntry(
+            DateTime(key.year, key.month, key.day), // Normaliza la fecha
+            value,
+          ));
     });
+
+    widget.onEmotionSaved?.call(); 
   }
+
 
   Future<void> _showFeelingSelection(
       BuildContext context, DateTime date) async {
     final today = DateTime.now();
     final selectedDate = DateTime(date.year, date.month, date.day);
-
+    final EmotionStorage _emotionstorage = EmotionStorage();
     if (selectedDate.isAfter(today)) {
-      // Opcional: Mostrar un mensaje de error
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
             content: Text("No puedes registrar emociones en días futuros.")),
@@ -69,9 +73,14 @@ class _CalendarContainerState extends State<CalendarContainer> {
       builder: (context) {
         return EmotionSelector(
           onEmotionSelected: (selectedEmotion) async {
-            await CalendarService.saveEmotion(date, selectedEmotion);
-            await _loadEmotionalRecords();
-            Navigator.pop(context);
+            await _emotionstorage.saveEmotion(selectedEmotion);
+
+            if (context.mounted) {
+                await _loadEmotionalRecords();
+                widget.onEmotionSaved?.call(); // 👈 notifica al padre
+                Navigator.pop(context);
+            }
+
           },
         );
       },
@@ -103,15 +112,15 @@ class _CalendarContainerState extends State<CalendarContainer> {
                 widget.onMonthChanged(focusedDay.year, focusedDay.month);
               });
             },
-
             calendarFormat: CalendarFormat.month,
             availableGestures: AvailableGestures.all,
             headerStyle: HeaderStyle(
               formatButtonVisible: false,
               titleTextStyle: TextStyle(
-                  fontSize: fontSizee + 2), // Ajusta el tamaño de la fuente del encabezado
+                  fontSize: fontSizee +
+                      2), // Ajusta el tamaño de la fuente del encabezado
             ),
-           calendarStyle: CalendarStyle(
+            calendarStyle: CalendarStyle(
               selectedDecoration: BoxDecoration(
                 color: Colors.deepPurple.withOpacity(0.2),
                 shape: BoxShape.circle,
@@ -122,28 +131,27 @@ class _CalendarContainerState extends State<CalendarContainer> {
               ),
               markersAlignment: Alignment.center,
               defaultTextStyle: TextStyle(
-                fontSize: fontSizee.clamp(12, 24), // Asegura que el tamaño sea ajustable
+                fontSize: fontSizee.clamp(
+                    12, 24), // Asegura que el tamaño sea ajustable
                 fontWeight: FontWeight.bold,
               ),
               outsideTextStyle: TextStyle(fontSize: fontSizee - 2),
             ),
-
             daysOfWeekStyle: DaysOfWeekStyle(
               weekdayStyle: TextStyle(
-                fontSize: fontSizee.clamp(12, 24), 
-                height: 1,// Ajusta tamaño de días de semana
+                fontSize: fontSizee.clamp(12, 24),
+                height: 1, // Ajusta tamaño de días de semana
                 fontWeight: FontWeight.bold,
                 color: isDarkMode ? Colors.white : Colors.black, // Texto
               ),
               weekendStyle: TextStyle(
-                fontSize: fontSizee.clamp(12, 24), // Ajusta tamaño de sábados y domingos
+                fontSize: fontSizee.clamp(
+                    12, 24), // Ajusta tamaño de sábados y domingos
                 fontWeight: FontWeight.bold,
-                                height: 1,// Ajusta tamaño de días de semana
+                height: 1, // Ajusta tamaño de días de semana
                 color: isDarkMode ? Colors.white : Colors.black, // Texto
-
               ),
             ),
-
             calendarBuilders: CalendarBuilders(
               defaultBuilder: (context, date, _) {
                 final today = DateTime.now();
@@ -155,8 +163,7 @@ class _CalendarContainerState extends State<CalendarContainer> {
                 return Stack(
                   alignment: Alignment.center,
                   children: [
-                    DayNumber(
-                        date: date), // Ajusta el número del día
+                    DayNumber(date: date), // Ajusta el número del día
 
                     if (hasEmotion)
                       EmotionMarker(

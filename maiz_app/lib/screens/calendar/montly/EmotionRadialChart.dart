@@ -7,7 +7,8 @@ class EmotionRadialChart extends StatefulWidget {
   final int year;
   final int month;
 
-  const EmotionRadialChart({super.key, required this.year, required this.month});
+  const EmotionRadialChart(
+      {super.key, required this.year, required this.month});
 
   @override
   _EmotionRadialChartState createState() => _EmotionRadialChartState();
@@ -38,13 +39,15 @@ class _EmotionRadialChartState extends State<EmotionRadialChart> {
 
   Future<Map<String, int>> _processMonthlyEmotions() async {
     final records =
-        await EmotionService.fetchMonthlyEmotions(widget.year, widget.month);
+        await EmotionService.fetchAllEmotionSpots(widget.year, widget.month);
     final Map<String, int> emotionCounts = {};
 
-    for (var emotion in records.values) {
-      emotionCounts[emotion] = (emotionCounts[emotion] ?? 0) + 1;
+    for (var spot in records) {
+      final emotion = EmotionService.getEmotionByValue(spot.y);
+      if (emotion.isNotEmpty) {
+        emotionCounts[emotion] = (emotionCounts[emotion] ?? 0) + 1;
+      }
     }
-
     return emotionCounts;
   }
 
@@ -65,7 +68,8 @@ class _EmotionRadialChartState extends State<EmotionRadialChart> {
 
                 final emotionCounts = snapshot.data ?? {};
                 if (emotionCounts.isEmpty) {
-                  return const Center(child: Text('No hay registros de emociones.'));
+                  return const Center(
+                      child: Text('No hay registros de emociones.'));
                 }
 
                 return PieChart(
@@ -86,7 +90,8 @@ class _EmotionRadialChartState extends State<EmotionRadialChart> {
     );
   }
 
-  List<PieChartSectionData> _generatePieSections(Map<String, int> emotionCounts) {
+  List<PieChartSectionData> _generatePieSections(
+      Map<String, int> emotionCounts) {
     final List<Color> colors = [
       Colors.red.shade900, // Deprimente
       Colors.orange.shade700, // Triste
@@ -103,21 +108,27 @@ class _EmotionRadialChartState extends State<EmotionRadialChart> {
       'Euforico',
     ];
 
-    return emotions.asMap().entries.map((entry) {
-      final index = entry.key;
-      final emotion = entry.value;
-      final count = emotionCounts[emotion] ?? 0;
+    return emotions
+        .asMap()
+        .entries
+        .map((entry) {
+          final index = entry.key;
+          final emotion = entry.value;
+          final count = emotionCounts[emotion] ?? 0;
 
-      if (count == 0) return null;
+          if (count == 0) return null;
 
-      return PieChartSectionData(
-        color: colors[index],
-        value: count.toDouble(),
-        title: '$count',
-        radius: 60,
-        titleStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
-      );
-    }).whereType<PieChartSectionData>().toList();
+          return PieChartSectionData(
+            color: colors[index],
+            value: count.toDouble(),
+            title: '$count',
+            radius: 60,
+            titleStyle: const TextStyle(
+                fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+          );
+        })
+        .whereType<PieChartSectionData>()
+        .toList();
   }
 
   Widget _buildLegend() {

@@ -32,17 +32,19 @@ class _ChatModeSelectorState extends State<ChatModeSelector> {
     setState(() {
       _currentMode = mode;
     });
+    print(_currentMode);
     widget.onModeChanged(); // Notificar a ChatScreen para actualizarse
   }
 
   @override
   Widget build(BuildContext context) {
+
     return PopupMenuButton<String>(
       onSelected: _changeChatMode,
       offset: const Offset(0, 40),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       itemBuilder: (context) => [
-        _buildMenuItem('basic', 'Chat Freudy 1.0', Icons.lightbulb_outline),
+        _buildMenuItem('basic', 'Chat Freudy 2.0', Icons.lightbulb_outline),
         _buildMenuItem('premium', 'Chat Freudy Pro', Icons.workspace_premium),
       ],
       child: Container(
@@ -66,13 +68,15 @@ class _ChatModeSelectorState extends State<ChatModeSelector> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              _currentMode == 'basic' ? Icons.lightbulb_outline : Icons.workspace_premium,
+              _currentMode == 'basic'
+                  ? Icons.lightbulb_outline
+                  : Icons.workspace_premium,
               color: Colors.white,
               size: 20,
             ),
             const SizedBox(width: 8),
             Text(
-              _currentMode == 'basic' ? 'Chat Freudy 1.0' : 'Chat Freudy Pro',
+              _currentMode == 'basic' ? 'Chat Freudy 2.0' : 'Chat Freudy Pro',
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
@@ -86,21 +90,23 @@ class _ChatModeSelectorState extends State<ChatModeSelector> {
     );
   }
 
-  PopupMenuItem<String> _buildMenuItem(String value, String text, IconData icon) {
+  PopupMenuItem<String> _buildMenuItem(
+      String value, String text, IconData icon) {
     bool isSelected = value == _currentMode;
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return PopupMenuItem<String>(
       value: value,
       child: Row(
         children: [
-          Icon(icon, color: isSelected ? Colors.deepPurple : Colors.black54),
+          Icon(icon, color: isSelected ? Colors.deepPurple : isDarkMode ? Colors.white : Colors.black),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               text,
               style: TextStyle(
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                color: isSelected ? Colors.deepPurple : Colors.black87,
+                color: isSelected ? Colors.deepPurple : isDarkMode ? Colors.white : Colors.black,
               ),
             ),
           ),

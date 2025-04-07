@@ -7,7 +7,7 @@ class ChatService {
 
   //'http://192.168.253.111:5000/chat'; // esa ip me sirve en el emulador
 
-  /* Future<String> sendAndReceiveMessage(String message) async { 
+   Future<String> sendMessage(String message) async { 
     try {
       final response = await http.post(
         Uri.parse(baseUrl),
@@ -26,9 +26,9 @@ class ChatService {
       return 'Error al procesar tu mensaje';
     }
   }
-  */
+  
 
-  Future<String> sendAndReceiveMessage(String message) async {
+  Future<String> sendMessagePro(String message) async {
       try {
         final response = await http.post(
           Uri.parse(baseUrl),

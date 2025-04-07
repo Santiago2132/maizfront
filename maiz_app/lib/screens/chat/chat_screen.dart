@@ -17,7 +17,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final List<String> _messages = [];
   final List<bool> _isUserMessage = [];
   bool _isTyping = false;
-  String _chatMode = 'basic'; // Modo por defecto
+  String _chatMode = 'premium'; // Modo por defecto
 
   final ChatService _chatService = ChatService();
   late RiveAnimationController _controller;
@@ -41,17 +41,22 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {
       _messages.add(text);
       _isUserMessage.add(true);
-      _isTyping = true; // Activamos el estado "escribiendo..."
+      _isTyping = true;
     });
 
-    String botResponse = await _chatService.sendAndReceiveMessage(text);
+    String botResponse = _chatMode == 'premium'
+        ? await _chatService.sendMessagePro(text)
+        : await _chatService.sendMessage(text);
+
+    if (!mounted) return;
 
     setState(() {
       _messages.add(botResponse);
       _isUserMessage.add(false);
-      _isTyping = false; // Desactivamos la burbuja de carga
+      _isTyping = false;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {

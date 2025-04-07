@@ -18,6 +18,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
+
+    
     await Firebase.initializeApp(
       options: kIsWeb
           ? const FirebaseOptions(

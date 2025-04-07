@@ -1,8 +1,9 @@
 
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mAIz/models/shared_preferences.dart';
 
 class UserService {
- 
+  final prefsService = SharedPreferencesService();
   // Método para iniciar sesión con Google y guardar el UID en Firestore
   /* Future<void> signInWithGoogle() async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -52,7 +53,7 @@ class UserService {
 
   // Método para obtener el nombre del usuario autenticado
   Future<String> getUserName() async {
-    final prefsService = SharedPreferencesService();
+  
     final name = await prefsService.getUserName();
 
     // Si no existe, retorna un valor por defecto
@@ -60,13 +61,16 @@ class UserService {
   }
 
   Future<int> getUserId() async {
-    final prefsService = SharedPreferencesService();
+   
     final id = await prefsService.getUserId();
     print('id de la app');
     print(id);
     // Si no existe, retorna un valor por defecto
     return id ?? 0;
   }
+
+
+
 
 
 }
