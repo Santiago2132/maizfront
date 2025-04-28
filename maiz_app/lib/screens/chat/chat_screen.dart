@@ -3,6 +3,7 @@ import 'package:mAIz/data/services/chat_service.dart';
 import 'package:mAIz/screens/chat/widgets_chat/message_input.dart';
 import 'package:mAIz/screens/chat/widgets_chat/message_list.dart';
 import 'package:mAIz/screens/chat/widgets_chat/selector.dart';
+import 'package:mAIz/screens/navegator/main_screen.dart';
 import 'package:rive/rive.dart';
 
 
@@ -17,7 +18,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final List<String> _messages = [];
   final List<bool> _isUserMessage = [];
   bool _isTyping = false;
-  String _chatMode = 'premium'; // Modo por defecto
+  String _chatMode = 'basic'; // Modo por defecto
 
   final ChatService _chatService = ChatService();
   late RiveAnimationController _controller;
@@ -25,17 +26,17 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-    _fetchChatMode();
     _controller =
         SimpleAnimation('idle'); // Usa el nombre exacto de tu animación
   }
 
-  void _fetchChatMode() async {
-    String mode = await _chatService.getChatMode();
+  void _fetchChatMode([String? newMode]) async {
+    String mode = newMode ?? await _chatService.getChatMode();
     setState(() {
       _chatMode = mode;
     });
   }
+
 
   void _sendMessage(String text) async {
     setState(() {
@@ -65,7 +66,17 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Freudy", style: TextStyle( color: isDarkMode ? Colors.white: Colors.white)),
-        backgroundColor: _chatMode == 'premium' ? Colors.amber : Colors.deepPurple,
+        leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white,),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => MainScreen()),
+                    (route) => false,
+                  );
+              }, 
+            ),
+        backgroundColor: _chatMode == 'premium' ? Colors.deepPurple : Colors.deepPurple,
         actions: [
           ChatModeSelector(onModeChanged: _fetchChatMode), // Recarga cuando se cambia el modo
         ],

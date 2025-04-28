@@ -28,28 +28,21 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   void initState() {
-    _refreshChart();
     super.initState();
-    DateTime now = DateTime.now();
-
-    CalendarService.getDominantEmotionPerDay(now.year, now.month)
-        .then((records) {
-      setState(() {
-        _emotionalRecords = records.map((key, value) => MapEntry(
-              DateTime(key.year, key.month, key.day), // Normaliza la fecha
-              value,
-            ));
-      });
-      
-    });
+    _refreshChart();
   }
+
+
+
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     setState(() {
       _selectedDay = selectedDay;
       _focusedDay = focusedDay;
     });
+    _refreshChart(); // fuerza la recarga del gráfico
   }
+
 
   void _onMonthChanged(int year, int month) {
     setState(() {
@@ -58,6 +51,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       _currentMonth = month;
       print('Mes cambiado: $_focusedDay'); // Para ver si detecta el cambio
     });
+     _refreshChart();
   }
 
   @override
@@ -72,7 +66,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               selectedDay: _selectedDay,
               onDaySelected: _onDaySelected,
               onMonthChanged: _onMonthChanged,
-              onEmotionSaved: _refreshChart, // para refrescar el gráfico
+              onEmotionSaved: _refreshChart, 
             ),
             Padding(
               padding: const EdgeInsets.symmetric(

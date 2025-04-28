@@ -25,7 +25,7 @@ class _FeelingCardState extends State<FeelingCard> {
 
   void _handleFeelingSelection(String feeling) async {
     setState(() => selectedFeeling = feeling);
-    await _emotionStorage.saveEmotion(feeling);
+    await _emotionStorage.saveEmotion(feeling, DateTime.now());
     widget.onEmotionSelected(); // Notificar al padre
   }
 

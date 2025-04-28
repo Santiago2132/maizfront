@@ -56,32 +56,31 @@ class CalendarService {
         result[date] = emotionsList.first['nombre_emocion'];
       }
     });
-    print(result);
     return result;
   }
+
+  //lista calendar
   static Future<List<Map<String, dynamic>>> getDailyDominantEmotionsList(
       int year, int month) async {
     final dominantMap = await getDominantEmotionPerDay(year, month);
     final List<Map<String, dynamic>> result = [];
 
-    final firstDay = DateTime(year, month, 1);
-    final lastDay = (month < 12)
-        ? DateTime(year, month + 1, 0)
-        : DateTime(year + 1, 1, 0); // último día del mes
+    final daysInMonth =
+        DateTime(year, month + 1, 0).day; // número de días del mes
 
-    for (int i = 0; i < lastDay.day; i++) {
-      final currentDate = DateTime(year, month, i + 1);
-      final emotion = dominantMap[currentDate];
+    for (int day = 1; day <= daysInMonth; day++) {
+      final date = DateTime(year, month, day);
+      final emotion = dominantMap[date];
 
-      result.add({
-        'date': currentDate,
-        'emotion': emotion, // puede ser null si no hay emoción ese día
+     result.add({
+        'date': date.toIso8601String(),
+        'emotion': emotion,
       });
-    }
 
+    }
+    print(result);
     return result;
   }
- 
 
   //conteo mensual por dias
   static Future<Map<DateTime, List<String>>> getAllEmotionOccurrencesByDay(
@@ -104,26 +103,92 @@ class CalendarService {
     return result;
   }
 
-  // Conteo semanal
-  static Future<Map<int, List<String>>> getAllEmotionOccurrencesByWeek(
+  //grafica semanal
+  static Future<Map<String, List<String>>> getEmotionOccurrencesByWeekday(
       int year, int month) async {
     final rawData = await fetchMonthlyRawData(year, month);
-    final Map<int, List<String>> result = {};
+    final Map<String, List<String>> result = {
+      'Lunes': [],
+      'Martes': [],
+      'Miércoles': [],
+      'Jueves': [],
+      'Viernes': [],
+      'Sábado': [],
+      'Domingo': [],
+    };
+
+    // Calcular la semana actual del mes
+    final now = DateTime.now();
+    final bool isCurrentMonth = now.year == year && now.month == month;
+    final int currentWeek = getWeekOfMonth(now);
 
     rawData.forEach((date, emotionsList) {
-      final int weekNumber = ((date.day - 1) ~/ 7) + 1;
-      result[weekNumber] ??= [];
+      final int weekOfDate = ((date.day - 1) ~/ 7) + 1;
 
-      for (var emotion in emotionsList) {
-        final String nombre = emotion['nombre_emocion'];
-        final int count = (emotion['contador'] ?? 1).toInt();
+      if (weekOfDate == currentWeek) {
+        final String weekday = _getWeekdayName(date);
 
-        // Repite la emoción según el contador
-        result[weekNumber]!.addAll(List.filled(count, nombre));
+        for (var emotion in emotionsList) {
+          final String nombre = _capitalize(emotion['nombre_emocion']);
+          final int count = (emotion['contador'] ?? 1).toInt();
+          result[weekday]?.addAll(List.filled(count, nombre));
+        }
       }
     });
-    print(result);
 
     return result;
   }
+
+
+  //contador semanal
+  static Future<Map<int, List<String>>> getAllEmotionOccurrencesByWeek(
+        int year, int month) async {
+      final rawData = await fetchMonthlyRawData(year, month);
+      final Map<int, List<String>> result = {};
+
+      rawData.forEach((date, emotionsList) {
+        final int weekNumber = getWeekOfMonth(date);
+        result[weekNumber] ??= [];
+
+        for (var emotion in emotionsList) {
+          final String nombre = emotion['nombre_emocion'];
+          final int count = (emotion['contador'] ?? 1).toInt();
+
+          // Repite la emoción según el contador
+          result[weekNumber]!.addAll(List.filled(count, nombre));
+        }
+      });
+      return result;
+  }
+  
+
+  static String _getWeekdayName(DateTime date) {
+    const weekdays = [
+      'Lunes',
+      'Martes',
+      'Miércoles',
+      'Jueves',
+      'Viernes',
+      'Sábado',
+      'Domingo'
+    ];
+    // Dart usa 1 = lunes, 7 = domingo
+    return weekdays[date.weekday - 1];
+  }
+
+  static String _capitalize(String text) {
+    if (text.isEmpty) return text;
+    return text[0].toUpperCase() + text.substring(1).toLowerCase();
+  }
+
+  static int getWeekOfMonth(DateTime date) {
+    final firstDayOfMonth = DateTime(date.year, date.month, 1);
+    final firstWeekday = firstDayOfMonth.weekday; // 1 = lunes, 7 = domingo
+
+    final adjustment = firstWeekday - 1; // Cuántos días se corrió la semana
+    final dayNumber = date.day + adjustment;
+
+    return ((dayNumber - 1) ~/ 7) + 1;
+  }
+
 }

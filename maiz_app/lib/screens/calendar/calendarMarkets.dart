@@ -5,7 +5,7 @@ class CalendarMarkers {
 
   CalendarMarkers({required this.emotionalRecords});
 
-  final Map<String, String> feelings = {
+  static final Map<String, String> feelings = {
     'Deprimente': 'assets/icons/Depressed_icon.png',
     'Triste': 'assets/icons/sad_icon.png',
     'Regular': 'assets/icons/so_so_icon.png',
@@ -21,32 +21,30 @@ class CalendarMarkers {
     DateTime normalizedDate = normalizeDate(date);
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    if (emotionalRecords.containsKey(normalizedDate)) {
-      String? emotion = emotionalRecords[normalizedDate];
-      String? iconPath = feelings[emotion];
+    final emotion = emotionalRecords[normalizedDate];
+    final iconPath = feelings[emotion];
 
-    if (iconPath == null) return null; // No renderiza si no hay imagen;
+    if (iconPath == null) return null;
 
     return Positioned(
-          bottom: 2,  // Ajusta la posición para evitar desbordamiento
-          right: 2,
-          child: Container(
-            width: 20,
-            height: 20,
-            decoration:  BoxDecoration(
-              shape: BoxShape.circle,
-              color: isDarkMode ? Colors.black12 : Colors.white, // Texto 
-            ),
-            padding: const EdgeInsets.all(1), // Espaciado interno
-            child: Image.asset(
-              iconPath,
-              width: 14,
-              height: 14,
-              fit: BoxFit.contain,
-            ),
-          ),
-        );
-      }
-      return null;
-    }
+      bottom: 2,
+      right: 2,
+      child: Container(
+        width: 20,
+        height: 20,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: isDarkMode ? Colors.black12 : Colors.white,
+        ),
+        padding: const EdgeInsets.all(1),
+        child: Image.asset(
+          iconPath,
+          width: 14,
+          height: 14,
+          fit: BoxFit.contain,
+        ),
+      ),
+    );
+  }
+
   }

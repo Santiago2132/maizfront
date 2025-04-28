@@ -6,7 +6,7 @@ import 'package:mAIz/models/shared_preferences.dart';
 
 class AuthService {
   final String baseUrl =
-      'http://10.153.90.32:4000'; //sirve en la api de base de datos
+      'http://10.153.90.103:4000'; //sirve en la api de base de datos
 
   final prefsService = SharedPreferencesService();
 

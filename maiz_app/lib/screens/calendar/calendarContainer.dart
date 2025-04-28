@@ -17,14 +17,13 @@ class CalendarContainer extends StatefulWidget {
   final Function(int, int) onMonthChanged; // Nuevo callback para el mes
   final VoidCallback? onEmotionSaved; // nuevo callback
 
-  const CalendarContainer({
-    super.key,
-    required this.focusedDay,
-    required this.selectedDay,
-    required this.onDaySelected,
-    required this.onMonthChanged,
-    required this.onEmotionSaved
-  });
+  const CalendarContainer(
+      {super.key,
+      required this.focusedDay,
+      required this.selectedDay,
+      required this.onDaySelected,
+      required this.onMonthChanged,
+      required this.onEmotionSaved});
 
   @override
   _CalendarContainerState createState() => _CalendarContainerState();
@@ -36,24 +35,78 @@ class _CalendarContainerState extends State<CalendarContainer> {
   @override
   void initState() {
     super.initState();
-    _loadEmotionalRecords();
+    _initializeData();
+  }
+
+  void _initializeData() async {
+    await _loadEmotionalRecords();
   }
 
   Future<void> _loadEmotionalRecords() async {
-    final year = widget.focusedDay.year;
-    final month = widget.focusedDay.month;
+    final focused = widget.focusedDay;
 
-    final records = await CalendarService.getDominantEmotionPerDay(year, month);
+    final records = await CalendarService.getDailyDominantEmotionsList(
+      focused.year,
+      focused.month,
+    );
+
     setState(() {
-      _emotionalRecords = records.map((key, value) => MapEntry(
-            DateTime(key.year, key.month, key.day), // Normaliza la fecha
-            value,
-          ));
+      _emotionalRecords = {};
+      for (var item in records) {
+        final dateStr = item['date'];
+        final emotion = item['emotion'];
+        print(item);
+
+        if (dateStr is String && emotion is String) {
+          final parsedDate = DateTime.tryParse(dateStr);
+          if (parsedDate != null) {
+            final normalized =
+                DateTime(parsedDate.year, parsedDate.month, parsedDate.day);
+            _emotionalRecords[normalized] = emotion;
+
+            if (normalized.weekday == DateTime.monday) {
+              print(
+                  'Registro del ${dateStr} encontrado: $normalized -> $emotion');
+            }
+          }
+        }
+      }
     });
 
-    widget.onEmotionSaved?.call(); 
+    widget.onEmotionSaved?.call();
   }
 
+  Future<void> _loadEmotionalRecordsForMonth(int year, int month) async {
+    final records =
+        await CalendarService.getDailyDominantEmotionsList(year, month);
+
+    if (!mounted) return;
+
+    setState(() {
+      _emotionalRecords = {};
+      for (var item in records) {
+        final dateStr = item['date'];
+        final emotion = item['emotion'];
+        print(item);
+
+        if (dateStr is String && emotion is String) {
+          final parsedDate = DateTime.tryParse(dateStr);
+          if (parsedDate != null) {
+            final normalized =
+                DateTime(parsedDate.year, parsedDate.month, parsedDate.day);
+            _emotionalRecords[normalized] = emotion;
+
+            if (normalized.weekday == DateTime.monday) {
+              print(
+                  'Registro del ${dateStr} encontrado: $normalized -> $emotion');
+            }
+          }
+        }
+      }
+    });
+
+    widget.onEmotionSaved?.call();
+  }
 
   Future<void> _showFeelingSelection(
       BuildContext context, DateTime date) async {
@@ -71,18 +124,19 @@ class _CalendarContainerState extends State<CalendarContainer> {
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        return EmotionSelector(
-          onEmotionSelected: (selectedEmotion) async {
-            await _emotionstorage.saveEmotion(selectedEmotion);
+        return EmotionSelector(onEmotionSelected: (selectedEmotion) async {
+          await _emotionstorage.saveEmotion(selectedEmotion, date);
 
-            if (context.mounted) {
-                await _loadEmotionalRecords();
-                widget.onEmotionSaved?.call(); // 👈 notifica al padre
-                Navigator.pop(context);
-            }
+          if (context.mounted) {
+            final normalizedDate = DateTime(date.year, date.month, date.day);
+            setState(() {
+              _emotionalRecords[normalizedDate] = selectedEmotion;
+            });
 
-          },
-        );
+            widget.onEmotionSaved?.call();
+          }
+
+        });
       },
     );
   }
@@ -102,15 +156,15 @@ class _CalendarContainerState extends State<CalendarContainer> {
           width: constraints.maxWidth, // Usa el ancho disponible
           height: 400, // Ajusta la altura en función del tamaño de la fuente
           child: TableCalendar(
+            key: ValueKey(_emotionalRecords.length),
             firstDay: DateTime.utc(2024, 1, 1),
             lastDay: DateTime.utc(2025, 12, 31),
             focusedDay: widget.focusedDay,
             selectedDayPredicate: (day) => isSameDay(widget.selectedDay, day),
             onDaySelected: widget.onDaySelected,
             onPageChanged: (focusedDay) {
-              setState(() {
-                widget.onMonthChanged(focusedDay.year, focusedDay.month);
-              });
+              _loadEmotionalRecordsForMonth(focusedDay.year, focusedDay.month);
+              widget.onMonthChanged(focusedDay.year, focusedDay.month);
             },
             calendarFormat: CalendarFormat.month,
             availableGestures: AvailableGestures.all,
@@ -154,34 +208,55 @@ class _CalendarContainerState extends State<CalendarContainer> {
             ),
             calendarBuilders: CalendarBuilders(
               defaultBuilder: (context, date, _) {
-                final today = DateTime.now();
-                final selectedDate = DateTime(date.year, date.month, date.day);
-                final emotion = _emotionalRecords[selectedDate];
-                final bool hasEmotion = emotion != null;
-                final bool isFutureDate = selectedDate.isAfter(today);
-
-                return Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    DayNumber(date: date), // Ajusta el número del día
-
-                    if (hasEmotion)
-                      EmotionMarker(
-                          date: date,
-                          calendarMarkers: calendarMarkers), // Ícono de emoción
-
-                    if (!hasEmotion && !isFutureDate)
-                      AddEmotionButton(
-                          date: date,
-                          onTap: () => _showFeelingSelection(
-                              context, date)), // Botón "+"
-                  ],
-                );
+                return _buildCalendarCell(context, date);
+              },
+              selectedBuilder: (context, date, _) {
+                return _buildCalendarCell(context, date, isSelected: true);
               },
             ),
           ),
         );
       },
+    );
+  }
+
+  Widget _buildCalendarCell(BuildContext context, DateTime date,
+      {bool isSelected = false}) {
+    final today = DateTime.now();
+    final selectedDate = DateTime(date.year, date.month, date.day);
+    final emotion = _emotionalRecords[selectedDate];
+    final bool hasEmotion = emotion != null;
+    final bool isFutureDate = selectedDate.isAfter(today);
+    final calendarMarkers =
+        CalendarMarkers(emotionalRecords: _emotionalRecords);
+
+    final decoration = isSelected
+        ? BoxDecoration(
+            color: Colors.deepPurple.withOpacity(0.3),
+            shape: BoxShape.circle,
+          )
+        : null;
+
+    return Container(
+      decoration: decoration,
+      padding: const EdgeInsets.all(4),
+      constraints: const BoxConstraints(
+        minWidth: 40,
+        minHeight: 30,
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          DayNumber(date: date),
+          if (hasEmotion)
+            calendarMarkers.buildMarker(context, date) ?? const SizedBox(),
+          if (!hasEmotion && !isFutureDate)
+            AddEmotionButton(
+              date: date,
+              onTap: () => _showFeelingSelection(context, date),
+            ),
+        ],
+      ),
     );
   }
 }

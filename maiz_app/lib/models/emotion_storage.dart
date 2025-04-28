@@ -7,11 +7,11 @@ class EmotionStorage {
   static MoodService mood = MoodService();
 
   // Guardar una emoción con la fecha actual
-  Future<void> saveEmotion(String emotion) async {
+  Future<void> saveEmotion(String emotion, DateTime fecha) async {
     final prefs = await SharedPreferences.getInstance();
 
     print('Intentando guardar emoción: $emotion');
-    final bool success = await mood.saveMood(emotion);
+    final bool success = await mood.saveMood(emotion,fecha);
 
     if (!success) {
       print(' Error: No se pudo guardar la emoción en el servidor');
@@ -25,7 +25,7 @@ class EmotionStorage {
 
     // Agregar la nueva emoción
     emotions.add({
-      'date': DateTime.now().toIso8601String(),
+      'date': fecha.toIso8601String(),
       'emotion': emotion,
     });
 

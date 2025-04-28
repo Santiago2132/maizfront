@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mAIz/data/services/chat_service.dart';
 
 class ChatModeSelector extends StatefulWidget {
-  final VoidCallback onModeChanged;
+  final void Function(String mode) onModeChanged;
 
   const ChatModeSelector({super.key, required this.onModeChanged});
+
 
   @override
   _ChatModeSelectorState createState() => _ChatModeSelectorState();
@@ -33,8 +34,9 @@ class _ChatModeSelectorState extends State<ChatModeSelector> {
       _currentMode = mode;
     });
     print(_currentMode);
-    widget.onModeChanged(); // Notificar a ChatScreen para actualizarse
+    widget.onModeChanged(mode); // Envía el nuevo modo
   }
+
 
   @override
   Widget build(BuildContext context) {

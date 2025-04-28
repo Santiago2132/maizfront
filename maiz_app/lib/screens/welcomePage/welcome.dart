@@ -61,13 +61,7 @@ class WelcomeScreen extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
                         fontStyle: FontStyle.italic,
-                        shadows: [
-                          Shadow(
-                            blurRadius: 10,
-                            color: Colors.white,
-                            offset: Offset(2, 2),
-                          ),
-                        ],
+                        
                       ),
                     ),
                   ),

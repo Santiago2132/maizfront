@@ -8,16 +8,15 @@ class MoodService {
   final _userService = UserService();
   final String _apiUrl = "http://209.38.6.235/api3/emotions";
 
-  Future<bool> saveMood(String mood) async {
+  Future<bool> saveMood(String mood, DateTime fecha) async {
    
     final int userIdString = await _userService.getUserId();
     final int userId = int.tryParse(userIdString.toString()) ?? 0;
 
     if (userId == 0) return false;
     print(userId);
-    final DateTime now = DateTime.now();
     final String formattedDate =
-        "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+        "${fecha.year}-${fecha.month.toString().padLeft(2, '0')}-${fecha.day.toString().padLeft(2, '0')}";
 
     try {
       final response = await http.post(

@@ -47,7 +47,7 @@ class _BadgeCardState extends State<BadgeCard> {
                   children: displayBadges.map((badge) {
                     return HexagonWidget(
                       imagePath: badge.imagePath,
-                      badgeName: badge.name,
+                      badgeName: badge.nombre,
                     );
                   }).toList(),
                 ),

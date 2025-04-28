@@ -18,10 +18,11 @@ class ProgressCard extends StatelessWidget {
   final EmotionStorage _emotionStorage = EmotionStorage();
 
   Future<Map<String, int>> getWeeklyEmotionCounts(int year, int month) async {
-    final allWeekData = await CalendarService.getAllEmotionOccurrencesByWeek(year, month);
-
+    final allWeekData =
+        await CalendarService.getAllEmotionOccurrencesByWeek(year, month);
+    print(allWeekData);
     final today = DateTime.now();
-    final currentWeek = ((today.day - 1) ~/ 7) + 1;
+    final currentWeek = CalendarService.getWeekOfMonth(today);
 
     final counts = {
       'Deprimente': 0,
@@ -42,10 +43,19 @@ class ProgressCard extends StatelessWidget {
     return counts;
   }
 
+  static int _getWeekOfMonth(DateTime date) {
+    final firstDayOfMonth = DateTime(date.year, date.month, 1);
+    final firstWeekday = firstDayOfMonth.weekday; // 1 = lunes, 7 = domingo
+
+    final adjustment = firstWeekday - 1; // Cuántos días se corrió la semana
+    final dayNumber = date.day + adjustment;
+
+    return ((dayNumber - 1) ~/ 7) + 1;
+  }
 
   @override
   Widget build(BuildContext context) {
-  final fontSizeProvider = Provider.of<FontSizeProvider>(context).fontSize;
+    final fontSizeProvider = Provider.of<FontSizeProvider>(context).fontSize;
 
     return CustomCard(
       // Deja el título vacío
@@ -53,7 +63,7 @@ class ProgressCard extends StatelessWidget {
       height: 400,
       child: Column(
         children: [
-           Text(
+          Text(
             'Contador semanal',
             style: TextStyle(
               fontSize: fontSizeProvider,
@@ -64,7 +74,8 @@ class ProgressCard extends StatelessWidget {
           LayoutBuilder(
             builder: (context, constraints) {
               return FutureBuilder<Map<String, int>>(
-                future: getWeeklyEmotionCounts(DateTime.now().year, DateTime.now().month),
+                future: getWeeklyEmotionCounts(
+                    DateTime.now().year, DateTime.now().month),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState != ConnectionState.done) {
                     return Center(
@@ -81,12 +92,11 @@ class ProgressCard extends StatelessWidget {
                       const SizedBox(height: 15),
                       ...counts.entries.map(
                         (entry) => _buildEmotionRow(
-                          emotion: entry.key,
-                          count: entry.value,
-                          icon: emotionIcons[entry.key]!,
-                          maxWidth: constraints.maxWidth,
-                          context: context
-                        ),
+                            emotion: entry.key,
+                            count: entry.value,
+                            icon: emotionIcons[entry.key]!,
+                            maxWidth: constraints.maxWidth,
+                            context: context),
                       ),
                       SizedBox(height: MediaQuery.of(context).padding.bottom),
                     ],
@@ -150,9 +160,9 @@ class ProgressCard extends StatelessWidget {
                     horizontal: isSmallScreen ? 10 : 14,
                     vertical: isSmallScreen ? 5 : 7),
                 decoration: BoxDecoration(
-                color: isDarkMode
-                    ? const Color.fromARGB(255, 54, 53, 53)
-                    : Color(0xFFFFD740).withOpacity(0.15),
+                  color: isDarkMode
+                      ? const Color.fromARGB(255, 54, 53, 53)
+                      : Color(0xFFFFD740).withOpacity(0.15),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
@@ -170,8 +180,8 @@ class ProgressCard extends StatelessWidget {
                       Icons.emoji_emotions_outlined,
                       size: isSmallScreen ? 18 : 20,
                       color: isDarkMode
-                        ? const Color.fromARGB(255, 244, 240, 240)
-                        : Color.fromARGB(255, 23, 23, 2).withOpacity(0.8),
+                          ? const Color.fromARGB(255, 244, 240, 240)
+                          : Color.fromARGB(255, 23, 23, 2).withOpacity(0.8),
                     ),
                   ],
                 ),

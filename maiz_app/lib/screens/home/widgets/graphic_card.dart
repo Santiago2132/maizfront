@@ -19,42 +19,46 @@ class GraphicCard extends StatelessWidget {
   bool _isSameDay(DateTime a, DateTime b) {
     return a.year == b.year && a.month == b.month && a.day == b.day;
   }
-  
+
   final EmotionStorage _emotionStorage = EmotionStorage();
 
   static Future<List<FlSpot>> getWeeklyData(int year, int month) async {
-    final weeklyEmotions = await CalendarService.getAllEmotionOccurrencesByWeek(year, month);
-    final today = DateTime.now();
-    final int currentWeek = ((today.day - 1) ~/ 7) + 1;
-    final emotions = weeklyEmotions[currentWeek] ?? [];
+    final weekdayEmotions =
+        await CalendarService.getEmotionOccurrencesByWeekday(year, month);
+
+    final Map<String, int> weekdayIndexes = {
+      'Lunes': 0,
+      'Martes': 1,
+      'Miércoles': 2,
+      'Jueves': 3,
+      'Viernes': 4,
+      'Sábado': 5,
+      'Domingo': 6,
+    };
 
     final Map<int, List<double>> dayEmotionValues = {
       for (var i = 0; i < 7; i++) i: []
     };
 
-    for (var i = 0; i < emotions.length; i++) {
-      final emotion = emotions[i];
-      final double? y = EmotionService.emotionYValues[emotion];
-      if (y != null) {
-        final date = today.subtract(Duration(days: today.weekday - 1 - (i % 7)));
-        final int dayIndex = date.weekday - 1; // Lunes = 0 ... Domingo = 6
-        dayEmotionValues[dayIndex]?.add(y);
+    weekdayEmotions.forEach((weekday, emotions) {
+      final int dayIndex = weekdayIndexes[weekday]!;
+      for (var emotion in emotions) {
+        final double? y = EmotionService.emotionYValues[emotion];
+        if (y != null) {
+          dayEmotionValues[dayIndex]!.add(y);
+        }
       }
-    }
-
-    final List<FlSpot> spots = [];
-
-    dayEmotionValues.forEach((dayIndex, values) {
-      final double avg = values.isEmpty
-          ? 2.0
-          : values.reduce((a, b) => a + b) / values.length;
-
-      spots.add(FlSpot(dayIndex.toDouble(), avg));
     });
+
+    final List<FlSpot> spots = dayEmotionValues.entries.map((entry) {
+      final double avgY = entry.value.isNotEmpty
+          ? entry.value.reduce((a, b) => a + b) / entry.value.length
+          : 0;
+      return FlSpot(entry.key.toDouble(), avgY);
+    }).toList();
 
     return spots;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +76,7 @@ class GraphicCard extends StatelessWidget {
 
           return Column(
             children: [
-               Text(
+              Text(
                 'Tu semana emocional',
                 style: TextStyle(
                   fontSize: fontSizeProvider,

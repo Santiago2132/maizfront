@@ -38,11 +38,19 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        release {
+            storeFile file("maiz-release-key.jks")
+            storePassword "Karen123"
+            keyAlias "maiz-key"
+            keyPassword "Karen123"
+        }
+    }
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.debug
+            signingConfig signingConfigs.release
+            shrinkResources false
+            minifyEnabled false
         }
     }
 }
