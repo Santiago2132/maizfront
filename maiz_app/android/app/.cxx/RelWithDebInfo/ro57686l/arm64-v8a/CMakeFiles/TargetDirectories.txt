@@ -1,0 +1,2 @@
+K:/maizfront/maiz_app/android/app/.cxx/RelWithDebInfo/ro57686l/arm64-v8a/CMakeFiles/edit_cache.dir
+K:/maizfront/maiz_app/android/app/.cxx/RelWithDebInfo/ro57686l/arm64-v8a/CMakeFiles/rebuild_cache.dir
